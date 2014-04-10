@@ -1,0 +1,14 @@
+unbind h
+unbind j
+unbind k
+unbind l
+
+bind-key h select-pane -L
+bind-key j select-pane -D
+bind-key k select-pane -U
+bind-key l select-pane -R
+
+# Changing the default prefix key:
+set-option -g prefix C-s
+unbind-key C-b
+bind-key C-s send-prefix

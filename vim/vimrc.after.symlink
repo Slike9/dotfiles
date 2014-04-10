@@ -1,0 +1,114 @@
+" .vimrc.after is loaded after the plugins have loaded
+
+" My settings
+
+" Перемещаемся построчно по тексту который не поместился в строке
+nmap j gj
+nmap k gk
+
+syntax enable          " Включить подсветку синтаксиса
+set t_Co=256           " Использовать 256 цветов
+set background=dark    " Установить темный фон
+"colorscheme solarized  " Установить цветовую схему
+colorscheme desert
+
+set nocompatible
+filetype plugin indent on
+syntax on
+
+"filetype plugin on
+au FileType coffee filetype indent off
+
+set nu                 " Включить номера строк
+
+" Поиск
+set hlsearch           " Подсветка
+
+set incsearch          " Поиск во время набора
+set ignorecase         " Игнорировать регистр
+set smartcase          " Учитывать регистр только если он есть
+" // выключает подсветку
+nnoremap <silent> // :nohlsearch<CR>
+
+" Предлагать все варианты при автодополнении в строке команд
+set wildmenu
+set wildmode=list:longest,full
+
+" Перемещать окно если мы находимся за 5 строк до конца и 3 символа
+" вправо-влево
+set scrolljump=5
+set scrolloff=3
+
+" Подсвечивать нежелательное пустое пространство
+set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
+
+" Перемащаемся по окнам быстрее
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
+set wrap               " Перенос длинных строк
+
+" Автоматически перемещать курсор на величину отступа после
+" открытися блока кода
+set autoindent
+set foldenable         " Автоматическое форматирование кода
+
+set autowriteall
+set hidden
+
+" Передвижение блоков когда по отсупам в визуальном режиме
+vnoremap < <gv
+vnoremap > >gv
+
+" Если забыли sudo
+cmap w!! w !sudo tee % >/dev/null
+
+
+" Открыть строку в гитлабе
+" MacOS
+" nnoremap <leader>og :!echo `git ghurl`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>
+
+" Linux chromium
+nnoremap <leader>ou :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs chromium-browser<CR><CR>
+
+imap jk <ESC>
+
+" BuffExplorer
+
+" NERDTree
+nnoremap <silent> <F2> :NERDTreeToggle<CR>
+nnoremap <silent> <M-F1> :NERDTreeFind<CR>
+
+nnoremap <silent> <M-F12> :BufExplorer<CR>
+nnoremap <silent> <C-b> :BufExplorer<CR>
+nnoremap <silent> <F12> :bn<CR>
+nnoremap <silent> <S-F12> :bp<CR>
+nnoremap <C-M-Right> :bn<CR>
+nnoremap <C-M-Left> :bp<CR>
+
+" Tabs
+nnoremap <silent> <M-Left> :tabprevious<CR>
+nnoremap <silent> <M-Right> :tabnext<CR>
+
+" NERDCommenter
+
+" Buffers
+vnoremap <C-c> "+ygv"*y
+inoremap <C-v> <ESC>"+p
+
+" AutoClose
+" ruby files
+autocmd FileType ruby
+        \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("|", "")
+" clojure
+autocmd FileType clojure
+        \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("", "'`")
+
+" Clojure ========================================================
+
+let g:clojure_highlight_references = 1
+
+"fireplace.vim
+map <C-e> :Eval<CR>
