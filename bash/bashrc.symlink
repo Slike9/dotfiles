@@ -1,3 +1,5 @@
+# *** vim: set filetype=sh : ***
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -146,23 +148,22 @@ export EDITOR=vim
 
 set -o vi
 
-DOTFILES_ROOT = $HOME/.dotfiles
+DOTFILES_ROOT=$HOME/.dotfiles
 
 # load the path files
-for file in `find $DOTFILES_ROOT -name 'path.bash' -maxdepth 2`
+for file in `find $DOTFILES_ROOT -maxdepth 2 -name 'path.bash'`
 do
   source $file
 done
 
 # load everything but the path and completion files
-for file in `find $DOTFILES_ROOT -name '*.bash' -not \( -name 'path.bash' -o -name 'completion.bash' \) -maxdepth 2`
+for file in `find $DOTFILES_ROOT -maxdepth 2 -name '*.bash' -not \( -name 'path.bash' -o -name 'completion.bash' \)`
 do
   source $file
 done
 
 # load every completion after autocomplete loads
-for file in `find $DOTFILES_ROOT -name 'completion.bash' -maxdepth 2`
+for file in `find $DOTFILES_ROOT -maxdepth 2 -name 'completion.bash'`
 do
   source $file
 done
-
