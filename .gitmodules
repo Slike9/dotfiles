@@ -1,0 +1,21 @@
+[submodule "vim/janus.symlink/vim-airline"]
+	path = vim/janus.symlink/vim-airline
+	url = https://github.com/bling/vim-airline
+[submodule "vim/janus.symlink/rainbow_parentheses.vim"]
+	path = vim/janus.symlink/rainbow_parentheses.vim
+	url = https://github.com/kien/rainbow_parentheses.vim.git
+[submodule "vim/janus.symlink/vim-autoclose"]
+	path = vim/janus.symlink/vim-autoclose
+	url = https://github.com/Townk/vim-autoclose.git
+[submodule "vim/janus.symlink/vim-classpath"]
+	path = vim/janus.symlink/vim-classpath
+	url = https://github.com/tpope/vim-classpath.git
+[submodule "vim/janus.symlink/vim-clojure-highlight"]
+	path = vim/janus.symlink/vim-clojure-highlight
+	url = https://github.com/guns/vim-clojure-highlight.git
+[submodule "vim/janus.symlink/vim-fireplace"]
+	path = vim/janus.symlink/vim-fireplace
+	url = https://github.com/tpope/vim-fireplace.git
+[submodule "vim/janus.symlink/vim-niji"]
+	path = vim/janus.symlink/vim-niji
+	url = https://github.com/amdt/vim-niji.git

@@ -146,20 +146,22 @@ export EDITOR=vim
 
 set -o vi
 
+DOTFILES_ROOT = $HOME/.dotfiles
+
 # load the path files
-for file in `find $HOME/.dotfiles -name 'path.bash'`
+for file in `find $DOTFILES_ROOT -name 'path.bash' -maxdepth 2`
 do
   source $file
 done
 
 # load everything but the path and completion files
-for file in `find $HOME/.dotfiles -name '*.bash' -not \( -name 'path.bash' -o -name 'completion.bash' \)`
+for file in `find $DOTFILES_ROOT -name '*.bash' -not \( -name 'path.bash' -o -name 'completion.bash' \) -maxdepth 2`
 do
   source $file
 done
 
 # load every completion after autocomplete loads
-for file in `find $HOME/.dotfiles -name 'completion.bash'`
+for file in `find $DOTFILES_ROOT -name 'completion.bash' -maxdepth 2`
 do
   source $file
 done
