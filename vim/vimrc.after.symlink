@@ -75,6 +75,8 @@ cmap w!! w !sudo tee % >/dev/null
 nnoremap <leader>ou :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs chromium-browser<CR><CR>
 
 imap jk <ESC>
+noremap <C-S> :w<CR>
+inoremap <C-S> <ESC>:w<CR>
 
 " BuffExplorer
 

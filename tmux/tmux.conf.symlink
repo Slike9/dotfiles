@@ -9,6 +9,6 @@ bind-key k select-pane -U
 bind-key l select-pane -R
 
 # Changing the default prefix key:
-set-option -g prefix C-s
+set-option -g prefix C-f
 unbind-key C-b
-bind-key C-s send-prefix
+bind-key C-f send-prefix
