@@ -80,7 +80,7 @@ inoremap <C-S> <ESC>:w<CR>
 
 " line move
 nnoremap <C-j> :m .+1<CR>
-nnoremap <C-k> :m .-1<CR>
+nnoremap <C-k> :m .-2<CR>
 
 " NERDTree
 nnoremap <silent> <F2> :NERDTreeToggle<CR>
@@ -94,6 +94,9 @@ nnoremap <silent> <S-F12> :bp<CR>
 nnoremap <C-M-Right> :bn<CR>
 nnoremap <C-M-Left> :bp<CR>
 nnoremap <Leader>bb :b#<CR>
+
+"ControlP
+nnoremap <leader>. :CtrlPTag<cr>
 
 " Tabs
 nnoremap <silent> <M-Left> :tabprevious<CR>
