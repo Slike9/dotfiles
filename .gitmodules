@@ -19,3 +19,6 @@
 [submodule "vim/janus.symlink/vim-niji"]
 	path = vim/janus.symlink/vim-niji
 	url = https://github.com/amdt/vim-niji.git
+[submodule "vim/janus.symlink/paredit"]
+	path = vim/janus.symlink/paredit
+	url = https://github.com/vim-scripts/paredit.vim.git
