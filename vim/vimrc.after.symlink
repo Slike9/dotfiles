@@ -20,7 +20,7 @@ syntax on
 au FileType coffee filetype indent off
 
 set nu                 " Включить номера строк
-set relativenumber
+"set relativenumber
 
 " Поиск
 set hlsearch           " Подсветка
