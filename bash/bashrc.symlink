@@ -146,7 +146,7 @@ function kingbash.fn() {
 
 export EDITOR=vim
 
-set -o vi
+#set -o vi
 
 DOTFILES_ROOT=$HOME/.dotfiles
 
