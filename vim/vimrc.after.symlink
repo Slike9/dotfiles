@@ -108,6 +108,9 @@ nnoremap <silent> <M-Right> :tabnext<CR>
 vnoremap <C-c> "+ygv"*y
 inoremap <C-v> <ESC>"+p
 
+" Ggrep
+nnoremap <leader>fw :Ggrep<C-R><C-W><CR>
+
 " AutoClose
 " ruby files
 autocmd FileType ruby
