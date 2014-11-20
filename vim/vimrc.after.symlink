@@ -121,4 +121,4 @@ autocmd FileType clojure
 let g:clojure_highlight_references = 1
 
 "fireplace.vim
-map <C-e> :Eval<CR>
+"map <C-e> :Eval<CR>
