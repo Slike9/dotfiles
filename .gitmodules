@@ -22,3 +22,6 @@
 [submodule "vim/janus.symlink/paredit"]
 	path = vim/janus.symlink/paredit
 	url = https://github.com/vim-scripts/paredit.vim.git
+[submodule "vim/janus.symlink/vim-buffer-explorer"]
+	path = vim/janus.symlink/vim-buffer-explorer
+	url = https://github.com/widox/vim-buffer-explorer-plugin.git
