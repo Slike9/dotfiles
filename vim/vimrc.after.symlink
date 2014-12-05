@@ -24,10 +24,10 @@ set nu                 " Включить номера строк
 
 " Поиск
 set hlsearch           " Подсветка
-
 set incsearch          " Поиск во время набора
 set ignorecase         " Игнорировать регистр
 set smartcase          " Учитывать регистр только если он есть
+set nowrapscan
 " // выключает подсветку
 nnoremap <silent> // :nohlsearch<CR>
 
