@@ -85,7 +85,7 @@ nnoremap <C-k> :m .-2<CR>
 " NERDTree
 nnoremap <silent> <F2> :NERDTreeToggle<CR>
 nnoremap <silent> <M-F1> :NERDTreeFind<CR>
-nnoremap <silent>nf :NERDTreeFind<CR>
+nnoremap <leader>tf :NERDTreeFind<CR>
 
 " BuffExplorer
 nnoremap <silent> <M-F12> :BufExplorer<CR>
@@ -94,7 +94,7 @@ nnoremap <silent> <F12> :bn<CR>
 nnoremap <silent> <S-F12> :bp<CR>
 nnoremap <C-M-Right> :bn<CR>
 nnoremap <C-M-Left> :bp<CR>
-nnoremap <Leader>bb :b#<CR>
+nnoremap <leader>bb :b#<CR>
 
 "ControlP
 nnoremap <leader>. :CtrlPTag<cr>
