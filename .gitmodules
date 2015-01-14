@@ -25,3 +25,6 @@
 [submodule "vim/janus.symlink/vim-buffer-explorer"]
 	path = vim/janus.symlink/vim-buffer-explorer
 	url = https://github.com/widox/vim-buffer-explorer-plugin.git
+[submodule "vim/janus.symlink/vim-xkbswitch"]
+	path = vim/janus.symlink/vim-xkbswitch
+	url = https://github.com/lyokha/vim-xkbswitch.git
