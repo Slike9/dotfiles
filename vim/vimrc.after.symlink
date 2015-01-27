@@ -120,14 +120,17 @@ autocmd FileType ruby
 autocmd FileType clojure
         \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("", "'`")
 
-" Clojure ========================================================
-
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Clojure
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:clojure_highlight_references = 1
 
 "fireplace.vim
 "map <C-e> :Eval<CR>
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Spell cheking
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 setlocal spell spelllang=ru_ru,en_us
 "setlocal spell spelllang=ru_yo,en_us
 "set spell
@@ -137,8 +140,22 @@ setlocal spell spelllang=ru_ru,en_us
 "let g:XkbSwitchLib = '/usr/local/lib/libxkbswitch.so'
 "let g:XkbSwitchIMappings = ['ru']
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim и кириллица
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set keymap=russian-jcukenwin
 set iminsert=0
 set imsearch=0
 highlight lCursor guifg=NONE guibg=Cyan
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Tabular
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if exists(":Tabularize")
+  nmap <Leader>a= :Tabularize /=<CR>
+  vmap <Leader>a= :Tabularize /=<CR>
+  nmap <Leader>a: :Tabularize /:\zs<CR>
+  vmap <Leader>a: :Tabularize /:\zs<CR>
+  nmap <Leader>a<bar> :Tabularize /<bar><CR>
+  vmap <Leader>a<bar> :Tabularize /<bar><CR>
+endif

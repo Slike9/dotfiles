@@ -28,3 +28,6 @@
 [submodule "vim/janus.symlink/vim-xkbswitch"]
 	path = vim/janus.symlink/vim-xkbswitch
 	url = https://github.com/lyokha/vim-xkbswitch.git
+[submodule "vim/janus.symlink/tabular"]
+	path = vim/janus.symlink/tabular
+	url = https://github.com/godlygeek/tabular.git
