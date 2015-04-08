@@ -10,7 +10,19 @@ syntax enable          " Включить подсветку синтаксис�
 set t_Co=256           " Использовать 256 цветов
 set background=dark    " Установить темный фон
 "colorscheme solarized  " Установить цветовую схему
-colorscheme desert
+"colorscheme desert
+"colorscheme jellybeans
+"colorscheme gruvbox
+"colorscheme darktango
+"colorscheme inkpot
+"colorscheme iceberg
+"colorscheme hemisu
+"colorscheme hybrid
+"colorscheme codeschool
+"colorscheme BusyBee
+"colorscheme railscasts2
+"colorscheme lucius
+colorscheme desertNew
 
 set nocompatible
 filetype plugin indent on
@@ -77,6 +89,8 @@ nnoremap <leader>ou :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L
 imap jk <ESC>
 noremap <C-S> :w<CR>
 inoremap <C-S> <ESC>:w<CR>
+imap <C-b> <left>
+imap <C-f> <right>
 
 " line move
 nnoremap <C-j> :m .+1<CR>

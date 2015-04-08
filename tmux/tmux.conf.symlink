@@ -12,3 +12,5 @@ bind-key l select-pane -R
 set-option -g prefix C-f
 unbind-key C-b
 bind-key C-f send-prefix
+
+set -g default-terminal "screen-256color"
