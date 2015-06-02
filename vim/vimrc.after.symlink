@@ -22,7 +22,7 @@ set background=dark    " Установить темный фон
 "colorscheme BusyBee
 "colorscheme railscasts2
 "colorscheme lucius
-colorscheme desertNew
+colorscheme milk_n_tea
 
 set nocompatible
 filetype plugin indent on
@@ -173,3 +173,14 @@ if exists(":Tabularize")
   nmap <Leader>a<bar> :Tabularize /<bar><CR>
   vmap <Leader>a<bar> :Tabularize /<bar><CR>
 endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ruby-xmpfilter
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd FileType ruby nmap <buffer> <leader>xm <Plug>(xmpfilter-mark)
+autocmd FileType ruby xmap <buffer> <leader>xm <Plug>(xmpfilter-mark)
+autocmd FileType ruby imap <buffer> <leader>xm <Plug>(xmpfilter-mark)
+
+autocmd FileType ruby nmap <buffer> <leader>xr <Plug>(xmpfilter-run)
+autocmd FileType ruby xmap <buffer> <leader>xr <Plug>(xmpfilter-run)
+autocmd FileType ruby imap <buffer> <leader>xr <Plug>(xmpfilter-run)
