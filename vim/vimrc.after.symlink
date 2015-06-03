@@ -22,7 +22,7 @@ set background=dark    " Установить темный фон
 "colorscheme BusyBee
 "colorscheme railscasts2
 "colorscheme lucius
-colorscheme milk_n_tea
+colorscheme milk-and-tea
 
 set nocompatible
 filetype plugin indent on
@@ -55,7 +55,7 @@ set scrolloff=3
 " Подсвечивать нежелательное пустое пространство
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 
-" Перемащаемся по окнам быстрее
+" Перемещаемся по окнам быстрее
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
@@ -64,14 +64,14 @@ nnoremap <C-l> <C-w>l
 set wrap               " Перенос длинных строк
 
 " Автоматически перемещать курсор на величину отступа после
-" открытися блока кода
+" открытия блока кода
 set autoindent
 set foldenable         " Автоматическое форматирование кода
 
 set autowriteall
 set hidden
 
-" Передвижение блоков когда по отсупам в визуальном режиме
+" Передвижение блоков когда по отступам в визуальном режиме
 vnoremap < <gv
 vnoremap > >gv
 
