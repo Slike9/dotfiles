@@ -1,41 +1,45 @@
 [user]
-	name = Sergey Semyonov
-	email = slike9@rambler.ru
+  name = Sergey Semyonov
+  email = slike9@rambler.ru
 [push]
-	default = current
+  default = current
 [color]
-        branch = auto
-        diff = auto
-        interactive = auto
-        status = auto
-	ui = auto
-        #pager = auto
+  branch = auto
+  diff = auto
+  interactive = auto
+  status = auto
+  ui = auto
+  #pager = auto
 [alias]
-	co = checkout
-	b = branch -v
-	r = remote -v
-	t = tag -l
-	cp = cherry-pick -x
-	co = checkout
-	br = branch
-	ci = commit
+  co = checkout
+  b = branch -v
+  r = remote -v
+  t = tag -l
+  cp = cherry-pick -x
+  co = checkout
+  br = branch
+  ci = commit
   cin = commit -n
   cinm = commit -n -m
-	st = status -sb
-	ds = diff --staged
-	amend = commit --amend -C HEAD
-	undo = reset --soft HEAD^
-	unstage = reset HEAD --
-	uncommit = reset --soft HEAD^
-	last = log -1 HEAD
-	up = pull --rebase
-	put = push origin HEAD
-	latest = for-each-ref --sort=-committerdate --format='%(committerdate:short) %(refname:short) [%(committername)]'
-	ls = log  --decorate --date=short
-	graph = log --graph --pretty=format':%C(yellow)%h%Cblue%d%Creset %s %C(white) %an, %ar%Creset'
-	semtag = !git tag -a $(semver tag) -m \"tagging $(semver tag)\"
+  st = status -sb
+  ds = diff --staged
+  amend = commit --amend -C HEAD
+  undo = reset --soft HEAD^
+  unstage = reset HEAD --
+  uncommit = reset --soft HEAD^
+  last = log -1 HEAD
+  up = pull --rebase
+  put = push origin HEAD
+  latest = for-each-ref --sort=-committerdate --format='%(committerdate:short) %(refname:short) [%(committername)]'
+  ls = log  --decorate --date=short
+  graph = log --graph --pretty=format':%C(yellow)%h%Cblue%d%Creset %s %C(white) %an, %ar%Creset'
+  semtag = !git tag -a $(semver tag) -m \"tagging $(semver tag)\"
+  rb = rebase
+  rbc = rebase --continue
+  rbs = rebase --skip
+  rba = rebase --abort
 [core]
-	editor = vim
-	excludesfile = /home/slike9/.gitignore
+  editor = vim
+  excludesfile = /home/slike9/.gitignore
 [credential]
-	helper = cache
+  helper = cache
