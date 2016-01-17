@@ -38,6 +38,8 @@
   rbc = rebase --continue
   rbs = rebase --skip
   rba = rebase --abort
+  ap = add -p
+  create-pull-request = !sh -c 'stash pull-request $0 $@'
 [core]
   editor = vim
   excludesfile = /home/slike9/.gitignore

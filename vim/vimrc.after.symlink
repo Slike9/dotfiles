@@ -31,6 +31,18 @@ syntax on
 "filetype plugin on
 au FileType coffee filetype indent off
 
+" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
 set nu                 " Включить номера строк
 "set relativenumber
 
@@ -121,10 +133,10 @@ nnoremap <silent> <M-Right> :tabnext<CR>
 
 " Buffers
 vnoremap <C-c> "+ygv"*y
-inoremap <C-v> <ESC>"+p
+inoremap <C-v> <ESC>"+pa
 
-" Ggrep
-nnoremap <leader>fw :Ggrep <C-R><C-W><CR>
+" grep
+nnoremap <leader>fw :Ag <C-R><C-W><CR>
 
 " AutoClose
 " ruby files
@@ -184,3 +196,10 @@ autocmd FileType ruby imap <buffer> <leader>xm <Plug>(xmpfilter-mark)
 autocmd FileType ruby nmap <buffer> <leader>xr <Plug>(xmpfilter-run)
 autocmd FileType ruby xmap <buffer> <leader>xr <Plug>(xmpfilter-run)
 autocmd FileType ruby imap <buffer> <leader>xr <Plug>(xmpfilter-run)
+
+" vim-rspec
+let g:rspec_command = "Dispatch bin/rspec {spec}"
+nnoremap <Leader>sf :call RunCurrentSpecFile()<CR>
+nnoremap <Leader>sn :call RunNearestSpec()<CR>
+nnoremap <Leader>sl :call RunLastSpec()<CR>
+nnoremap <Leader>sa :call RunAllSpecs()<CR>

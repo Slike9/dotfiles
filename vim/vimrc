@@ -1,0 +1,11 @@
+if filereadable(expand("~/.vimrc.before"))
+  source ~/.vimrc.before
+endif
+
+if filereadable(expand("~/.vimrc.bundles"))
+  source ~/.vimrc.bundles
+endif
+
+if filereadable(expand("~/.vimrc.after"))
+  source ~/.vimrc.after
+endif
