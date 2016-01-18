@@ -28,6 +28,7 @@ Plug 'sjl/gundo.vim'
 Plug 'matze/vim-move'
 Plug 'bronson/vim-trailing-whitespace'
 "Plug 'vim-scripts/ZoomWin'
+Plug 'ervandew/supertab'
 " Common programming tools
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-classpath'
