@@ -20,6 +20,7 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-eunuch'
 Plug 'godlygeek/tabular'
 Plug 'lyokha/vim-xkbswitch'
+Plug 'sjl/gundo.vim'
 " Common programming tools
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-classpath'
