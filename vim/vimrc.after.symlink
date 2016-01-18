@@ -1,7 +1,5 @@
 " .vimrc.after is loaded after the plugins have loaded
 
-" My settings
-
 " Перемещаемся построчно по тексту который не поместился в строке
 nmap j gj
 nmap k gk
@@ -9,19 +7,6 @@ nmap k gk
 syntax enable          " Включить подсветку синтаксиса
 set t_Co=256           " Использовать 256 цветов
 set background=dark    " Установить темный фон
-"colorscheme solarized  " Установить цветовую схему
-"colorscheme desert
-"colorscheme jellybeans
-"colorscheme gruvbox
-"colorscheme darktango
-"colorscheme inkpot
-"colorscheme iceberg
-"colorscheme hemisu
-"colorscheme hybrid
-"colorscheme codeschool
-"colorscheme BusyBee
-"colorscheme railscasts2
-"colorscheme lucius
 colorscheme milk-and-tea
 
 set nocompatible
@@ -30,6 +15,18 @@ syntax on
 
 "filetype plugin on
 au FileType coffee filetype indent off
+
+" Softtabs, 2 spaces
+set tabstop=2
+set shiftwidth=2
+set shiftround
+set expandtab
+
+" Display extra whitespace
+set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
+
+" Use one space, not two, after punctuation.
+set nojoinspaces
 
 " The Silver Searcher
 if executable('ag')
@@ -43,8 +40,29 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-set nu                 " Включить номера строк
+" Make it obvious where 80 characters is
+set textwidth=80
+"set colorcolumn=+1
+
+" Numbers
+set number
+"set numberwidth=5
 "set relativenumber
+
+" Tab completion
+" will insert tab at beginning of line,
+" will use completion if not at beginning
+set wildmode=list:longest,list:full
+function! InsertTabWrapper()
+    let col = col('.') - 1
+    if !col || getline('.')[col - 1] !~ '\k'
+        return "\<tab>"
+    else
+        return "\<c-p>"
+    endif
+endfunction
+inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
+inoremap <S-Tab> <c-n>
 
 " Поиск
 set hlsearch           " Подсветка
@@ -63,10 +81,7 @@ set wildmode=list:longest,full
 set scrolljump=5
 set scrolloff=3
 
-" Подсвечивать нежелательное пустое пространство
-set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
-
-" Перемещаемся по окнам быстрее
+" Quicker window movement
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
@@ -131,12 +146,7 @@ nnoremap <C-M-Right> :bn<CR>
 nnoremap <C-M-Left> :bp<CR>
 nnoremap <leader>bb :b#<CR>
 
-"ControlP
-let g:ctrlp_map = ''
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\.pyc$\|\.pyo$\|\.rbc$|\.rbo$\|\.class$\|\.o$\|\~$\',
-  \ }
+" ctrlp
 nnoremap <leader>. :CtrlPTag<cr>
 
 " Tabs

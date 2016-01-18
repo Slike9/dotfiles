@@ -2,6 +2,9 @@ call plug#begin('~/.vim/bundle')
 
 " Make sure you use single quotes
 
+" color scheme
+Plug 'Slike9/milk-and-tea.vim'
+
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
@@ -41,9 +44,6 @@ Plug 'vim-scripts/vim-niji'
 " Other languages
 Plug 'kchmck/vim-coffee-script'
 Plug 'slim-template/vim-slim'
-
-" color scheme
-Plug 'Slike9/milk-and-tea.vim'
 
 
 if filereadable(expand("~/.vimrc.bundles.local"))
