@@ -21,3 +21,6 @@ set autowrite     " Automatically :write before running commands
 if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
   syntax on
 endif
+
+" vim-move
+let g:move_key_modifier = 'C'
