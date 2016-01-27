@@ -32,6 +32,7 @@ Plug 'ervandew/supertab'
 " Common programming tools
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-classpath'
+Plug 'tmhedberg/matchit'
 " Ruby
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-bundler'
