@@ -221,3 +221,6 @@ nnoremap <Leader>sf :call RunCurrentSpecFile()<CR>
 nnoremap <Leader>sn :call RunNearestSpec()<CR>
 nnoremap <Leader>sl :call RunLastSpec()<CR>
 nnoremap <Leader>sa :call RunAllSpecs()<CR>
+
+" vim-run-interactive
+nnoremap <leader>ri :RunInInteractiveShell<space>

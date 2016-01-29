@@ -29,6 +29,8 @@ Plug 'matze/vim-move'
 Plug 'bronson/vim-trailing-whitespace'
 "Plug 'vim-scripts/ZoomWin'
 Plug 'ervandew/supertab'
+Plug 'christoomey/vim-run-interactive'
+Plug 'tpope/vim-projectionist'
 " Common programming tools
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-classpath'
