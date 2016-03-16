@@ -52,6 +52,10 @@ Plug 'vim-scripts/vim-niji'
 " Other languages
 Plug 'kchmck/vim-coffee-script'
 Plug 'slim-template/vim-slim'
+Plug 'tomtom/tlib_vim'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'garbas/vim-snipmate'
+Plug 'honza/vim-snippets'
 
 
 if filereadable(expand("~/.vimrc.bundles.local"))
