@@ -56,6 +56,8 @@ Plug 'tomtom/tlib_vim'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'garbas/vim-snipmate'
 Plug 'honza/vim-snippets'
+" Color schemes
+Plug 'altercation/vim-colors-solarized'
 
 
 if filereadable(expand("~/.vimrc.bundles.local"))

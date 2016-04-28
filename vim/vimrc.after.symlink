@@ -8,8 +8,10 @@ nmap k gk
 
 syntax enable          " Включить подсветку синтаксиса
 set t_Co=256           " Использовать 256 цветов
-set background=dark    " Установить темный фон
-colorscheme milk-and-tea
+"set background=dark    " Установить темный фон
+"colorscheme milk-and-tea
+set background=light    " Установить темный фон
+colorscheme solarized
 
 set nocompatible
 filetype plugin indent on
@@ -122,8 +124,8 @@ cmap w!! w !sudo tee % >/dev/null
 " MacOS
 " nnoremap <leader>og :!echo `git ghurl`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>
 
-" Linux chromium
-nnoremap <leader>ou :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs chromium-browser<CR><CR>
+" Linux browser
+nnoremap <leader>ou :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs sensible-browser<CR><CR>
 
 imap jk <ESC>
 noremap <C-S> :w<CR>
@@ -240,14 +242,18 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd FileType ruby nmap <buffer> <leader>xm <Plug>(xmpfilter-mark)
 autocmd FileType ruby xmap <buffer> <leader>xm <Plug>(xmpfilter-mark)
-autocmd FileType ruby imap <buffer> <leader>xm <Plug>(xmpfilter-mark)
+"autocmd FileType ruby imap <buffer> <leader>xm <Plug>(xmpfilter-mark)
 
 autocmd FileType ruby nmap <buffer> <leader>xr <Plug>(xmpfilter-run)
 autocmd FileType ruby xmap <buffer> <leader>xr <Plug>(xmpfilter-run)
-autocmd FileType ruby imap <buffer> <leader>xr <Plug>(xmpfilter-run)
+"autocmd FileType ruby imap <buffer> <leader>xr <Plug>(xmpfilter-run)
 
 " vim-rspec
-let g:rspec_command = "Dispatch bin/rspec {spec}"
+if filereadable("bin/rspec")
+  let g:rspec_command = "Dispatch bin/rspec {spec}"
+else
+  let g:rspec_command = "Dispatch bundle exec rspec {spec}"
+endif
 nnoremap <Leader>sf :call RunCurrentSpecFile()<CR>
 nnoremap <Leader>sn :call RunNearestSpec()<CR>
 nnoremap <Leader>sl :call RunLastSpec()<CR>
