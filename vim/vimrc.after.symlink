@@ -46,7 +46,7 @@ if executable('ag')
 endif
 
 " Make it obvious where 80 characters is
-set textwidth=80
+"set textwidth=80
 "set colorcolumn=+1
 
 " Numbers
@@ -61,6 +61,17 @@ set ignorecase         " Игнорировать регистр
 set smartcase          " Учитывать регистр только если он есть
 set nowrapscan
 nnoremap <silent> // :nohlsearch<CR>
+
+let g:incsearch#auto_nohlsearch = 1
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+map *  <Plug>(incsearch-nohl-*)
+map #  <Plug>(incsearch-nohl-#)
+map g* <Plug>(incsearch-nohl-g*)
+map g# <Plug>(incsearch-nohl-g#)
 
 " Предлагать все варианты при автодополнении в строке команд
 set wildmenu
@@ -86,6 +97,9 @@ set foldenable         " Автоматическое форматировани
 
 set autowriteall
 set hidden
+
+" reload .vimrc
+map <leader>vr :source $MYVIMRC<CR>
 
 " Передвижение блоков когда по отступам в визуальном режиме
 vnoremap < <gv
@@ -119,7 +133,6 @@ nmap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
 " Если забыли sudo
 cmap w!! w !sudo tee % >/dev/null
 
-
 " Открыть строку в гитлабе
 " MacOS
 " nnoremap <leader>og :!echo `git ghurl`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>
@@ -127,11 +140,27 @@ cmap w!! w !sudo tee % >/dev/null
 " Linux browser
 nnoremap <leader>ou :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs sensible-browser<CR><CR>
 
-imap jk <ESC>
-noremap <C-S> :w<CR>
-inoremap <C-S> <ESC>:w<CR>
-imap <C-b> <left>
-imap <C-f> <right>
+nnoremap <leader>os :!echo `git surl`/%?at=`git rev-parse --symbolic-full-name HEAD`\#<C-R>=line('.')<CR> \| xargs sensible-browser<CR><CR>
+
+" Navigation in command line
+cnoremap <C-a> <Home>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+
+" Saving
+nnoremap <leader>w :w<CR>
+vnoremap <Leader>w <Esc>:w<CR>
+
+inoremap <C-b> <left>
+inoremap <C-f> <right>
+
+" quickfix list movement
+nmap <silent><Leader>qj :cnext<CR>
+nmap <silent><Leader>qk :cprev<CR>
+nmap <silent><Leader>qq :cclose<CR>
+
+" paste current file name with current line
+nnoremap <leader>yp :let @+=expand("%") . ":" . line(".")<CR>
 
 " syntastic
 set statusline+=%#warningmsg#
@@ -155,11 +184,15 @@ nnoremap <leader>tf :NERDTreeFind<CR>
 " BuffExplorer
 nnoremap <silent> <M-F12> :BufExplorer<CR>
 nnoremap <silent> <C-b> :BufExplorer<CR>
+
+" Buffers
 nnoremap <silent> <F12> :bn<CR>
 nnoremap <silent> <S-F12> :bp<CR>
 nnoremap <C-M-Right> :bn<CR>
 nnoremap <C-M-Left> :bp<CR>
-nnoremap <leader>bb :b#<CR>
+nnoremap <silent> <leader>bb :b#<CR>
+nnoremap <silent> <leader>bn :bn<CR>
+nnoremap <silent> <leader>bp :bp<CR>
 
 " ctrlp
 nnoremap <leader>. :CtrlPTag<cr>
@@ -187,7 +220,7 @@ vnoremap <C-c> "+ygv"*y
 inoremap <C-v> <ESC>"+pa
 
 " grep
-nnoremap <leader>fw :Ag <C-R><C-W><CR>
+nnoremap <silent> <leader>fw :grep -w <C-R><C-W><CR>:cw<CR>
 
 " AutoClose
 " ruby files
@@ -240,13 +273,14 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ruby-xmpfilter
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd FileType ruby nmap <buffer> <leader>xm <Plug>(xmpfilter-mark)
-autocmd FileType ruby xmap <buffer> <leader>xm <Plug>(xmpfilter-mark)
-"autocmd FileType ruby imap <buffer> <leader>xm <Plug>(xmpfilter-mark)
+augroup xmpfilterGroup
+  autocmd!
+  autocmd FileType ruby nmap <buffer> <leader>xm <Plug>(xmpfilter-mark)
+  autocmd FileType ruby xmap <buffer> <leader>xm <Plug>(xmpfilter-mark)
 
-autocmd FileType ruby nmap <buffer> <leader>xr <Plug>(xmpfilter-run)
-autocmd FileType ruby xmap <buffer> <leader>xr <Plug>(xmpfilter-run)
-"autocmd FileType ruby imap <buffer> <leader>xr <Plug>(xmpfilter-run)
+  autocmd FileType ruby nmap <buffer> <leader>xr <Plug>(xmpfilter-run)
+  autocmd FileType ruby xmap <buffer> <leader>xr <Plug>(xmpfilter-run)
+augroup END
 
 " vim-rspec
 if filereadable("bin/rspec")
@@ -265,11 +299,13 @@ nnoremap <leader>ri :RunInInteractiveShell<space>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree (from https://github.com/carlhuda/janus/blob/master/janus%2Fvim%2Ftools%2Fjanus%2Fafter%2Fplugin%2Fnerdtree.vim)
 augroup AuNERDTreeCmd
-autocmd AuNERDTreeCmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
-autocmd AuNERDTreeCmd FocusGained * call s:UpdateNERDTree()
+  autocmd!
+  autocmd AuNERDTreeCmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
+  autocmd AuNERDTreeCmd FocusGained * call s:UpdateNERDTree()
+augroup END
 
 " If the parameter is a directory, cd into it
-function s:CdIfDirectory(directory)
+function! s:CdIfDirectory(directory)
   let explicitDirectory = isdirectory(a:directory)
   let directory = explicitDirectory || empty(a:directory)
 
@@ -295,7 +331,7 @@ function s:CdIfDirectory(directory)
 endfunction
 
 " NERDTree utility function
-function s:UpdateNERDTree(...)
+function! s:UpdateNERDTree(...)
   let stay = 0
 
   if(exists("a:1"))
@@ -315,3 +351,14 @@ function s:UpdateNERDTree(...)
 endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+execute "set rtp+=" . g:opamshare . "/merlin/vim"
+" Also run the following line in vim to index the documentation:
+"   :execute "helptags " . g:opamshare . "/merlin/vim/doc"
+
+" templates
+augroup templates
+  autocmd!
+  autocmd BufNewFile *.rb 0r ~/.my_vim/templates/skeleton.rb
+augroup end

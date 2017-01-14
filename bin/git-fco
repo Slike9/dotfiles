@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+set -u
+
+branch=$(git branch | grep $1 | head -1)
+if [[ -n $branch ]]; then
+  git checkout $branch
+else
+  echo "Branch not found" 1>&2
+fi

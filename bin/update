@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+set -u
+
+dir=$(realpath "$0" | xargs dirname)
+files=$(ls "$dir" | grep -v update)
+echo "Copying files:"
+echo " " $files
+echo "$files" | xargs -I{} cp -f {} ~/bin

@@ -3,15 +3,15 @@ call plug#begin('~/.vim/bundle')
 " Make sure you use single quotes
 
 " color scheme
-Plug 'Slike9/milk-and-tea.vim'
+" Plug 'Slike9/milk-and-tea.vim'
 
+Plug 'rking/ag.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'jlanzarotta/bufexplorer'
 " Plug 'widox/vim-buffer-explorer-plugin'
 Plug 'vim-airline/vim-airline'
-Plug 'rking/ag.vim'
 Plug 'tpope/vim-dispatch'
 Plug 'Townk/vim-autoclose'
 Plug 'pbrisbin/vim-mkdir'
@@ -27,10 +27,15 @@ Plug 'lyokha/vim-xkbswitch'
 Plug 'sjl/gundo.vim'
 Plug 'matze/vim-move'
 Plug 'bronson/vim-trailing-whitespace'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'brooth/far.vim'
 "Plug 'vim-scripts/ZoomWin'
 Plug 'ervandew/supertab'
 Plug 'christoomey/vim-run-interactive'
 Plug 'tpope/vim-projectionist'
+Plug 'terryma/vim-multiple-cursors'
+"Plug 'ajh17/VimCompletesMe'
 " Common programming tools
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-classpath'
@@ -56,8 +61,16 @@ Plug 'tomtom/tlib_vim'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'garbas/vim-snipmate'
 Plug 'honza/vim-snippets'
+Plug 'vim-erlang/vim-erlang-runtime'
+Plug 'rust-lang/rust.vim'
 " Color schemes
 Plug 'altercation/vim-colors-solarized'
+" Other
+Plug 'kana/vim-textobj-user'
+Plug 'nelstrom/vim-textobj-rubyblock'
+Plug 'majutsushi/tagbar'
+Plug 'haya14busa/incsearch.vim'
+Plug 'bogado/file-line'
 
 
 if filereadable(expand("~/.vimrc.bundles.local"))

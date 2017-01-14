@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+set -e
+set -u
+
+JIRA_URL="https://jira.fun-box.ru"
+STASH_URL="https://stash.fun-box.ru"
+
+in_git_wd() {
+  [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1
+}
+
+case $1 in
+  jira|j)
+    if in_git_wd; then
+      issue=$(git rev-parse --abbrev-ref HEAD | sed -re 's/^.*-([[:alpha:]]+-[[:digit:]]+)-.*$/\1/')
+      issue_url="$JIRA_URL/browse/$issue"
+      sensible-browser $issue_url
+    else
+      sensible-browser $JIRA_URL
+    fi
+    ;;
+  js)
+    sensible-browser $JIRA_URL/secure/StructureBoard.jspa?s=151
+    ;;
+  jd)
+    sensible-browser $JIRA_URL/secure/Dashboard.jspa
+    ;;
+  *)
+    if in_git_wd; then
+      sensible-browser $(git surl)
+    else
+      sensible-browser "$STASH_URL/projects"
+    fi
+    ;;
+esac
+

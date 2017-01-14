@@ -124,7 +124,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export PATH=$PATH:~/bin
+#export PATH=$PATH:~/bin
 
 export PATH=/opt/sbt/bin:$PATH
 
@@ -170,3 +170,11 @@ done
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# OPAM configuration
+. /home/sergeysemyonov/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+eval `opam config env`
+
+eval "$(direnv hook bash)"
