@@ -4,6 +4,8 @@ See [Building Vim from source] for dependencies and compilation.
 
 Other dependencies:
   * [xkb-switch]
+  * [ctags]
+  * [the_silver_searcher]
 
 Current configuration script:
 
@@ -30,6 +32,8 @@ also http://askubuntu.com/questions/283908/how-can-i-install-and-use-powerline-p
 * [CheckInstall]: https://help.ubuntu.com/community/CheckInstall
 * [update-alternatives]: https://linux.die.net/man/8/update-alternatives
 * [vim-airline]: https://github.com/vim-airline/vim-airline
+* [ctags]: http://ctags.sourceforge.net/
+* [the_silver_searcher]: https://github.com/ggreer/the_silver_searcher
 
 ## TODO
   * automate [vim] installation
