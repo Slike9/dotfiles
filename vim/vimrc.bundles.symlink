@@ -71,6 +71,7 @@ Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'majutsushi/tagbar'
 Plug 'haya14busa/incsearch.vim'
 Plug 'bogado/file-line'
+Plug 'google/vim-searchindex'
 
 
 if filereadable(expand("~/.vimrc.bundles.local"))

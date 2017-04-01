@@ -1,3 +1,4 @@
+" vim: set ft=vim
 " .vimrc.after is loaded after the plugins have loaded
 
 set rtp+=~/.my_vim
@@ -54,12 +55,12 @@ set number
 "set numberwidth=5
 "set relativenumber
 
-" Поиск
+" Search
 set hlsearch           " Подсветка
 set incsearch          " Поиск во время набора
 set ignorecase         " Игнорировать регистр
 set smartcase          " Учитывать регистр только если он есть
-set nowrapscan
+"set nowrapscan        " Searches wrap around the end of the file.
 nnoremap <silent> // :nohlsearch<CR>
 
 let g:incsearch#auto_nohlsearch = 1
@@ -139,8 +140,7 @@ cmap w!! w !sudo tee % >/dev/null
 
 " Linux browser
 nnoremap <leader>ou :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs sensible-browser<CR><CR>
-
-nnoremap <leader>os :!echo `git surl`/%?at=`git rev-parse --symbolic-full-name HEAD`\#<C-R>=line('.')<CR> \| xargs sensible-browser<CR><CR>
+"nnoremap <leader>os :!echo `git surl`/%?at=`git rev-parse --symbolic-full-name HEAD`\#<C-R>=line('.')<CR> \| xargs sensible-browser<CR><CR>
 
 " Navigation in command line
 cnoremap <C-a> <Home>
@@ -149,7 +149,7 @@ cnoremap <C-f> <Right>
 
 " Saving
 nnoremap <leader>w :w<CR>
-vnoremap <Leader>w <Esc>:w<CR>
+vnoremap <leader>w <Esc>:w<CR>
 
 inoremap <C-b> <left>
 inoremap <C-f> <right>
@@ -351,11 +351,6 @@ function! s:UpdateNERDTree(...)
 endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
-execute "set rtp+=" . g:opamshare . "/merlin/vim"
-" Also run the following line in vim to index the documentation:
-"   :execute "helptags " . g:opamshare . "/merlin/vim/doc"
 
 " templates
 augroup templates

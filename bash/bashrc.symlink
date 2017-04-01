@@ -131,7 +131,7 @@ export GIT_PS1_SHOWUNTRACKEDFILES=true
 # kingbash
 #bind -x '"\t":out=$(kingbash "$PS1" "$(compgen -A alias -A function)"  nohelp); READLINE_LINE=$(echo "$out" | head -n -1); READLINE_POINT=$(echo       "$out" | tail -n 1)'
 
-function kingbash.fn() {
+kingbash.fn() {
     echo -n "KingBash> $READLINE_LINE" #Where "KingBash> " looks best if it resembles your PS1, at least in length.
         OUTPUT=$(/usr/bin/kingbash "$(compgen -ab -A function)")
             READLINE_POINT=$(echo "$OUTPUT" | tail -n 1)
