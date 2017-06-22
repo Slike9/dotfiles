@@ -101,6 +101,8 @@ set hidden
 
 " reload .vimrc
 map <leader>vr :source $MYVIMRC<CR>
+map <leader>ve :e ~/.vimrc.after<CR>
+map <leader>vb :e ~/.vimrc.bundles<CR>
 
 " Передвижение блоков когда по отступам в визуальном режиме
 vnoremap < <gv
