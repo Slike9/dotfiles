@@ -62,6 +62,8 @@ set ignorecase         " Игнорировать регистр
 set smartcase          " Учитывать регистр только если он есть
 "set nowrapscan        " Searches wrap around the end of the file.
 nnoremap <silent> // :nohlsearch<CR>
+" Search for visually selected text
+vnoremap // y/\V<C-R>"<CR>
 
 let g:incsearch#auto_nohlsearch = 1
 map /  <Plug>(incsearch-forward)
@@ -221,14 +223,14 @@ nmap s <Plug>(easymotion-s)
 " or
 " `s{char}{char}{label}`
 " Need one more keystroke, but on average, it may be more comfortable.
+map <Leader>s <Plug>(easymotion-s)
 nmap <Leader>s <Plug>(easymotion-overwin-f2)
-omap <Leader>s <Plug>(easymotion-s)
 map f <Plug>(easymotion-fl)
 map F <Plug>(easymotion-Fl)
 map t <Plug>(easymotion-tl)
 map T <Plug>(easymotion-Tl)
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
+map  <Leader>/ <Plug>(easymotion-sn)
+omap <Leader>/ <Plug>(easymotion-tn)
 " JK motions: Line motions
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
@@ -245,6 +247,7 @@ inoremap <C-v> <ESC>"+pa
 
 " grep
 nnoremap <silent> <leader>fw :grep -w <C-R><C-W><CR>:cw<CR>
+vnoremap <silent> <leader>fw y:grep "<C-R>""<CR>:cw<CR>
 
 " AutoClose
 " ruby files
