@@ -10,4 +10,4 @@ Install:
   * git
   * tmux
 
-See README.md in the appropriate folders for installation details.
+See README.md in the folders for the installation details.
