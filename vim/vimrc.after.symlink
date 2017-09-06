@@ -1,7 +1,9 @@
 " vim: set ft=vim
 " .vimrc.after is loaded after the plugins have loaded
+"
+scriptencoding utf-8
 
-set rtp+=~/.my_vim
+set runtimepath+=~/.my_vim
 
 " Перемещаемся построчно по тексту который не поместился в строке
 nmap j gj
@@ -153,32 +155,53 @@ cnoremap <C-f> <Right>
 
 " Saving
 nnoremap <leader>w :w<CR>
-vnoremap <leader>w <Esc>:w<CR>
+vnoremap <leader>w <ESC>:w<CR>
 
 inoremap <C-b> <left>
 inoremap <C-f> <right>
 
+" ESC mapping
+inoremap <C-l> <ESC>:w<CR>
+vnoremap <C-l> <ESC>
+cnoremap <C-l> <C-c>
+
 " quickfix list movement
-nmap <silent><Leader>qj :cnext<CR>
-nmap <silent><Leader>qk :cprev<CR>
-nmap <silent><Leader>qq :cclose<CR>
+nnoremap <silent><Leader>qj :cnext<CR>
+nnoremap <silent><Leader>qk :cprev<CR>
+nnoremap <silent><Leader>qn :cnext<CR>
+nnoremap <silent><Leader>qp :cprev<CR>
+nnoremap <silent><Leader>qq :cclose<CR>
 
 " paste current file name with current line
 nnoremap <leader>yp :let @+=expand("%") . ":" . line(".")<CR>
 
 " syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
 "let g:syntastic_always_populate_loc_list = 1
 "let g:syntastic_auto_loc_list = 1
 "let g:syntastic_check_on_open = 1
 "let g:syntastic_check_on_wq = 0
 
-let g:syntastic_enable_signs=1
-let g:syntastic_quiet_messages = {'level': 'warnings'}
-let g:syntastic_auto_loc_list=2
+"let g:syntastic_enable_signs=1
+"let g:syntastic_quiet_messages = {'level': 'warnings'}
+"let g:syntastic_auto_loc_list=2
+
+" ALE
+let g:airline#extensions#ale#enabled = 1
+let g:ale_lint_on_text_changed = 'never'
+"let g:ale_set_quickfix = 1
+let g:ale_set_loclist = 1
+let g:ale_open_list = 0
+"let g:ale_keep_list_window_open = 1
+let g:ale_ruby_rubocop_executable = 'bundle'
+
+" Neoformat
+let g:neoformat_enabled_javascript = ['prettiereslint']
+nnoremap <leader>= :Neoformat<CR>
+vnoremap <leader>= :Neoformat<CR>
 
 " NERDTree
 nnoremap <silent> <F2> :NERDTreeToggle<CR>
@@ -240,22 +263,39 @@ nmap <F5> :GundoToggle<CR>
 imap <F5> <ESC>:GundoToggle<CR>
 
 " NERDCommenter
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+" Set a language to use its alternate delimiters by default
+" let g:NERDAltDelims_java = 1
+" Add your own custom formats or override the defaults
+" let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
 
 " Buffers
 vnoremap <C-c> "+ygv"*y
-inoremap <C-v> <ESC>"+pa
+inoremap <C-v> <C-R>+
 
 " grep
 nnoremap <silent> <leader>fw :grep -w <C-R><C-W><CR>:cw<CR>
 vnoremap <silent> <leader>fw y:grep "<C-R>""<CR>:cw<CR>
 
 " AutoClose
-" ruby files
-autocmd FileType ruby
-        \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("|", "")
-" clojure
-autocmd FileType clojure
-        \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("", "'`")
+augroup custom_auto_close_pairs
+  autocmd!
+  " ruby files
+  autocmd FileType ruby
+          \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("|", "")
+  " clojure
+  autocmd FileType clojure
+          \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("", "'`")
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Clojure
@@ -288,7 +328,7 @@ highlight lCursor guifg=NONE guibg=Cyan
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Tabular
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if exists(":Tabularize")
+if exists(':Tabularize')
   nmap <Leader>a= :Tabularize /=<CR>
   vmap <Leader>a= :Tabularize /=<CR>
   nmap <Leader>a: :Tabularize /:\zs<CR>
@@ -333,11 +373,11 @@ augroup END
 
 " If the parameter is a directory, cd into it
 function! s:CdIfDirectory(directory)
-  let explicitDirectory = isdirectory(a:directory)
-  let directory = explicitDirectory || empty(a:directory)
+  let l:explicitDirectory = isdirectory(a:directory)
+  let l:directory = l:explicitDirectory || empty(a:directory)
 
-  if explicitDirectory
-    exe "cd " . fnameescape(a:directory)
+  if l:explicitDirectory
+    exe 'cd ' . fnameescape(a:directory)
   endif
 
   " Allows reading from stdin
@@ -346,31 +386,31 @@ function! s:CdIfDirectory(directory)
     return
   endif
 
-  if directory
+  if l:directory
     NERDTree
     wincmd p
     bd
   endif
 
-  if explicitDirectory
+  if l:explicitDirectory
     wincmd p
   endif
 endfunction
 
 " NERDTree utility function
 function! s:UpdateNERDTree(...)
-  let stay = 0
+  let l:stay = 0
 
-  if(exists("a:1"))
-    let stay = a:1
+  if(exists('a:1'))
+    let l:stay = a:1
   end
 
-  if exists("t:NERDTreeBufName")
-    let nr = bufwinnr(t:NERDTreeBufName)
-    if nr != -1
-      exe nr . "wincmd w"
-      exe substitute(mapcheck("R"), "<CR>", "", "")
-      if !stay
+  if exists('t:NERDTreeBufName')
+    let l:nr = bufwinnr(t:NERDTreeBufName)
+    if l:nr != -1
+      exe l:nr . 'wincmd w'
+      exe substitute(mapcheck('R'), '<CR>', '', '')
+      if !l:stay
         wincmd p
       end
     endif
