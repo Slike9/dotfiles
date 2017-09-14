@@ -350,15 +350,23 @@ augroup xmpfilterGroup
 augroup END
 
 " vim-rspec
-if filereadable("bin/rspec")
-  let g:rspec_command = "Dispatch bin/rspec {spec}"
-else
-  let g:rspec_command = "Dispatch bundle exec rspec {spec}"
-endif
-nnoremap <Leader>sf :call RunCurrentSpecFile()<CR>
-nnoremap <Leader>sn :call RunNearestSpec()<CR>
-nnoremap <Leader>sl :call RunLastSpec()<CR>
-nnoremap <Leader>sa :call RunAllSpecs()<CR>
+" if filereadable('bin/rspec')
+"   let g:rspec_command = 'Dispatch bin/rspec {spec}'
+" else
+"   let g:rspec_command = 'Dispatch bundle exec rspec {spec}'
+" endif
+" nnoremap <LocalLeader>sf :call RunCurrentSpecFile()<CR>
+" nnoremap <LocalLeader>sn :call RunNearestSpec()<CR>
+" nnoremap <LocalLeader>sl :call RunLastSpec()<CR>
+" nnoremap <LocalLeader>sa :call RunAllSpecs()<CR>
+
+" janko-m/vim-test
+nmap <LocalLeader>tn :TestNearest<CR>
+nmap <LocalLeader>tf :TestFile<CR>
+nmap <LocalLeader>ta :TestSuite<CR>
+nmap <LocalLeader>tl :TestLast<CR>
+nmap <LocalLeader>tv :TestVisit<CR>
+let test#strategy = 'vimux'
 
 " vim-run-interactive
 nnoremap <leader>ri :RunInInteractiveShell<space>

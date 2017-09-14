@@ -9,7 +9,10 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'jlanzarotta/bufexplorer'
 " Plug 'widox/vim-buffer-explorer-plugin'
 Plug 'vim-airline/vim-airline'
+
 Plug 'tpope/vim-dispatch'
+Plug 'benmills/vimux'
+
 Plug 'Townk/vim-autoclose'
 Plug 'pbrisbin/vim-mkdir'
 Plug 'tpope/vim-fugitive'
@@ -39,21 +42,26 @@ Plug 'tpope/vim-classpath'
 Plug 'tmhedberg/matchit'
 Plug 'sbdchd/neoformat'
 Plug 'w0rp/ale'
+
 " Ruby
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-bundler'
 Plug 'tpope/vim-rake'
 Plug 'tpope/vim-rails'
 Plug 'thoughtbot/vim-rspec'
+Plug 'janko-m/vim-test'
+
 " Go
 Plug 'fatih/vim-go'
+
 " Clojure
 Plug 'tpope/vim-fireplace'
 Plug 'guns/vim-clojure-highlight'
 Plug 'vim-scripts/paredit.vim'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'vim-scripts/vim-niji'
-" Other languages
+
+" Languages
 Plug 'kchmck/vim-coffee-script'
 Plug 'slim-template/vim-slim'
 Plug 'tomtom/tlib_vim'
