@@ -1,0 +1,91 @@
+###########################################################################
+#                          SNIPPETS for MARKDOWN                          #
+###########################################################################
+
+###########################
+# Sections and Paragraphs #
+###########################
+snippet sec "Section" b
+	# ${1:Section Name} #
+	$0
+endsnippet
+
+snippet ssec "Sub Section" b
+	## ${1:Section Name} ##
+	$0
+endsnippet
+
+snippet sssec "SubSub Section" b
+	### ${1:Section Name} ###
+	$0
+endsnippet
+
+snippet par "Paragraph" b
+	#### ${1:Paragraph Name} ####
+	$0
+endsnippet
+
+snippet spar "Paragraph" b
+	##### ${1:Paragraph Name} #####
+	$0
+endsnippet
+
+################
+# Common stuff #
+################
+snippet link "link now" i 
+	[${1:VISUAL Text}](${3:http://${2:www.url.com}} ${4:"$1"})$0
+endsnippet
+
+snippet link "link later" i
+	[${1:VISUAL Text}][${2:$1}]$0
+	[$2]:   "link address" ${3"$1"}
+endsnippet
+
+snippet	eq "inline equation" i
+	\\\\(${1:a^2 \\\\log}\\\\)$0
+endsnippet
+
+snippet eq "display Equation" i
+	$$${1:a^2}$$
+endsnippet
+
+snippet todo "this is a comment"
+	<!--- ${1:content}  | `!v strftime("%c")`--->
+	$0
+endsnippet
+
+snippet img "html image"
+	<img src="${1:path}" alt="${2:AlterText}" width="${3:400}"/>
+endsnippet
+
+snippet img "markdown image"
+	![${1:pic alt}](${2:path} "${3:$1}")$0
+endsnippet
+
+snippet head "head for my blog"
+	---
+	layout: ${1:post} 
+	category : ${2:category type}
+	title: ${3:Title String}
+	matheq: ${4:no}
+	comments: ${5:yes or no}
+	recentvisitors :${6:$4}
+	share: ${7:no}
+	tags : [${8:Tag1}, ${9:Tag2}, ${10:Tag3}]
+	---
+	$0
+endsnippet
+
+snippet code "insert code"
+	{% highlight ${1:python or r} ${2:linenos} %}
+	${3:code here}
+	{% endhighlight %}
+	$0
+endsnippet
+
+snippet	color "color text"
+	<font color="${1:red}">${2}</font>$0
+endsnippet
+
+# vim:ft=snippets:
