@@ -11,20 +11,17 @@ nmap k gk
 
 syntax enable          " Включить подсветку синтаксиса
 set t_Co=256           " Использовать 256 цветов
-"set background=dark    " Установить темный фон
-"colorscheme milk-and-tea
-set background=light    " Установить светлый фон
+set background=light   " Установить светлый фон
 colorscheme solarized
+let g:solarized_termtrans=1
 
-set nocompatible
+" set nocompatible
 filetype plugin indent on
 syntax on
 
-"filetype plugin on
-au FileType coffee filetype indent off
-
 " Softtabs, 2 spaces
 set tabstop=2
+set softtabstop=2
 set shiftwidth=2
 set shiftround
 set expandtab
@@ -57,6 +54,9 @@ set number
 "set numberwidth=5
 "set relativenumber
 
+" Disable beep and flash
+set noerrorbells visualbell t_vb=
+
 " Search
 set hlsearch           " Подсветка
 set incsearch          " Поиск во время набора
@@ -67,16 +67,16 @@ nnoremap <silent> // :nohlsearch<CR>
 " Search for visually selected text
 vnoremap // y/\V<C-R>"<CR>
 
-let g:incsearch#auto_nohlsearch = 1
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
-map *  <Plug>(incsearch-nohl-*)
-map #  <Plug>(incsearch-nohl-#)
-map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)
+" let g:incsearch#auto_nohlsearch = 1
+" map /  <Plug>(incsearch-forward)
+" map ?  <Plug>(incsearch-backward)
+" map g/ <Plug>(incsearch-stay)
+" map n  <Plug>(incsearch-nohl-n)
+" map N  <Plug>(incsearch-nohl-N)
+" map *  <Plug>(incsearch-nohl-*)
+" map #  <Plug>(incsearch-nohl-#)
+" map g* <Plug>(incsearch-nohl-g*)
+" map g# <Plug>(incsearch-nohl-g#)
 
 " Предлагать все варианты при автодополнении в строке команд
 set wildmenu
@@ -113,8 +113,7 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Toggle paste mode
-nmap <silent> <F4> :set invpaste<CR>:set paste?<CR>
-imap <silent> <F4> <ESC>:set invpaste<CR>:set paste?<CR>
+set pastetoggle=<F4>
 
 " format the entire file
 nnoremap <leader>fef :normal! gg=G``<CR>
@@ -154,14 +153,16 @@ cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
 
 " Saving
-nnoremap <leader>w :w<CR>
-vnoremap <leader>w <ESC>:w<CR>
+nnoremap <leader>w :write<CR>
+vnoremap <leader>w <ESC>:write<CR>
+nnoremap <leader>s :update<CR>
+vnoremap <leader>s <ESC>:update<CR>
 
 inoremap <C-b> <left>
 inoremap <C-f> <right>
 
 " ESC mapping
-inoremap <C-l> <ESC>:w<CR>
+inoremap <C-l> <ESC>:write<CR>
 vnoremap <C-l> <ESC>
 cnoremap <C-l> <C-c>
 
@@ -173,7 +174,8 @@ nnoremap <silent><Leader>qp :cprev<CR>
 nnoremap <silent><Leader>qq :cclose<CR>
 
 " paste current file name with current line
-nnoremap <leader>yp :let @+=expand("%") . ":" . line(".")<CR>
+nnoremap <silent> <leader>yp :let @+=expand("%") . ":" . line(".")<CR>
+nnoremap <silent> <leader>yf :let @+=expand("%")<CR>
 
 " syntastic
 "set statusline+=%#warningmsg#
@@ -196,17 +198,16 @@ let g:ale_lint_on_text_changed = 'never'
 let g:ale_set_loclist = 1
 let g:ale_open_list = 0
 "let g:ale_keep_list_window_open = 1
-let g:ale_ruby_rubocop_executable = 'bundle'
+" let g:ale_ruby_rubocop_executable = 'bundle'
 
-" Neoformat
-let g:neoformat_enabled_javascript = ['prettiereslint']
-nnoremap <leader>= :Neoformat<CR>
-vnoremap <leader>= :Neoformat<CR>
+" Autoformat
+nnoremap <silent> <leader>= :Autoformat<CR>
+vnoremap <silent> <leader>= :Autoformat<CR>
 
 " NERDTree
 nnoremap <silent> <F2> :NERDTreeToggle<CR>
 nnoremap <silent> <M-F1> :NERDTreeFind<CR>
-nnoremap <leader>tf :NERDTreeFind<CR>
+nnoremap <silent> <leader>tf :NERDTreeFind<CR>
 
 " BuffExplorer
 nnoremap <silent> <M-F12> :BufExplorer<CR>
@@ -215,14 +216,14 @@ nnoremap <silent> <C-b> :BufExplorer<CR>
 " Buffers
 nnoremap <silent> <F12> :bn<CR>
 nnoremap <silent> <S-F12> :bp<CR>
-nnoremap <C-M-Right> :bn<CR>
-nnoremap <C-M-Left> :bp<CR>
+nnoremap <silent> <C-M-Right> :bn<CR>
+nnoremap <silent> <C-M-Left> :bp<CR>
 nnoremap <silent> <leader>bb :b#<CR>
 nnoremap <silent> <leader>bn :bn<CR>
 nnoremap <silent> <leader>bp :bp<CR>
 
 " ctrlp
-nnoremap <leader>. :CtrlPTag<cr>
+nnoremap <leader>. :CtrlPTag<CR>
 
 " Tabs
 nnoremap <silent> <M-Left> :tabprevious<CR>
@@ -239,15 +240,13 @@ nmap <leader>gp :Git push<CR>
 " EasyMotion
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
 let g:EasyMotion_smartcase = 1 " Turn on case insensitive feature
-nmap s <Plug>(easymotion-s)
+map s <Plug>(easymotion-s)
 " Jump to anywhere you want with minimal keystrokes, with just one key binding.
 " `s{char}{label}`
 "nmap <Leader>s <Plug>(easymotion-overwin-f)
 " or
 " `s{char}{char}{label}`
 " Need one more keystroke, but on average, it may be more comfortable.
-map <Leader>s <Plug>(easymotion-s)
-nmap <Leader>s <Plug>(easymotion-overwin-f2)
 map f <Plug>(easymotion-fl)
 map F <Plug>(easymotion-Fl)
 map t <Plug>(easymotion-tl)
@@ -257,6 +256,8 @@ omap <Leader>/ <Plug>(easymotion-tn)
 " JK motions: Line motions
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
+map <Leader><Leader>w <Plug>(easymotion-bd-w)
+map <Leader><Leader>e <Plug>(easymotion-bd-e)
 
 " Gundo
 nmap <F5> :GundoToggle<CR>
@@ -277,6 +278,9 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
+" let g:NERDCustomDelimiters = {
+"   \ 'ruby': { 'left': '#' }
+"   \ }
 
 " Buffers
 vnoremap <C-c> "+ygv"*y
@@ -287,14 +291,20 @@ nnoremap <silent> <leader>fw :grep -w <C-R><C-W><CR>:cw<CR>
 vnoremap <silent> <leader>fw y:grep "<C-R>""<CR>:cw<CR>
 
 " AutoClose
-augroup custom_auto_close_pairs
+" augroup custom_auto_close_pairs
+"   autocmd!
+"   " ruby files
+"   autocmd FileType ruby
+"           \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("|", "")
+"   " clojure
+"   autocmd FileType clojure
+"           \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("", "'`")
+" augroup END
+
+" auto-pairs
+augroup custom_auto_pairs
   autocmd!
-  " ruby files
-  autocmd FileType ruby
-          \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("|", "")
-  " clojure
-  autocmd FileType clojure
-          \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("", "'`")
+  autocmd FileType ruby let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '|':'|'}
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -302,14 +312,19 @@ augroup END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:clojure_highlight_references = 1
 
-"fireplace.vim
-"map <C-e> :Eval<CR>
+" fireplace.vim
+augroup fireplace_maps
+  autocmd!
+  autocmd FileType clojure noremap <buffer> <localleader>e :Eval<CR>
+augroup END
+
+" Paredit
+let g:paredit_leader = ','
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Spell cheking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 setlocal spell spelllang=ru_ru,en_us
-"setlocal spell spelllang=ru_yo,en_us
 "set spell
 
 " Vim и кириллица - XkbSwitch (не удалось завести под Linux)
@@ -326,6 +341,11 @@ set imsearch=0
 highlight lCursor guifg=NONE guibg=Cyan
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Commands
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+command! WC !wc %
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Tabular
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if exists(':Tabularize')
@@ -340,14 +360,14 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ruby-xmpfilter
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-augroup xmpfilterGroup
-  autocmd!
-  autocmd FileType ruby nmap <buffer> <leader>xm <Plug>(xmpfilter-mark)
-  autocmd FileType ruby xmap <buffer> <leader>xm <Plug>(xmpfilter-mark)
-
-  autocmd FileType ruby nmap <buffer> <leader>xr <Plug>(xmpfilter-run)
-  autocmd FileType ruby xmap <buffer> <leader>xr <Plug>(xmpfilter-run)
-augroup END
+" augroup xmpfilterGroup
+"   autocmd!
+"   autocmd FileType ruby nmap <buffer> <leader>xm <Plug>(xmpfilter-mark)
+"   autocmd FileType ruby xmap <buffer> <leader>xm <Plug>(xmpfilter-mark)
+"
+"   autocmd FileType ruby nmap <buffer> <leader>xr <Plug>(xmpfilter-run)
+"   autocmd FileType ruby xmap <buffer> <leader>xr <Plug>(xmpfilter-run)
+" augroup END
 
 " vim-rspec
 " if filereadable('bin/rspec')
@@ -390,7 +410,7 @@ map <Leader>rz :call VimuxZoomRunner()<CR>
 augroup AuNERDTreeCmd
   autocmd!
   autocmd AuNERDTreeCmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
-  autocmd AuNERDTreeCmd FocusGained * call s:UpdateNERDTree()
+  " autocmd AuNERDTreeCmd FocusGained * call s:UpdateNERDTree()
 augroup END
 
 " If the parameter is a directory, cd into it

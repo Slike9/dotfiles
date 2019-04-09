@@ -31,9 +31,11 @@
   up = pull --rebase
   put = push origin HEAD
   latest = for-each-ref --sort=-committerdate --format='%(committerdate:short) %(refname:short) [%(committername)]'
-  ls = log  --decorate --date=short
+  ls = log --decorate --date=short
   graph = log --graph --pretty=format':%C(yellow)%h%Cblue%d%Creset %s %C(white) %an, %ar%Creset'
-  lol = log --pretty=format:'%h %ad %<(17,trunc)%an %s' --date=short
+  lol = log --pretty=format:'%h %ad %<(17,trunc)%an %s' --date=short --decorate
+  lo = log --oneline
+  lp = log --patch
   semtag = !git tag -a $(semver tag) -m \"tagging $(semver tag)\"
   rb = rebase
   rbc = rebase --continue

@@ -2,87 +2,112 @@ call plug#begin('~/.vim/bundle')
 
 " Make sure you use single quotes
 
-Plug 'rking/ag.vim'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/nerdcommenter'
-Plug 'jlanzarotta/bufexplorer'
-" Plug 'widox/vim-buffer-explorer-plugin'
+" Color schemes
+Plug 'altercation/vim-colors-solarized'
+
+" Decoration
 Plug 'vim-airline/vim-airline'
 
-Plug 'tpope/vim-dispatch'
-Plug 'benmills/vimux'
-
-Plug 'Townk/vim-autoclose'
-Plug 'pbrisbin/vim-mkdir'
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-surround'
+" Edit
+Plug 'jiangmiao/auto-pairs'
+" Plug 'Townk/vim-autoclose'
+Plug 'matze/vim-move'
+Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-repeat'
-Plug 'easymotion/vim-easymotion'
+Plug 'tpope/vim-surround'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-eunuch'
+Plug 'pbrisbin/vim-mkdir'
 Plug 'godlygeek/tabular'
-Plug 'lyokha/vim-xkbswitch'
-Plug 'sjl/gundo.vim'
-Plug 'matze/vim-move'
 Plug 'bronson/vim-trailing-whitespace'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'dyng/ctrlsf.vim'
+
+" Git
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" Navigation
+Plug 'rking/ag.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'jlanzarotta/bufexplorer'
+Plug 'scrooloose/nerdtree'
+Plug 'google/vim-searchindex'
+Plug 'easymotion/vim-easymotion'
+Plug 'haya14busa/incsearch.vim'
+
+Plug 'tpope/vim-dispatch'
+Plug 'skywind3000/asyncrun.vim'
+Plug 'jgdavey/tslime.vim'
+Plug 'benmills/vimux'
+Plug 'christoomey/vim-tmux-runner'
+" Plug 'lyokha/vim-xkbswitch'
+Plug 'sjl/gundo.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'brooth/far.vim'
-"Plug 'vim-scripts/ZoomWin'
+" Plug 'vim-scripts/ZoomWin'
 Plug 'ervandew/supertab'
 Plug 'christoomey/vim-run-interactive'
 Plug 'tpope/vim-projectionist'
-Plug 'terryma/vim-multiple-cursors'
-"Plug 'ajh17/VimCompletesMe'
-" Common programming tools
-" Plug 'scrooloose/syntastic'
+Plug 'editorconfig/editorconfig-vim'
+" Plug 'ajh17/VimCompletesMe'
 Plug 'tpope/vim-classpath'
 Plug 'tmhedberg/matchit'
-Plug 'sbdchd/neoformat'
-Plug 'w0rp/ale'
-
-" Ruby
-Plug 'vim-ruby/vim-ruby'
-Plug 'tpope/vim-bundler'
-Plug 'tpope/vim-rake'
-Plug 'tpope/vim-rails'
-Plug 'thoughtbot/vim-rspec'
-Plug 'janko-m/vim-test'
-
-" Go
-Plug 'fatih/vim-go'
-
-" Clojure
-Plug 'tpope/vim-fireplace'
-Plug 'guns/vim-clojure-highlight'
-Plug 'vim-scripts/paredit.vim'
-Plug 'kien/rainbow_parentheses.vim'
-Plug 'vim-scripts/vim-niji'
-
-" Languages
-Plug 'kchmck/vim-coffee-script'
-Plug 'slim-template/vim-slim'
-Plug 'tomtom/tlib_vim'
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'garbas/vim-snipmate'
-Plug 'honza/vim-snippets'
-Plug 'vim-erlang/vim-erlang-runtime'
-Plug 'rust-lang/rust.vim'
-Plug 'elixir-lang/vim-elixir'
-" Color schemes
-Plug 'altercation/vim-colors-solarized'
-" Other
+Plug 'tpope/vim-vinegar'
 Plug 'kana/vim-textobj-user'
 Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'majutsushi/tagbar'
-Plug 'haya14busa/incsearch.vim'
 Plug 'bogado/file-line'
-Plug 'google/vim-searchindex'
+" Plug 'embear/vim-localvimrc'
 
+" Formatter
+" Plug 'sbdchd/neoformat'
+Plug 'Chiel92/vim-autoformat'
+" Linter
+Plug 'w0rp/ale'
+" Plug 'scrooloose/syntastic'
 
-if filereadable(expand("~/.vimrc.bundles.local"))
+" Snippets
+Plug 'tomtom/tlib_vim' " required by 'garbas/vim-snipmate'
+Plug 'MarcWeber/vim-addon-mw-utils' " required by 'garbas/vim-snipmate'
+Plug 'garbas/vim-snipmate'
+Plug 'honza/vim-snippets'
+" Plug 'SirVer/ultisnips'
+
+" Programming languages support
+"
+" Ruby
+Plug 'janko-m/vim-test'
+Plug 'thoughtbot/vim-rspec'
+Plug 'tpope/vim-bundler'
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-rake'
+Plug 'vim-ruby/vim-ruby'
+"
+" Go
+" Plug 'fatih/vim-go'
+"
+" Clojure
+Plug 'tpope/vim-fireplace'
+Plug 'tpope/vim-salve'
+" Plug 'guns/vim-clojure-highlight'
+Plug 'vim-scripts/paredit.vim'
+" Plug 'kien/rainbow_parentheses.vim'
+" Plug 'vim-scripts/vim-niji'
+"
+" Other
+" Plug 'kchmck/vim-coffee-script'
+" Plug 'slim-template/vim-slim'
+" Plug 'vim-erlang/vim-erlang-runtime'
+" Plug 'rust-lang/rust.vim'
+" Plug 'elixir-lang/vim-elixir'
+" Plug 'leafgarland/typescript-vim'
+" Plug 'ElmCast/elm-vim'
+Plug 'elixir-editors/vim-elixir'
+
+if filereadable(expand('~/.vimrc.bundles.local'))
   source ~/.vimrc.bundles.local
 endif
 
