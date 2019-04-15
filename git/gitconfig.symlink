@@ -46,6 +46,6 @@
   url =! bash -c 'git config --get remote.origin.url | sed -re \"s/.+@(.+):(.+)\\.git$/https:\\/\\/\\1\\/\\2/g\"'
 [core]
   editor = vim
-  excludesfile = /home/slike9/.gitignore
+  excludesfile = /home/sergey/.gitignore
 [credential]
   helper = cache

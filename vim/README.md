@@ -22,8 +22,9 @@ Current configuration script:
 ```
 
 Install patched fonts for [vim-airline].
-See https://powerline.readthedocs.io/en/master/installation/linux.html,
-also http://askubuntu.com/questions/283908/how-can-i-install-and-use-powerline-plugin
+* https://github.com/powerline/fonts
+* See https://powerline.readthedocs.io/en/master/installation/linux.html,
+* also http://askubuntu.com/questions/283908/how-can-i-install-and-use-powerline-plugin
 
 * [vim]: https://github.com/vim/vim
 * [Building Vim from source]: https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source

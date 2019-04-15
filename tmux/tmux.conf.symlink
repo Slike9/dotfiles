@@ -23,6 +23,9 @@ set -g default-terminal "screen-256color"
 # See `list-keys -t vi-copy` for commands.
 set-window-option -g mode-keys vi
 
+set -sg escape-time 0                      # Faster key escapes
+set -g focus-events on                     # Let focus events through
+
 # List of plugins
 # Supports `github_username/repo` or full git repo URLs
 set -g @plugin 'tmux-plugins/tpm'
