@@ -389,6 +389,7 @@ nmap <LocalLeader>tv :TestVisit<CR>
 let g:test#strategy = 'vimux'
 
 " Plug 'benmills/vimux'
+let g:VimuxRunnerType = 'window'
 " Prompt for a command to run
 map <Leader>rp :VimuxPromptCommand<CR>
 " Run last command executed by VimuxRunCommand
@@ -460,6 +461,9 @@ function! s:UpdateNERDTree(...)
 endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" rust-lang/rust.vim
+let g:rustfmt_autosave = 1
 
 " templates
 augroup templates
