@@ -18,6 +18,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-unimpaired'
 Plug 'pbrisbin/vim-mkdir'
 Plug 'godlygeek/tabular'
 Plug 'bronson/vim-trailing-whitespace'
@@ -44,7 +45,7 @@ Plug 'benmills/vimux'
 Plug 'christoomey/vim-tmux-runner'
 " Plug 'lyokha/vim-xkbswitch'
 Plug 'sjl/gundo.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'brooth/far.vim'
 " Plug 'vim-scripts/ZoomWin'
@@ -85,10 +86,10 @@ Plug 'tpope/vim-bundler'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-rake'
 Plug 'vim-ruby/vim-ruby'
-"
+
 " Go
-" Plug 'fatih/vim-go'
-"
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 " Clojure
 Plug 'tpope/vim-fireplace'
 Plug 'tpope/vim-salve'
@@ -101,9 +102,9 @@ Plug 'vim-scripts/paredit.vim'
 " Plug 'kchmck/vim-coffee-script'
 " Plug 'slim-template/vim-slim'
 " Plug 'vim-erlang/vim-erlang-runtime'
-" Plug 'rust-lang/rust.vim'
+Plug 'rust-lang/rust.vim'
 " Plug 'elixir-lang/vim-elixir'
-" Plug 'leafgarland/typescript-vim'
+Plug 'leafgarland/typescript-vim'
 " Plug 'ElmCast/elm-vim'
 Plug 'elixir-editors/vim-elixir'
 
