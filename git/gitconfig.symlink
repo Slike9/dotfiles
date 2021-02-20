@@ -3,6 +3,8 @@
   email = slike9@rambler.ru
 [push]
   default = current
+[pull]
+  ff = only
 [color]
   branch = auto
   diff = auto
@@ -36,6 +38,8 @@
   lol = log --pretty=format:'%h %ad %<(17,trunc)%an %s' --date=short --decorate
   lo = log --oneline
   lp = log --patch
+  lb = log HEAD ^develop --first-parent --no-merges
+  lbo = log --oneline HEAD ^develop --first-parent --no-merges
   semtag = !git tag -a $(semver tag) -m \"tagging $(semver tag)\"
   rb = rebase
   rbc = rebase --continue
@@ -44,8 +48,10 @@
   ap = add -p
   create-pull-request = !sh -c 'stash pull-request $0 $@'
   url =! bash -c 'git config --get remote.origin.url | sed -re \"s/.+@(.+):(.+)\\.git$/https:\\/\\/\\1\\/\\2/g\"'
+  rbd = rebase -i origin/develop --autosquash
 [core]
   editor = vim
   excludesfile = /home/sergey/.gitignore
+  attributesfile = /home/sergey/.gitattributes
 [credential]
   helper = cache
