@@ -1,0 +1,45 @@
+version: '6.0'
+
+environment:
+  NPM_CONFIG_PREFIX: /home/node/.npm-global
+
+compose:
+  files:
+    - ./.dip/docker-compose.base.yml
+    - ./.dip/docker-compose.databases.yml
+    - ./.dip/docker-compose.ruby.yml
+    - ./.dip/docker-compose.node.yml
+    - ./.dip/docker-compose.erlang.yml
+  project_name: shared_dip_env
+
+interaction:
+  ruby: &ruby
+    description: Open Ruby service terminal
+    service: ruby
+    command: /bin/bash
+  jruby:
+    <<: *ruby
+    service: jruby
+  'ruby:latest':
+    <<: *ruby
+    service: ruby-latest
+  psql:
+    description: Run psql console
+    service: postgres
+    command: psql -h postgres -U postgres
+  createdb:
+    description: Run PostgreSQL createdb command
+    service: postgres
+    command: createdb -h postgres -U postgres
+  'redis-cli':
+    description: Run Redis console
+    service: redis
+    command: redis-cli -h redis
+  node:
+    description: Open Node service terminal
+    service: node'
+    command: /bin/bash
+  erl:
+    description: Open Erlang service terminal
+    service: erlang
+    command: /bin/bash

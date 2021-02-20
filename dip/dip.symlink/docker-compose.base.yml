@@ -1,0 +1,5 @@
+version: '2.4'
+
+# Here we only declare a volume
+volumes:
+  history:

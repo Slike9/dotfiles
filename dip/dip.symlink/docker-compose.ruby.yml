@@ -1,0 +1,56 @@
+version: '2.4'
+
+services:
+  ruby: &ruby
+    command: bash
+    image: ruby:2.7
+    volumes:
+      # That's all the magic!
+      - ${PWD}:/${PWD}:cached
+      - bundler_data:/usr/local/bundle
+      - history:/usr/local/hist
+      # I also mount different configuration files
+      # for better DX
+      - ./.bashrc:/root/.bashrc:ro
+      - ./.irbrc:/root/.irbrc:ro
+      - ./.pryrc:/root/.pryrc:ro
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432
+      REDIS_URL: redis://redis:6379/
+      HISTFILE: /usr/local/hist/.bash_history
+      LANG: C.UTF-8
+      PROMPT_DIRTRIM: 2
+      PS1: '[\W]\! '
+      # Plays nice with gemfiles/*.gemfile files for CI
+      BUNDLE_GEMFILE: ${BUNDLE_GEMFILE:-Gemfile}
+    # And that's the second part of the spell
+    working_dir: ${PWD}
+    tmpfs:
+      - /tmp
+
+  jruby:
+    <<: *ruby
+    image: jruby:latest
+    volumes:
+      - ${PWD}:/${PWD}:cached
+      - bundler_jruby:/usr/local/bundle
+      - history:/usr/local/hist
+      - ./.bashrc:/root/.bashrc:ro
+      - ./.irbrc:/root/.irbrc:ro
+      - ./.pryrc:/root/.pryrc:ro
+
+  ruby-latest:
+    <<: *ruby
+    image: rubocophq/ruby-snapshot:latest
+    volumes:
+      - ${PWD}:/${PWD}:cached
+      - bundler_data_edge:/usr/local/bundle
+      - history:/usr/local/hist
+      - ./.bashrc:/root/.bashrc:ro
+      - ./.irbrc:/root/.irbrc:ro
+      - ./.pryrc:/root/.pryrc:ro
+
+volumes:
+  bundler_data:
+  bundler_jruby:
+  bundler_data_edge:
