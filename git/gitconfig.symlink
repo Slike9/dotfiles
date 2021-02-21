@@ -46,7 +46,6 @@
   rbs = rebase --skip
   rba = rebase --abort
   ap = add -p
-  create-pull-request = !sh -c 'stash pull-request $0 $@'
   url =! bash -c 'git config --get remote.origin.url | sed -re \"s/.+@(.+):(.+)\\.git$/https:\\/\\/\\1\\/\\2/g\"'
   rbd = rebase -i origin/develop --autosquash
 [core]

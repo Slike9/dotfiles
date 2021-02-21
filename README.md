@@ -43,3 +43,11 @@ Everything is configured and tweaked within `~/.dotfiles`.
 
 The main file you'll want to change right off the bat is `bash/bashrc.symlink`,
 which sets up a few paths that'll be different on your particular machine.
+
+## `.local` folder
+
+Place local bash settings to `.local` folder, e.g. setting `PATH` for `rbenv`. The folder is ignored by `git`.
+
+## `Aptfile` file
+
+The file contains programs to install.

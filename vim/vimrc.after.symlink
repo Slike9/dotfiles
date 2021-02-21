@@ -1,4 +1,3 @@
-" vim: set ft=vim
 " .vimrc.after is loaded after the plugins have loaded
 "
 scriptencoding utf-8
@@ -473,3 +472,5 @@ augroup templates
   autocmd!
   autocmd BufNewFile *.rb 0r ~/.my_vim/templates/skeleton.rb
 augroup end
+
+" vim: ft=vim

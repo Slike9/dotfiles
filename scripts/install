@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Run all dotfiles installers.
+
+set -e
+
+cd "$(dirname "$0")"/..
+
+while IFS= read -r -d '' installer
+do
+  sh -c "${installer}"
+done < <(find . -name install.sh -print0)
