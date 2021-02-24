@@ -1,6 +1,5 @@
 alias bx="bundle exec"
 alias bo="bundle open"
-alias v="vagrant"
 alias g='git'
 alias d='docker'
 alias d-c='docker-compose'
