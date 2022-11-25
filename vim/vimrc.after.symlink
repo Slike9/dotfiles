@@ -410,6 +410,10 @@ map <Leader>rx :VimuxInterruptRunner<CR>
 " Zoom the runner pane (use <bind-key> z to restore runner pane)
 map <Leader>rz :call VimuxZoomRunner()<CR>
 
+" map <silent> <LocalLeader>c :VimuxRunCommand "srb tc 2>&1 \| tee tmp/errors.err; sed -i -E -n '/^\\S.*:[0-9]+:/p' tmp/errors.err"<CR>
+" map <silent> <LocalLeader>c :cexpr system("docker exec app-bash srb tc 2>&1 \| sed -E -n '/^\\S.*:[0-9]+:/p'")<CR>
+map <silent> <LocalLeader>c :echo "Running sorbet..." \| redraw \| cexpr system("docker exec app-bash srb tc 2>&1 \| sed -E -n '/^\\S/p'") \| mode<CR>
+
 " vim-run-interactive
 " nnoremap <leader>ri :RunInInteractiveShell<space>
 
