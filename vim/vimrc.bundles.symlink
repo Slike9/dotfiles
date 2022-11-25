@@ -31,7 +31,7 @@ Plug 'airblade/vim-gitgutter'
 
 " Navigation
 Plug 'rking/ag.vim'
-Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'ctrlpvim/ctrlp.vim'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'scrooloose/nerdtree'
 Plug 'google/vim-searchindex'
@@ -42,7 +42,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'jgdavey/tslime.vim'
 Plug 'benmills/vimux'
-Plug 'christoomey/vim-tmux-runner'
+" Plug 'christoomey/vim-tmux-runner'
 " Plug 'lyokha/vim-xkbswitch'
 Plug 'sjl/gundo.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -53,7 +53,6 @@ Plug 'ervandew/supertab'
 Plug 'christoomey/vim-run-interactive'
 Plug 'tpope/vim-projectionist'
 Plug 'editorconfig/editorconfig-vim'
-" Plug 'ajh17/VimCompletesMe'
 Plug 'tpope/vim-classpath'
 Plug 'tmhedberg/matchit'
 Plug 'tpope/vim-vinegar'
@@ -62,6 +61,9 @@ Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'majutsushi/tagbar'
 Plug 'bogado/file-line'
 " Plug 'embear/vim-localvimrc'
+" Plug 'ajh17/VimCompletesMe'
+" Plug 'jayli/vim-easycomplete'
+" Plug 'ycm-core/YouCompleteMe'
 
 " Formatter
 " Plug 'sbdchd/neoformat'
@@ -71,11 +73,14 @@ Plug 'w0rp/ale'
 " Plug 'scrooloose/syntastic'
 
 " Snippets
-Plug 'tomtom/tlib_vim' " required by 'garbas/vim-snipmate'
-Plug 'MarcWeber/vim-addon-mw-utils' " required by 'garbas/vim-snipmate'
-Plug 'garbas/vim-snipmate'
+" Plug 'tomtom/tlib_vim' " required by 'garbas/vim-snipmate'
+" Plug 'MarcWeber/vim-addon-mw-utils' " required by 'garbas/vim-snipmate'
+" Plug 'garbas/vim-snipmate'
+"
+" Snippets engine
+Plug 'SirVer/ultisnips'
+" Snippets
 Plug 'honza/vim-snippets'
-" Plug 'SirVer/ultisnips'
 
 " Programming languages support
 "

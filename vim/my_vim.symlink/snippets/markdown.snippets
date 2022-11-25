@@ -8,64 +8,64 @@
 snippet sec "Section" b
 	# ${1:Section Name} #
 	$0
-endsnippet
+# endsnippet
 
 snippet ssec "Sub Section" b
 	## ${1:Section Name} ##
 	$0
-endsnippet
+# endsnippet
 
 snippet sssec "SubSub Section" b
 	### ${1:Section Name} ###
 	$0
-endsnippet
+# endsnippet
 
 snippet par "Paragraph" b
 	#### ${1:Paragraph Name} ####
 	$0
-endsnippet
+# endsnippet
 
 snippet spar "Paragraph" b
 	##### ${1:Paragraph Name} #####
 	$0
-endsnippet
+# endsnippet
 
 ################
 # Common stuff #
 ################
-snippet link "link now" i 
+snippet link "link now" i
 	[${1:VISUAL Text}](${3:http://${2:www.url.com}} ${4:"$1"})$0
-endsnippet
+# endsnippet
 
 snippet link "link later" i
 	[${1:VISUAL Text}][${2:$1}]$0
 	[$2]:   "link address" ${3"$1"}
-endsnippet
+# endsnippet
 
 snippet	eq "inline equation" i
 	\\\\(${1:a^2 \\\\log}\\\\)$0
-endsnippet
+# endsnippet
 
 snippet eq "display Equation" i
 	$$${1:a^2}$$
-endsnippet
+# endsnippet
 
 snippet todo "this is a comment"
 	<!--- ${1:content}  | `!v strftime("%c")`--->
 	$0
-endsnippet
+# endsnippet
 
 snippet img "html image"
 	<img src="${1:path}" alt="${2:AlterText}" width="${3:400}"/>
-endsnippet
+# endsnippet
 
 snippet img "markdown image"
 	![${1:pic alt}](${2:path} "${3:$1}")$0
-endsnippet
+# endsnippet
 
 snippet head "head for my blog"
 	---
-	layout: ${1:post} 
+	layout: ${1:post}
 	category : ${2:category type}
 	title: ${3:Title String}
 	matheq: ${4:no}
@@ -75,17 +75,17 @@ snippet head "head for my blog"
 	tags : [${8:Tag1}, ${9:Tag2}, ${10:Tag3}]
 	---
 	$0
-endsnippet
+# endsnippet
 
 snippet code "insert code"
 	{% highlight ${1:python or r} ${2:linenos} %}
 	${3:code here}
 	{% endhighlight %}
 	$0
-endsnippet
+# endsnippet
 
 snippet	color "color text"
 	<font color="${1:red}">${2}</font>$0
-endsnippet
+# endsnippet
 
 # vim:ft=snippets:

@@ -23,6 +23,7 @@
   ci = commit
   cin = commit -n
   cinm = commit -n -m
+  cim = commit -m
   st = status -sb
   ds = diff --staged
   amend = commit --amend -C HEAD
@@ -48,6 +49,7 @@
   ap = add -p
   url =! bash -c 'git config --get remote.origin.url | sed -re \"s/.+@(.+):(.+)\\.git$/https:\\/\\/\\1\\/\\2/g\"'
   rbd = rebase -i origin/develop --autosquash
+  fp = fetch --prune
 [core]
   editor = vim
   excludesfile = /home/sergey/.gitignore

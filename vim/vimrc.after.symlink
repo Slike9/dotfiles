@@ -225,18 +225,22 @@ nnoremap <silent> <leader>bn :bn<CR>
 nnoremap <silent> <leader>bp :bp<CR>
 
 " ctrlp
-nnoremap <leader>. :CtrlPTag<CR>
+" nnoremap <leader>. :CtrlPTag<CR>
+
+" fzf
+nnoremap <leader>. :Tags<CR>
+nnoremap <C-p> :FZF<CR>
 
 " Tabs
 nnoremap <silent> <M-Left> :tabprevious<CR>
 nnoremap <silent> <M-Right> :tabnext<CR>
 
 " fugitive
-nmap <leader>gb :Gblame<CR>
-nmap <leader>gs :Gstatus<CR>
+nmap <leader>gb :Git blame<CR>
+nmap <leader>gs :Git<CR>
 nmap <leader>gd :Gdiff<CR>
 nmap <leader>gl :Glog<CR>
-nmap <leader>gc :Gcommit<CR>
+nmap <leader>gc :Git commit<CR>
 nmap <leader>gp :Git push<CR>
 
 " EasyMotion
@@ -324,10 +328,11 @@ augroup END
 let g:paredit_leader = ','
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Spell cheking
+" Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-setlocal spell spelllang=ru_ru,en_us
-"set spell
+" set spelllang=ru_ru,en_us
+set spelllang=en_us
+set spell
 
 " Vim и кириллица - XkbSwitch (не удалось завести под Linux)
 "let g:XkbSwitchEnabled = 1
@@ -391,7 +396,7 @@ nmap <LocalLeader>tv :TestVisit<CR>
 let g:test#strategy = 'vimux'
 
 " Plug 'benmills/vimux'
-let g:VimuxRunnerType = 'window'
+let g:VimuxRunnerType = 'pane'
 " Prompt for a command to run
 map <Leader>rp :VimuxPromptCommand<CR>
 " Run last command executed by VimuxRunCommand

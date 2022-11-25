@@ -6,5 +6,7 @@ alias d-c='docker-compose'
 alias d.c='docker-compose'
 alias mux='tmuxinator'
 alias r='fc -s'
+alias bx='bundle exec'
+alias k='kubectl'
 
 # vim: ft=bash
