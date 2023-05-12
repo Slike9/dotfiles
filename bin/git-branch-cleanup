@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+echo "Fetching remote branches..."
+git fetch --prune
+
+git branch -v --list | grep -F ' [gone] ' | awk '{ print $1 }' | xargs -r git branch -D
