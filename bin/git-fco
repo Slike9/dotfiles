@@ -1,8 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-set -eu
+set -euo pipefail
+IFS=$'\n\t'
 
-branch=$(git branch | grep "$1" | head -1)
+branch=$(git branch --list "$1" | head -1)
 if [[ -n "$branch" ]]; then
   git checkout "$branch"
 else
