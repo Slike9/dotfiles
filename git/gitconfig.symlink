@@ -14,7 +14,7 @@
   #pager = auto
 [alias]
   co = checkout
-  fco =! git branch | fzf | xargs -r git checkout
+  # fco =! git branch --sort=committerdate | fzf --tac --no-sort | xargs -r git checkout
   b = branch -v --sort=committerdate
   r = remote -v
   t = tag -l

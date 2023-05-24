@@ -3,9 +3,12 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-branch=$(git branch --list "$1" | head -1)
-if [[ -n "$branch" ]]; then
-  git checkout "$branch"
+query=${1-}
+
+if [ "$query" = "-" ]; then
+  git checkout -
 else
-  echo "Branch not found" 1>&2
+  git branch --sort=committerdate |
+    fzf --tac --no-sort --query="$query" --select-1 |
+    xargs --no-run-if-empty git checkout
 fi
