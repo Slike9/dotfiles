@@ -14,6 +14,7 @@
   #pager = auto
 [alias]
   co = checkout
+  fco =! git branch | fzf | xargs -r git checkout
   b = branch -v --sort=committerdate
   r = remote -v
   t = tag -l
@@ -47,6 +48,7 @@
   rbs = rebase --skip
   rba = rebase --abort
   ap = add -p
+  fap =! git diff --name-only | fzf --multi --exit-0 | xargs --no-run-if-empty --open-tty git add -p
   url =! bash -c 'git config --get remote.origin.url | sed -re \"s/.+@(.+):(.+)\\.git$/https:\\/\\/\\1\\/\\2/g\"'
   rbd = rebase -i origin/develop --autosquash
   fp = fetch --prune
