@@ -1,8 +1,11 @@
+bat
+ctags
 curl
+fd-find
+fzf
 git
 nvim
-tmux
 shellcheck
 silversearcher-ag
+tmux
 xsel
-ctags
