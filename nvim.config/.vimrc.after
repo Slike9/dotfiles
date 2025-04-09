@@ -1,0 +1,273 @@
+" .vimrc.after is loaded after the plugins have loaded
+"
+scriptencoding utf-8
+
+" Перемещаемся построчно по тексту который не поместился в строке
+nnoremap j gj
+nnoremap k gk
+
+syntax enable          " Включить подсветку синтаксиса
+set t_Co=256           " Использовать 256 цветов
+set background=light   " Установить светлый фон
+" set background=dark   " Установить светлый фон
+colorscheme solarized
+let g:solarized_termtrans=1
+set notermguicolors
+
+" set nocompatible
+filetype plugin indent on
+syntax on
+
+" Softtabs, 2 spaces
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set shiftround
+set expandtab
+
+" Display extra whitespace
+set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
+set list
+
+" Use one space, not two, after punctuation.
+set nojoinspaces
+
+set grepprg=rg\ --vimgrep\ --color=never\ --hidden
+
+" Make it obvious where 80 characters is
+"set textwidth=80
+"set colorcolumn=+1
+
+" Numbers
+set number
+"set numberwidth=5
+"set relativenumber
+
+" Disable beep and flash
+set noerrorbells visualbell t_vb=
+
+" Search
+set hlsearch           " Подсветка
+set incsearch          " Поиск во время набора
+set ignorecase         " Игнорировать регистр
+set smartcase          " Учитывать регистр только если он есть
+"set nowrapscan        " Searches wrap around the end of the file.
+nnoremap <silent> <ESC> :nohlsearch<CR>
+" Search for visually selected text
+vnoremap // y/\V<C-R>"<CR>
+
+" Предлагать все варианты при автодополнении в строке команд
+set wildmenu
+set wildmode=list:longest,full
+
+" Перемещать окно если мы находимся за 5 строк до конца и 3 символа
+" вправо-влево
+"set scrolljump=5
+set scrolloff=3
+
+" Quicker window movement
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
+set wrap               " Перенос длинных строк
+
+" Автоматически перемещать курсор на величину отступа после
+" открытия блока кода
+set autoindent
+set foldenable         " Автоматическое форматирование кода
+
+set autowriteall
+set hidden
+
+" reload .vimrc
+map <leader>vr :source $MYVIMRC<CR>
+map <leader>ve :e ~/.vimrc.after<CR>
+map <leader>vb :e ~/.vimrc.bundles<CR>
+
+" Передвижение блоков когда по отступам в визуальном режиме
+vnoremap < <gv
+vnoremap > >gv
+
+" Toggle paste mode
+" set pastetoggle=<F4>
+
+" upper/lower word
+nmap <leader>u mQviwU`Q
+nmap <leader>l mQviwu`Q
+
+" upper/lower first char of word
+nmap <leader>U mQgewvU`Q
+nmap <leader>L mQgewvu`Q
+
+" Some helpers to edit mode
+" http://vimcasts.org/e/14
+nmap <leader>ew :e <C-R>=expand('%:h').'/'<cr>
+nmap <leader>es :sp <C-R>=expand('%:h').'/'<cr>
+nmap <leader>ev :vsp <C-R>=expand('%:h').'/'<cr>
+nmap <leader>et :tabe <C-R>=expand('%:h').'/'<cr>
+
+" Linux browser
+nnoremap <leader>ow :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs sensible-browser<CR><CR>
+nnoremap <leader>oW :!echo `git url`/blob/`git rev-parse HEAD`/%\#L<C-R>=line('.')<CR> \| xargs sensible-browser<CR><CR>
+
+" Navigation in command line
+cnoremap <C-a> <Home>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+
+" Saving
+nnoremap <leader>w :write<CR>
+vnoremap <leader>w <ESC>:write<CR>
+nnoremap <leader>s :update<CR>
+vnoremap <leader>s <ESC>:update<CR>
+
+inoremap <C-b> <left>
+inoremap <C-f> <right>
+
+" ESC mapping
+inoremap <C-l> <ESC>:write<CR>
+vnoremap <C-l> <ESC>
+cnoremap <C-l> <C-c>
+
+" quickfix list movement
+nnoremap <silent><Leader>qj :cnext<CR>
+nnoremap <silent><Leader>qk :cprev<CR>
+nnoremap <silent><Leader>qn :cnext<CR>
+nnoremap <silent><Leader>qp :cprev<CR>
+nnoremap <silent><Leader>qq :cclose<CR>
+
+" paste current file name with current line
+nnoremap <silent> <leader>yp :let @+=expand("%") . ":" . line(".")<CR>
+nnoremap <silent> <leader>yf :let @+=expand("%")<CR>
+
+" Autoformat
+nnoremap <silent> <leader>= :Autoformat<CR>
+vnoremap <silent> <leader>= :Autoformat<CR>
+
+" NERDTree
+nnoremap <silent> <F2> :NERDTreeToggle<CR>
+nnoremap <silent> <M-F1> :NERDTreeFind<CR>
+nnoremap <silent> <leader>tf :NERDTreeFind<CR>
+
+" Buffers
+" nnoremap <silent> <F12> :bn<CR>
+" nnoremap <silent> <S-F12> :bp<CR>
+" nnoremap <silent> <C-M-Right> :bn<CR>
+" nnoremap <silent> <C-M-Left> :bp<CR>
+nnoremap <silent> <leader>bb :b#<CR>
+" nnoremap <silent> <leader>bn :bn<CR>
+" nnoremap <silent> <leader>bp :bp<CR>
+
+" Tabs
+nnoremap <silent> <M-Left> :tabprevious<CR>
+nnoremap <silent> <M-Right> :tabnext<CR>
+
+" fugitive
+nmap <leader>gb :Git blame<CR>
+nmap <leader>gd :Gdiff<CR>
+nmap <leader>gl :Glog<CR>
+nmap <leader>gc :Git commit<CR>
+nmap <leader>gp :Git push<CR>
+
+" EasyMotion
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+let g:EasyMotion_smartcase = 1 " Turn on case insensitive feature
+map s <Plug>(easymotion-s)
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+"nmap <Leader>s <Plug>(easymotion-overwin-f)
+" or
+" `s{char}{char}{label}`
+" Need one more keystroke, but on average, it may be more comfortable.
+map f <Plug>(easymotion-fl)
+map F <Plug>(easymotion-Fl)
+map t <Plug>(easymotion-tl)
+map T <Plug>(easymotion-Tl)
+map  <Leader>/ <Plug>(easymotion-sn)
+omap <Leader>/ <Plug>(easymotion-tn)
+" JK motions: Line motions
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map <Leader><Leader>w <Plug>(easymotion-bd-w)
+map <Leader><Leader>e <Plug>(easymotion-bd-e)
+
+" Buffers
+vnoremap <C-c> "+ygv"*y
+inoremap <C-v> <C-R>+
+
+" grep
+nnoremap <silent> <leader>fw :grep -w <C-R><C-W><CR>:cw<CR>
+vnoremap <silent> <leader>fw y:grep "<C-R>""<CR>:cw<CR>
+
+" auto-pairs
+augroup custom_auto_pairs
+  autocmd!
+  autocmd FileType ruby let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '|':'|'}
+augroup END
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Spell checking
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" set spelllang=ru_ru,en_us
+set spelllang=en_us
+set spell
+
+" Vim и кириллица - XkbSwitch (не удалось завести под Linux)
+"let g:XkbSwitchEnabled = 1
+"let g:XkbSwitchLib = '/usr/local/lib/libxkbswitch.so'
+"let g:XkbSwitchIMappings = ['ru']
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Vim и кириллица
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set keymap=russian-jcukenwin
+set iminsert=0
+set imsearch=0
+highlight lCursor guifg=NONE guibg=Cyan
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Commands
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" NERDTree (from https://github.com/carlhuda/janus/blob/master/janus%2Fvim%2Ftools%2Fjanus%2Fafter%2Fplugin%2Fnerdtree.vim)
+augroup AuNERDTreeCmd
+  autocmd!
+  autocmd AuNERDTreeCmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
+augroup END
+
+" If the parameter is a directory, cd into it
+function! s:CdIfDirectory(directory)
+  let l:explicitDirectory = isdirectory(a:directory)
+  let l:directory = l:explicitDirectory || empty(a:directory)
+
+  if l:explicitDirectory
+    exe 'cd ' . fnameescape(a:directory)
+  endif
+
+  " Allows reading from stdin
+  " ex: git diff | mvim -R -
+  if strlen(a:directory) == 0
+    return
+  endif
+
+  if l:directory
+    NERDTree
+    wincmd p
+    bd
+  endif
+
+  if l:explicitDirectory
+    wincmd p
+  endif
+endfunction
+
+" templates
+augroup templates
+  autocmd!
+  autocmd BufNewFile *.rb 0r ~/.my_vim/templates/skeleton.rb
+augroup end
+
+" vim: ft=vim
