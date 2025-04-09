@@ -13,47 +13,50 @@
   ui = auto
   #pager = auto
 [alias]
-  co = checkout
-  # fco =! git branch --sort=committerdate | fzf --tac --no-sort | xargs -r git checkout
-  b = branch -v --sort=committerdate
-  r = remote -v
-  t = tag -l
-  cp = cherry-pick -x
-  co = checkout
-  br = branch
-  ci = commit
-  cin = commit -n
-  cinm = commit -n -m
-  cim = commit -m
-  st = status -sb
-  ds = diff --staged
   amend = commit --amend -C HEAD
-  undo = reset --soft HEAD^
-  unstage = reset HEAD --
-  uncommit = reset --soft HEAD^
-  last = log -1 HEAD
-  up = pull --rebase
-  put = push origin HEAD
-  latest = for-each-ref --sort=-committerdate --format='%(committerdate:short) %(refname:short) [%(committername)]'
-  ls = log --decorate --date=short
+  ap = add -p
+  b = branch -v --sort=committerdate
+  bc = checkout -b
+  br = branch
+  c = commit
+  cm = commit -m
+  cf = commit --fixup
+  co = checkout
+  cp = cherry-pick
+  cpx = cherry-pick -x
+  cpc = cherry-pick --continue
+  ds = diff --staged
+  f = fetch --prune
   graph = log --graph --pretty=format':%C(yellow)%h%Cblue%d%Creset %s %C(white) %an, %ar%Creset'
-  lol = log --pretty=format:'%h %ad %<(17,trunc)%an %s' --date=short --decorate
-  lo = log --oneline
-  lp = log --patch
+  l = log --decorate --date=short
+  last = log -1 HEAD
+  latest = for-each-ref --sort=-committerdate --format='%(committerdate:short) %(refname:short) [%(committername)]'
   lb = log HEAD ^develop --first-parent --no-merges
   lbo = log --oneline HEAD ^develop --first-parent --no-merges
-  semtag = !git tag -a $(semver tag) -m \"tagging $(semver tag)\"
-  rb = rebase
-  rbc = rebase --continue
-  rbs = rebase --skip
-  rba = rebase --abort
-  ap = add -p
-  fap =! git diff --name-only | fzf --multi --exit-0 | xargs --no-run-if-empty --open-tty git add -p
+  lo = log --oneline
+  lol = log --pretty=format:'%h %ad %<(17,trunc)%an %s' --date=short --decorate
+  lp = log --patch
+  ls = log --decorate --date=short
+  m = merge
+  put = push origin HEAD
+  r = rebase
+  ri = rebase -i --autosquash
+  ra = rebase --abort
+  rc = rebase --continue
+  rd = rebase -i --autosquash origin/develop
+  rs = rebase --skip
+  rst = reset --hard @{upstream}
+  st = status -sb
+  t = tag -l
+  tci =! git add . && git commit -m tmp
+  unci = reset HEAD~1
+  uncommit = reset --soft HEAD^
+  undo = reset --soft HEAD^
+  unstage = reset HEAD --
+  up = pull --rebase
   url =! bash -c 'git config --get remote.origin.url | sed -re \"s/.+@(.+):(.+)\\.git$/https:\\/\\/\\1\\/\\2/g\"'
-  rbd = rebase -i origin/develop --autosquash
-  fp = fetch --prune
 [core]
-  editor = vim
+  editor = nvim
   excludesfile = /home/sergey/.gitignore
   attributesfile = /home/sergey/.gitattributes
 [credential]
