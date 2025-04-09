@@ -6,6 +6,7 @@ fzf
 git
 nvim
 shellcheck
-silversearcher-ag
+ripgrep
 tmux
 xsel
+lazygit
