@@ -310,11 +310,34 @@ return {
     },
   },
 
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    ft = { "markdown", "Avante", "codecompanion" },
+  },
+
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        ruby = { "rubocop" },
+      },
+    },
+    keys = {
+      {
+        "<Leader>=",
+        mode = "",
+        function()
+          require("conform").format{ async = true, lsp_fallback = true }
+        end,
+        desc = "Format"
+      }
+    }
+  },
+
   { dir="~/.my_vim" },
 
   -- Not frequently used
   { 'tpope/vim-dispatch', cmd = "Dispatch" },
   { "nvim-telescope/telescope.nvim", cmd = "Telescope" },
-  { "Chiel92/vim-autoformat", cmd = "Autoformat" },
   { 'majutsushi/tagbar', cmd = "Tagbar" },
 };
