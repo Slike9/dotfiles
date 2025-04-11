@@ -24,8 +24,13 @@ return {
       require('lualine').setup {
         sections = {
           lualine_b = { 'branch' },
-          lualine_c = { 'diff', 'diagnostics', 'filename' },
-          lualine_x = { "lsp_status", 'encoding', 'fileformat', 'filetype' },
+          lualine_c = {
+            'diff',
+            'diagnostics',
+            { 'filetype', icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+            { 'filename', padding = 0 },
+          },
+          lualine_x = { "lsp_status", 'encoding', 'fileformat' },
         }
       }
     end,
