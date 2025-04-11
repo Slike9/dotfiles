@@ -151,9 +151,83 @@ return {
   --   end
   -- },
 
-  -- Snippets
-  'SirVer/ultisnips',
-  'honza/vim-snippets',
+  -- Autocomplete
+  {
+    "SirVer/ultisnips",
+    init = function()
+      vim.g.UltiSnipsExpandOrJumpTrigger = "<Tab>"
+    end,
+  },
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "SirVer/ultisnips",
+      "quangnguyen30192/cmp-nvim-ultisnips",
+      "honza/vim-snippets",
+      "quangnguyen30192/cmp-nvim-tags",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-nvim-lsp",
+      -- "hrsh7th/cmp-path",
+      -- "rafamadriz/friendly-snippets",
+    },
+    opts = function()
+      local cmp = require("cmp")
+      local auto_select = true
+      local t = function(str)
+        return vim.api.nvim_replace_termcodes(str, true, true, true)
+      end
+      return {
+        auto_brackets = {}, -- configure any filetype to auto add brackets
+        completion = {
+          autocomplete = false,
+          completeopt = "menu,menuone,noinsert" .. (auto_select and "" or ",noselect"),
+        },
+        preselect = auto_select and cmp.PreselectMode.Item or cmp.PreselectMode.None,
+        snippet = {
+          expand = function(args)
+            vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+          end,
+        },
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
+        mapping = cmp.mapping.preset.insert({
+          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+          ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+          ["<C-j>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+          ["<C-k>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+          ['<C-Space>'] = cmp.mapping.complete(),
+          ['<C-e>'] = cmp.mapping.abort(),
+          ['<CR>'] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
+          ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+          ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+        }),
+        sources = cmp.config.sources({
+          { name = "ultisnips" },
+        }, {
+          { name = "nvim_lsp" },
+          { name = "buffer" },
+          -- { name = "tags" }
+        })
+      }
+    end,
+  },
 
   -- Ruby
   {
@@ -191,7 +265,7 @@ return {
       }
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      -- capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
       require'lspconfig'.ruby_lsp.setup{
         capabilities = capabilities,
