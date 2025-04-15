@@ -31,6 +31,7 @@ return {
             { 'filename', padding = 0 },
           },
           lualine_x = { "lsp_status", 'encoding', 'fileformat' },
+          lualine_z = { 'location', { "vim.fn.line('$')", icon = "" }, }
         }
       }
     end,
