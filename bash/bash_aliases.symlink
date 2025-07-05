@@ -1,12 +1,13 @@
+alias b="bundle"
 alias bx="bundle exec"
-alias bo="bundle open"
 alias g='git'
+alias lg='lazygit'
 alias d='docker'
-alias d-c='docker-compose'
-alias d.c='docker-compose'
+alias dk='docker-compose'
 alias mux='tmuxinator'
 alias r='fc -s'
-alias bx='bundle exec'
 alias k='kubectl'
+alias vim=nvim
+alias m=mise
 
 # vim: ft=bash

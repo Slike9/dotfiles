@@ -25,13 +25,16 @@ return {
         sections = {
           lualine_b = { 'branch' },
           lualine_c = {
-            'diff',
-            'diagnostics',
-            { 'filetype', icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-            { 'filename', padding = 0 },
+            'diff', 'diagnostics', 'filename',
+            -- { "navic", color_correction = nil, navic_opts = nil },
           },
-          lualine_x = { "lsp_status", 'encoding', 'fileformat' },
-          lualine_z = { 'location', { "vim.fn.line('$')", icon = "" }, }
+          lualine_x = { "lsp_status", 'encoding', 'fileformat', { 'filetype', icon_only = true } },
+          lualine_z = { 'location', { "vim.fn.line('$')", icon = "" } },
+        },
+        winbar = {
+          lualine_c = {
+            { "navic", color_correction = nil, navic_opts = nil },
+          }
         }
       }
     end,
@@ -111,11 +114,13 @@ return {
         ["--layout"] = "default",
       },
     },
+    cmd = "FzfLua",
     keys = {
       { "<C-p>", function() require("fzf-lua").files() end, mode = "n", desc = "Find files" },
       { "<Leader>ff", function() require("fzf-lua").files() end, mode = "n", desc = "Find files" },
+      { "<Leader>fs", function() require("fzf-lua").lsp_live_workspace_symbols() end, mode = "n", desc = "FzfLua lsp_live_workspace_symbols" },
       { "<Leader>fc", function() require("fzf-lua").files{ cwd = vim.fn.stdpath("config") } end, mode = "n", desc = "Find config files" },
-      { "<C-b>", function() require("fzf-lua").buffers() end, mode = "n", desc = "Find buffers" },
+      { "<C-b>", function() require("fzf-lua").buffers{winopts = {preview = {hidden = true}}} end, mode = "n", desc = "Find buffers" },
       { "<Leader>fb", function() require("fzf-lua").buffers() end, mode = "n", desc = "Find buffers" },
       { "<Leader>.", function() require("fzf-lua").tags() end, mode = "n", desc = "Find tags" },
       { "<Leader>ft", function() require("fzf-lua").tags() end, mode = "n", desc = "Find tags" },
@@ -255,6 +260,7 @@ return {
   'tpope/vim-rails',
   'tpope/vim-rake',
   'vim-ruby/vim-ruby',
+  "SmiteshP/nvim-navic",
 
   -- LSP
   {
@@ -262,6 +268,7 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
+      -- "SmiteshP/nvim-navic",
     },
     opts = {},
     config = function()
@@ -273,13 +280,17 @@ return {
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
+      local navic = require("nvim-navic")
       require'lspconfig'.ruby_lsp.setup{
         capabilities = capabilities,
         init_options = {
           enabledFeatures = {
             semanticHighlighting = false,
           }
-        }
+        },
+        on_attach = function(client, bufnr)
+          navic.attach(client, bufnr)
+        end,
       }
       -- require'lspconfig'.rubocop.setup{
       --   capabilities = capabilities,
@@ -435,10 +446,59 @@ return {
     },
   },
 
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    ---@type snacks.Config
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+      -- bigfile = { enabled = true },
+      dashboard = { enabled = true },
+      -- explorer = { enabled = true },
+      -- indent = { enabled = true },
+      -- input = { enabled = true },
+      -- picker = { enabled = true },
+      -- notifier = { enabled = true },
+      -- quickfile = { enabled = true },
+      -- scope = { enabled = true },
+      -- scroll = { enabled = true },
+      -- statuscolumn = { enabled = true },
+      -- words = { enabled = true },
+      scratch = { enabled = true },
+    },
+    keys = {
+      { "<LocalLeader>s",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
+      { "<LocalLeader>S",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
+    },
+  },
+
+  -- { "github/copilot.vim" },
+
   { dir="~/.my_vim" },
 
   -- Not frequently used
   { 'tpope/vim-dispatch', cmd = "Dispatch" },
-  { "nvim-telescope/telescope.nvim", cmd = "Telescope" },
+  {
+    "nvim-telescope/telescope.nvim",
+    opts = {
+      defaults = {
+        mappings = {
+          i = {
+            -- ["<esc>"] = require("telescope.actions").close,
+            ["<C-u>"] = false,
+            ["<C-j>"] = require("telescope.actions").move_selection_next,
+            ["<C-k>"] = require("telescope.actions").move_selection_previous,
+          },
+        },
+      },
+    },
+    cmd = "Telescope",
+    keys = {
+      -- { "<leader>fs", require('telescope.builtin').lsp_dynamic_workspace_symbols, desc = "Telescope lsp_dynamic_workspace_symbols" },
+    },
+  },
   { 'majutsushi/tagbar', cmd = "Tagbar" },
 };
