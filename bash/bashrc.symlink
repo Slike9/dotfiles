@@ -152,5 +152,6 @@ do
   source "$file"
 done < <(find "$dotfiles_root" -maxdepth 2 -name 'completion.bash' -print0)
 
+export PATH="$PATH:$dotfiles_root/bin"
 
 # vim: ft=bash
