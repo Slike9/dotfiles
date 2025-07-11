@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+query=${1-}
+
+if [ "$query" = "-" ]; then
+  git checkout -
+else
+  git branch --sort=committerdate |
+    fzf --tac --no-sort --query="$query" --select-1 |
+    xargs --no-run-if-empty git checkout
+fi
