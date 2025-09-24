@@ -94,7 +94,7 @@ return {
       {
         "<LocalLeader>c",
         function()
-          vim.cmd"AsyncRun bundle exec srb tc"
+          vim.cmd"AsyncRun bundle exec srb tc --no-error-sections 2>&1 | grep -E '^[^[:space:]]'"
           vim.cmd"copen"
           vim.cmd"wincmd p"
         end,
@@ -281,7 +281,7 @@ return {
       capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
       local navic = require("nvim-navic")
-      require'lspconfig'.ruby_lsp.setup{
+      vim.lsp.config('ruby_lsp', {
         capabilities = capabilities,
         init_options = {
           enabledFeatures = {
@@ -291,14 +291,20 @@ return {
         on_attach = function(client, bufnr)
           navic.attach(client, bufnr)
         end,
-      }
-      -- require'lspconfig'.rubocop.setup{
+      })
+      vim.lsp.enable('ruby_lsp')
+
+      -- vim.lsp.config('rubocop', {
       --   capabilities = capabilities,
-      -- }
-      require'lspconfig'.sorbet.setup{
+      -- })
+      -- vim.lsp.enable('rubocop')
+
+      vim.lsp.config('sorbet', {
         capabilities = capabilities,
-      }
-      require'lspconfig'.lua_ls.setup{
+      })
+      vim.lsp.enable('sorbet')
+
+      vim.lsp.config('lua_ls', {
         capabilities = capabilities,
         settings = {
           Lua = {
@@ -307,7 +313,8 @@ return {
             diagnostics = { globals = { "vim" } },
           },
         },
-      }
+      })
+      vim.lsp.enable('lua_ls')
     end
   },
 
