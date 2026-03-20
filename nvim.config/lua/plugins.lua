@@ -58,7 +58,14 @@ return {
   'tpope/vim-eunuch',
   'tpope/vim-unimpaired',
   'terryma/vim-multiple-cursors',
-  'AndrewRadev/splitjoin.vim',
+  {
+    'AndrewRadev/splitjoin.vim',
+    config = function()
+      vim.g.splitjoin_ruby_curly_braces = 0
+      vim.g.splitjoin_ruby_hanging_args = 0
+      vim.g.splitjoin_ruby_options_as_arguments = 1
+    end,
+  },
   {
     'jlanzarotta/bufexplorer',
     keys = {
@@ -118,7 +125,7 @@ return {
     keys = {
       { "<C-p>", function() require("fzf-lua").files() end, mode = "n", desc = "Find files" },
       { "<Leader>ff", function() require("fzf-lua").files() end, mode = "n", desc = "Find files" },
-      { "<Leader>fs", function() require("fzf-lua").lsp_live_workspace_symbols() end, mode = "n", desc = "FzfLua lsp_live_workspace_symbols" },
+      { "<Leader>fs", function() require("fzf-lua").lsp_document_symbols() end, mode = "n", desc = "FzfLua lsp_document_symbols" },
       { "<Leader>fc", function() require("fzf-lua").files{ cwd = vim.fn.stdpath("config") } end, mode = "n", desc = "Find config files" },
       { "<C-b>", function() require("fzf-lua").buffers{winopts = {preview = {hidden = true}}} end, mode = "n", desc = "Find buffers" },
       { "<Leader>fb", function() require("fzf-lua").buffers() end, mode = "n", desc = "Find buffers" },
