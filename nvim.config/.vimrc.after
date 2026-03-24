@@ -3,8 +3,8 @@
 scriptencoding utf-8
 
 " Перемещаемся построчно по тексту который не поместился в строке
-nnoremap j gj
-nnoremap k gk
+" nnoremap j gj
+" nnoremap k gk
 
 syntax enable          " Включить подсветку синтаксиса
 set t_Co=256           " Использовать 256 цветов
@@ -66,10 +66,10 @@ set wildmode=list:longest,full
 set scrolloff=3
 
 " Quicker window movement
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
+" nnoremap <C-j> <C-w>j
+" nnoremap <C-k> <C-w>k
+" nnoremap <C-h> <C-w>h
+" nnoremap <C-l> <C-w>l
 
 set wrap               " Перенос длинных строк
 
@@ -82,19 +82,19 @@ set autowriteall
 set hidden
 
 " Передвижение блоков когда по отступам в визуальном режиме
-vnoremap < <gv
-vnoremap > >gv
+" vnoremap < <gv
+" vnoremap > >gv
 
 " Toggle paste mode
 " set pastetoggle=<F4>
 
 " upper/lower word
-nmap <leader>u mQviwU`Q
-nmap <leader>l mQviwu`Q
+" nmap <leader>u mQviwU`Q
+" nmap <leader>l mQviwu`Q
 
 " upper/lower first char of word
-nmap <leader>U mQgewvU`Q
-nmap <leader>L mQgewvu`Q
+" nmap <leader>U mQgewvU`Q
+" nmap <leader>L mQgewvu`Q
 
 " Some helpers to edit mode
 " http://vimcasts.org/e/14
@@ -147,7 +147,7 @@ nnoremap <silent> <leader>tf :NERDTreeFind<CR>
 " nnoremap <silent> <S-F12> :bp<CR>
 " nnoremap <silent> <C-M-Right> :bn<CR>
 " nnoremap <silent> <C-M-Left> :bp<CR>
-nnoremap <silent> <leader>bb :b#<CR>
+" nnoremap <silent> <leader>bb :b#<CR>
 " nnoremap <silent> <leader>bn :bn<CR>
 " nnoremap <silent> <leader>bp :bp<CR>
 
