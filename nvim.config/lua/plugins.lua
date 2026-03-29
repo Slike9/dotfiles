@@ -85,17 +85,11 @@ return {
   'tpope/vim-abolish',
   'tpope/vim-repeat',
   'tpope/vim-surround',
-  -- 'tpope/vim-endwise',
   'tpope/vim-eunuch',
   'tpope/vim-unimpaired',
-  {
-    "RRethy/nvim-treesitter-endwise",
-    -- dependencies = "nvim-treesitter/nvim-treesitter",
-    lazy = false,
-    -- event = "InsertEnter",
-  },
 
-  -- 'terryma/vim-multiple-cursors',
+  { "RRethy/nvim-treesitter-endwise", lazy = false },
+
   'mg979/vim-visual-multi',
 
   {
@@ -113,9 +107,6 @@ return {
     }
   },
   'scrooloose/nerdtree',
-  -- 'google/vim-searchindex',
-  -- 'easymotion/vim-easymotion',
-  -- 'ervandew/supertab',
   'tpope/vim-projectionist',
   "wsdjeg/vim-fetch", -- Open a file in a given line.
 
@@ -154,8 +145,6 @@ return {
     "ibhagwan/fzf-lua",
     -- optional for icon support
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    -- or if using mini.icons/mini.nvim
-    -- dependencies = { "echasnovski/mini.icons" },
     opts = {
       fzf_opts = {
         ["--layout"] = "default",
@@ -197,7 +186,6 @@ return {
       { "<leader>gp", ":Git push<CR>", desc = "Git push"},
     },
   },
-  -- 'airblade/vim-gitgutter',
   {
     'lewis6991/gitsigns.nvim',
     config = {
@@ -269,19 +257,6 @@ return {
 
   -- Linter
   -- {
-  --   'w0rp/ale',
-  --   config = function()
-  --     vim.g["airline#extensions#ale#enabled"] = 1
-  --     vim.g.ale_lint_on_text_changed = 'never'
-  --     vim.g.ale_set_loclist = 1
-  --     vim.g.ale_open_list = 0
-  --     vim.g.ale_virtualtext_cursor = 'disabled'
-  --     vim.g.ale_ruby_rubocop_executable = 'bundle'
-  --     -- vim.g.ale_set_quickfix = 1
-  --     -- vim.g.ale_keep_list_window_open = 1
-  --   end
-  -- },
-  -- {
   --   'mfussenegger/nvim-lint',
   --   event = { "BufWritePost", "BufReadPost" },
   --   config = function()
@@ -292,84 +267,6 @@ return {
   --   end,
   -- },
 
-  -- Autocomplete
-  -- {
-  --   "SirVer/ultisnips",
-  --   init = function()
-  --     vim.g.UltiSnipsExpandOrJumpTrigger = "<Tab>"
-  --   end,
-  -- },
-
-  -- {
-  --   "hrsh7th/nvim-cmp",
-  --   dependencies = {
-  --     "SirVer/ultisnips",
-  --     "quangnguyen30192/cmp-nvim-ultisnips",
-  --     "honza/vim-snippets",
-  --     "quangnguyen30192/cmp-nvim-tags",
-  --     "hrsh7th/cmp-buffer",
-  --     "hrsh7th/cmp-nvim-lsp",
-  --     -- "hrsh7th/cmp-path",
-  --     -- "rafamadriz/friendly-snippets",
-  --   },
-  --   opts = function()
-  --     local cmp = require("cmp")
-  --     local auto_select = true
-  --     local t = function(str)
-  --       return vim.api.nvim_replace_termcodes(str, true, true, true)
-  --     end
-  --     return {
-  --       auto_brackets = {}, -- configure any filetype to auto add brackets
-  --       completion = {
-  --         autocomplete = false,
-  --         completeopt = "menu,menuone,noinsert" .. (auto_select and "" or ",noselect"),
-  --       },
-  --       preselect = auto_select and cmp.PreselectMode.Item or cmp.PreselectMode.None,
-  --       snippet = {
-  --         expand = function(args)
-  --           vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-  --         end,
-  --       },
-  --       window = {
-  --         completion = cmp.config.window.bordered(),
-  --         documentation = cmp.config.window.bordered(),
-  --       },
-  --       mapping = cmp.mapping.preset.insert({
-  --         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-  --         ['<C-f>'] = cmp.mapping.scroll_docs(4),
-  --         ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-  --         ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-  --         ["<C-j>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-  --         ["<C-k>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-  --         ['<C-Space>'] = cmp.mapping.complete(),
-  --         ['<C-e>'] = cmp.mapping.abort(),
-  --         ['<CR>'] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
-  --         ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-  --         ["<Tab>"] = cmp.mapping(function(fallback)
-  --           if cmp.visible() then
-  --             cmp.select_next_item()
-  --           else
-  --             fallback()
-  --           end
-  --         end, { "i", "s" }),
-  --         ["<S-Tab>"] = cmp.mapping(function(fallback)
-  --           if cmp.visible() then
-  --             cmp.select_prev_item()
-  --           else
-  --             fallback()
-  --           end
-  --         end, { "i", "s" }),
-  --       }),
-  --       sources = cmp.config.sources({
-  --         { name = "ultisnips" },
-  --       }, {
-  --         { name = "nvim_lsp" },
-  --         { name = "buffer" },
-  --         -- { name = "tags" }
-  --       })
-  --     }
-  --   end,
-  -- },
   {
     "L3MON4D3/LuaSnip",
     dependencies = {
@@ -681,9 +578,7 @@ return {
         "S",
         mode = { "n", "o" },
         function()
-          -- vim.cmd"TSBufEnable highlight"
           require("flash").treesitter()
-          -- vim.cmd"TSBufDisable highlight"
         end,
         desc = "Flash Treesitter"
       },
@@ -692,9 +587,7 @@ return {
         "R",
         mode = { "o", "x" },
         function()
-          -- vim.cmd"TSBufEnable highlight"
           require("flash").treesitter_search()
-          -- vim.cmd"TSBufDisable highlight"
         end,
         desc = "Treesitter Search",
       },
@@ -834,28 +727,6 @@ return {
 
   { dir="~/.my_vim" },
 
-  -- Not frequently used
-  -- { 'tpope/vim-dispatch', cmd = "Dispatch" },
-  -- {
-  --   "nvim-telescope/telescope.nvim",
-  --   opts = {
-  --     defaults = {
-  --       mappings = {
-  --         i = {
-  --           -- ["<esc>"] = require("telescope.actions").close,
-  --           ["<C-u>"] = false,
-  --           ["<C-j>"] = require("telescope.actions").move_selection_next,
-  --           ["<C-k>"] = require("telescope.actions").move_selection_previous,
-  --         },
-  --       },
-  --     },
-  --   },
-  --   cmd = "Telescope",
-  --   keys = {
-  --     -- { "<leader>fs", require('telescope.builtin').lsp_dynamic_workspace_symbols, desc = "Telescope lsp_dynamic_workspace_symbols" },
-  --   },
-  -- },
-  -- { 'majutsushi/tagbar', cmd = "Tagbar" },
   {
     'stevearc/aerial.nvim',
     opts = {},
@@ -871,8 +742,6 @@ return {
     ---@module 'oil'
     ---@type oil.SetupOpts
     opts = {},
-    -- Optional dependencies
-    -- dependencies = { { "nvim-mini/mini.icons", opts = {} } },
     dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
     -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
     lazy = false,
@@ -901,10 +770,8 @@ return {
 
   { 'numToStr/Comment.nvim', opts = {}, event = "BufReadPre" },
 
-  -- { "github/copilot.vim" },
   {
     "zbirenbaum/copilot.lua",
-    -- dependencies = { "copilotlsp-nvim/copilot-lsp" },
     cmd = "Copilot",
     build = ":Copilot auth",
     event = "InsertEnter",
