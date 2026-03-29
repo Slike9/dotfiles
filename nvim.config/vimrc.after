@@ -7,12 +7,15 @@ scriptencoding utf-8
 " nnoremap k gk
 
 syntax enable          " Включить подсветку синтаксиса
-set t_Co=256           " Использовать 256 цветов
+" set t_Co=256           " Использовать 256 цветов
 set background=light   " Установить светлый фон
-" set background=dark   " Установить светлый фон
-colorscheme solarized
-let g:solarized_termtrans=1
-set notermguicolors
+" colorscheme solarized
+" let g:solarized_termtrans=1
+" set notermguicolors
+
+if has('termguicolors')
+  set termguicolors
+endif
 
 " set nocompatible
 filetype plugin indent on
@@ -113,8 +116,8 @@ cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
 
 " Saving
-nnoremap <leader>w :write<CR>
-vnoremap <leader>w <ESC>:write<CR>
+" nnoremap <leader>w :write<CR>
+" vnoremap <leader>w <ESC>:write<CR>
 nnoremap <leader>s :update<CR>
 vnoremap <leader>s <ESC>:update<CR>
 
@@ -122,9 +125,9 @@ inoremap <C-b> <left>
 inoremap <C-f> <right>
 
 " ESC mapping
-inoremap <C-l> <ESC>:write<CR>
-vnoremap <C-l> <ESC>
-cnoremap <C-l> <C-c>
+" inoremap <C-l> <ESC>:write<CR>
+" vnoremap <C-l> <ESC>
+" cnoremap <C-l> <C-c>
 
 " quickfix list movement
 nnoremap <silent><Leader>qj :cnext<CR>
@@ -156,26 +159,27 @@ nnoremap <silent> <M-Left> :tabprevious<CR>
 nnoremap <silent> <M-Right> :tabnext<CR>
 
 " EasyMotion
-let g:EasyMotion_do_mapping = 0 " Disable default mappings
-let g:EasyMotion_smartcase = 1 " Turn on case insensitive feature
-map s <Plug>(easymotion-s)
+" let g:EasyMotion_do_mapping = 0 " Disable default mappings
+" let g:EasyMotion_smartcase = 1 " Turn on case insensitive feature
+" map s <Plug>(easymotion-s)
 " Jump to anywhere you want with minimal keystrokes, with just one key binding.
 " `s{char}{label}`
 "nmap <Leader>s <Plug>(easymotion-overwin-f)
 " or
 " `s{char}{char}{label}`
 " Need one more keystroke, but on average, it may be more comfortable.
-map f <Plug>(easymotion-fl)
-map F <Plug>(easymotion-Fl)
-map t <Plug>(easymotion-tl)
-map T <Plug>(easymotion-Tl)
-map  <Leader>/ <Plug>(easymotion-sn)
-omap <Leader>/ <Plug>(easymotion-tn)
-" JK motions: Line motions
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map <Leader><Leader>w <Plug>(easymotion-bd-w)
-map <Leader><Leader>e <Plug>(easymotion-bd-e)
+" map f <Plug>(easymotion-fl)
+" map F <Plug>(easymotion-Fl)
+" nnoremap t <Plug>(easymotion-tl)
+" " vnoremap t <Plug>(easymotion-tl)
+" map T <Plug>(easymotion-Tl)
+" map  <Leader>/ <Plug>(easymotion-sn)
+" omap <Leader>/ <Plug>(easymotion-tn)
+" " JK motions: Line motions
+" map <Leader>j <Plug>(easymotion-j)
+" map <Leader>k <Plug>(easymotion-k)
+" map <Leader><Leader>w <Plug>(easymotion-bd-w)
+" map <Leader><Leader>e <Plug>(easymotion-bd-e)
 
 " Buffers
 vnoremap <C-c> "+ygv"*y
@@ -194,8 +198,8 @@ augroup END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" set spelllang=ru_ru,en_us
-set spelllang=en_us
+ set spelllang=ru_ru,en_us
+"set spelllang=en_us
 set spell
 
 " Vim и кириллица - XkbSwitch (не удалось завести под Linux)
@@ -216,37 +220,37 @@ highlight lCursor guifg=NONE guibg=Cyan
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" NERDTree (from https://github.com/carlhuda/janus/blob/master/janus%2Fvim%2Ftools%2Fjanus%2Fafter%2Fplugin%2Fnerdtree.vim)
-augroup AuNERDTreeCmd
-  autocmd!
-  autocmd AuNERDTreeCmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
-augroup END
-
-" If the parameter is a directory, cd into it
-function! s:CdIfDirectory(directory)
-  let l:explicitDirectory = isdirectory(a:directory)
-  let l:directory = l:explicitDirectory || empty(a:directory)
-
-  if l:explicitDirectory
-    exe 'cd ' . fnameescape(a:directory)
-  endif
-
-  " Allows reading from stdin
-  " ex: git diff | mvim -R -
-  if strlen(a:directory) == 0
-    return
-  endif
-
-  if l:directory
-    NERDTree
-    wincmd p
-    bd
-  endif
-
-  if l:explicitDirectory
-    wincmd p
-  endif
-endfunction
+" " NERDTree (from https://github.com/carlhuda/janus/blob/master/janus%2Fvim%2Ftools%2Fjanus%2Fafter%2Fplugin%2Fnerdtree.vim)
+" augroup AuNERDTreeCmd
+"   autocmd!
+"   autocmd AuNERDTreeCmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
+" augroup END
+"
+" " If the parameter is a directory, cd into it
+" function! s:CdIfDirectory(directory)
+"   let l:explicitDirectory = isdirectory(a:directory)
+"   let l:directory = l:explicitDirectory || empty(a:directory)
+"
+"   if l:explicitDirectory
+"     exe 'cd ' . fnameescape(a:directory)
+"   endif
+"
+"   " Allows reading from stdin
+"   " ex: git diff | mvim -R -
+"   if strlen(a:directory) == 0
+"     return
+"   endif
+"
+"   if l:directory
+"     NERDTree
+"     wincmd p
+"     bd
+"   endif
+"
+"   if l:explicitDirectory
+"     wincmd p
+"   endif
+" endfunction
 
 " templates
 augroup templates

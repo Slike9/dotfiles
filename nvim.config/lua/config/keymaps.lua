@@ -1,27 +1,5 @@
 vim.keymap.set("n", "<Leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 
--- LSP
-vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(ev)
-    local base_opts = { buffer = ev.buf }
-    local function opts(custom_opts)
-      return vim.tbl_deep_extend("force", base_opts, custom_opts)
-    end
-
-    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts({ desc = "Code Action" }))
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts({ desc = "Go to definition" }))
-    vim.keymap.set("n", "gr", vim.lsp.buf.references, opts({ desc = "References", nowait = true }))
-    vim.keymap.set("n", "<Leader>cr", vim.lsp.buf.rename, opts({ desc = "Rename" }))
-    vim.keymap.set("n", "<leader>cR", function() Snacks.rename.rename_file() end, opts({ desc = "Rename File" }))
-    vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts({ desc = "Signature Help" }))
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts({ desc = "Hover" }))
-    -- vim.keymap.set('n', "]]", function() Snacks.words.jump(vim.v.count1) end, opts({ desc = "Next Reference" }))
-    -- vim.keymap.set('n', "[[", function() Snacks.words.jump(-vim.v.count1) end, opts({ desc = "Prev Reference" }))
-    vim.keymap.set('n', "<a-n>", function() Snacks.words.jump(vim.v.count1, true) end, opts({ desc = "Next Reference" }))
-    vim.keymap.set('n', "<a-p>", function() Snacks.words.jump(-vim.v.count1, true) end, opts({ desc = "Prev Reference" }))
-  end,
-})
-
 -- Git
 vim.keymap.set("n", "<leader>ghp", ":!gh pr view -w<CR><CR>", { desc = "Github PR" })
 
@@ -92,6 +70,28 @@ map("n", "<leader>xq", function()
     vim.notify(err, vim.log.levels.ERROR)
   end
 end, { desc = "Quickfix List" })
+
+-- toggle options
+Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
+Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
+Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
+Snacks.toggle.diagnostics():map("<leader>ud")
+Snacks.toggle.line_number():map("<leader>ul")
+Snacks.toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2, name = "Conceal Level" }):map("<leader>uc")
+Snacks.toggle.option("showtabline", { off = 0, on = vim.o.showtabline > 0 and vim.o.showtabline or 2, name = "Tabline" }):map("<leader>uA")
+Snacks.toggle.treesitter():map("<leader>uT")
+Snacks.toggle.option("background", { off = "light", on = "dark" , name = "Dark Background" }):map("<leader>ub")
+Snacks.toggle.dim():map("<leader>uD")
+Snacks.toggle.animate():map("<leader>ua")
+Snacks.toggle.indent():map("<leader>ug")
+Snacks.toggle.scroll():map("<leader>uS")
+Snacks.toggle.profiler():map("<leader>dpp")
+Snacks.toggle.profiler_highlights():map("<leader>dph")
+Snacks.toggle.words():map("<leader>uW")
+
+if vim.lsp.inlay_hint then
+  Snacks.toggle.inlay_hints():map("<leader>uh")
+end
 
 -- highlights under cursor
 map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })

@@ -1,17 +1,45 @@
 return {
   -- Color schemes
   "altercation/vim-colors-solarized",
+  {
+    'projekt0n/github-nvim-theme',
+    name = 'github-theme',
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      require('github-theme').setup({
+        options = {
+          -- terminal_colors = false,
+          dim_inactive = true,
+        },
+        groups = {
+          github_light = {
+            Comment = { fg = "#8b949e" },
+            ["@comment"] = { fg = "#8b949e" },
+          },
+        },
+      })
+      vim.cmd('colorscheme github_light')
+    end,
+  },
 
   {
     'nvim-treesitter/nvim-treesitter',
     lazy = false,
     build = ':TSUpdate',
-    config = {
-      -- ensure_installed = { "ruby" },
-      -- highlight = {
-      --   enable = true,
-      -- },
+    opts_extend = { "ensure_installed" },
+    opts = {
+      ensure_installed = {
+        "lua",
+        "ruby",
+        "vim",
+        "vimdoc",
+      },
+      -- highlight = { enable = true, },
     },
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts)
+    end,
   },
 
   {
@@ -57,10 +85,15 @@ return {
   'tpope/vim-abolish',
   'tpope/vim-repeat',
   'tpope/vim-surround',
-  'tpope/vim-endwise',
-  -- 'RRethy/nvim-treesitter-endwise',
+  -- 'tpope/vim-endwise',
   'tpope/vim-eunuch',
   'tpope/vim-unimpaired',
+  {
+    "RRethy/nvim-treesitter-endwise",
+    -- dependencies = "nvim-treesitter/nvim-treesitter",
+    lazy = false,
+    -- event = "InsertEnter",
+  },
 
   -- 'terryma/vim-multiple-cursors',
   'mg979/vim-visual-multi',
@@ -81,7 +114,7 @@ return {
   },
   'scrooloose/nerdtree',
   -- 'google/vim-searchindex',
-  'easymotion/vim-easymotion',
+  -- 'easymotion/vim-easymotion',
   -- 'ervandew/supertab',
   'tpope/vim-projectionist',
   "wsdjeg/vim-fetch", -- Open a file in a given line.
@@ -337,11 +370,51 @@ return {
   --     }
   --   end,
   -- },
+  {
+    "L3MON4D3/LuaSnip",
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+    },
+    -- follow latest release.
+    version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    -- install jsregexp (optional!).
+    build = "make install_jsregexp",
+    config = function()
+      local luasnip = require("luasnip")
+
+      luasnip.config.set_config({
+        history = true,
+        updateevents = "TextChanged,TextChangedI",
+        enable_autosnippets = false,
+      })
+
+      require("luasnip.loaders.from_vscode").lazy_load()
+
+      vim.keymap.set({ "i", "s" }, "<Tab>", function()
+        if luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
+        else
+          vim.api.nvim_feedkeys(vim.keycode("<Tab>"), "n", true)
+        end
+      end, { silent = true })
+
+      vim.keymap.set({ "i", "s" }, "<S-Tab>", function()
+        if luasnip.jumpable(-1) then
+          luasnip.jump(-1)
+        else
+          vim.api.nvim_feedkeys(vim.keycode("<S-Tab>"), "n", true)
+        end
+      end, { silent = true })
+    end
+  },
 
   {
     'saghen/blink.cmp',
     -- optional: provides snippets for the snippet source
-    dependencies = { 'rafamadriz/friendly-snippets' },
+    dependencies = {
+      'rafamadriz/friendly-snippets',
+      { 'L3MON4D3/LuaSnip', version = 'v2.*' },
+    },
 
     -- use a release tag to download pre-built binaries
     version = '1.*',
@@ -370,21 +443,6 @@ return {
 
         ['<C-k>'] = { 'select_prev', 'fallback_to_mappings' },
         ['<C-j>'] = { 'select_next', 'fallback_to_mappings' },
-
-        ['<Tab>'] = {
-          function(cmp)
-            if cmp.snippet_active() then
-              return cmp.accept()
-            else
-              return cmp.select_and_accept()
-            end
-          end,
-          'snippet_forward',
-          'fallback'
-        },
-        ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
-
-        ['<C-m>'] = { 'accept', 'fallback' },
       },
 
       appearance = {
@@ -403,6 +461,8 @@ return {
         -- Display a preview of the selected item on the current line
         ghost_text = { enabled = true },
       },
+
+      snippets = { preset = 'luasnip' },
 
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
@@ -447,14 +507,28 @@ return {
   'vim-ruby/vim-ruby',
   "SmiteshP/nvim-navic",
 
+  { "mason-org/mason.nvim", opts = {} },
+
   -- LSP
+  {
+    "mason-org/mason-lspconfig.nvim",
+    opts_extend = { "ensure_installed" },
+    opts = {
+      ensure_installed = { "lua_ls", "copilot" },
+      automatic_enable = true,
+    },
+    dependencies = {
+      "mason-org/mason.nvim",
+      "neovim/nvim-lspconfig",
+    },
+  },
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
+      "mason-org/mason.nvim",
+      "mason-org/mason-lspconfig.nvim",
       "saghen/blink.cmp",
-      -- "SmiteshP/nvim-navic",
+      "SmiteshP/nvim-navic",
     },
     opts = {
       servers = {
@@ -464,14 +538,13 @@ return {
               formatter = "auto",
               -- semanticHighlighting = false,
               -- signatureHelp = true,
-            }
+            },
           },
-          on_attach = function(client, bufnr)
-            require("nvim-navic").attach(client, bufnr)
-          end,
         },
         -- rubocop = {},
-        sorbet = {},
+        sorbet = {
+          on_attach = false,
+        },
         lua_ls = {
           settings = {
             Lua = {
@@ -480,19 +553,23 @@ return {
               diagnostics = { globals = { "vim" } },
             },
           },
-        }
-      }
+        },
+      },
     },
     config = function(_, opts)
-      require("mason").setup {}
-      require("mason-lspconfig").setup {
-        ensure_installed = { "lua_ls" },
-      }
-
-      local capabilities = {}
-      capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
+      local capabilities = require('blink.cmp').get_lsp_capabilities()
+      local function on_attach(client, bufnr)
+        if client.server_capabilities.documentSymbolProvider then
+          require("nvim-navic").attach(client, bufnr)
+        end
+      end
       for server, config in pairs(opts.servers) do
         config.capabilities = capabilities
+        if config.on_attach == false then
+          config.on_attach = nil
+        else
+          config.on_attach = on_attach
+        end
         vim.lsp.config(server, config)
         vim.lsp.enable(server)
       end
@@ -519,20 +596,94 @@ return {
     event = "VeryLazy",
     ---@type Flash.Config
     opts = {
+      search = {
+        -- search/jump in all windows
+        multi_window = false,
+      },
+      jump = {
+        -- automatically jump when there is only one match
+        autojump = true,
+      },
+      label = {
+        reuse = "all",
+      },
       modes = {
-        char = { enabled = false },
+        char = {
+          enabled = true,
+          -- hide after jump when not using jump labels
+          autohide = false,
+          -- show jump labels
+          jump_labels = true,
+          -- set to `false` to use the current line only
+          multi_line = false,
+          jump = {
+            -- when using jump labels, set to 'true' to automatically jump
+            -- or execute a motion when there is only one match
+            autojump = true,
+          },
+        },
       },
     },
+    config = function(_, opts)
+      require("flash").setup(opts)
+
+      local function set_flash_highlights()
+        local hl = vim.api.nvim_set_hl
+
+        -- Яркие метки без фона, как у EasyMotion
+        hl(0, "FlashLabel", {
+          fg = "#d73a49",
+          bg = "NONE",
+          bold = true,
+        })
+
+        -- Текущая цель чуть заметнее
+        hl(0, "FlashCurrent", {
+          fg = "#d73a49",
+          bg = "NONE",
+          bold = true,
+          underline = true,
+        })
+      end
+
+      set_flash_highlights()
+
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        callback = set_flash_highlights,
+      })
+    end,
     -- stylua: ignore
     keys = {
-      -- { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      {
+        "<leader>j", mode = { "n", "x", "o" },
+        function()
+          require("flash").jump({
+            search = { mode = "search", max_length = 0, forward = true, wrap = false },
+            label = { after = { 0, 0 } },
+            pattern = "^"
+          })
+        end,
+        desc = "Jump to a line forward",
+      },
+      {
+        "<leader>k", mode = { "n", "x", "o" },
+        function()
+          require("flash").jump({
+            search = { mode = "search", max_length = 0, forward = false, wrap = false },
+            label = { after = { 0, 0 } },
+            pattern = "^"
+          })
+        end,
+        desc = "Jump to a line backward",
+      },
       {
         "S",
         mode = { "n", "o" },
         function()
-          vim.cmd"TSBufEnable highlight"
+          -- vim.cmd"TSBufEnable highlight"
           require("flash").treesitter()
-          vim.cmd"TSBufDisable highlight"
+          -- vim.cmd"TSBufDisable highlight"
         end,
         desc = "Flash Treesitter"
       },
@@ -541,9 +692,9 @@ return {
         "R",
         mode = { "o", "x" },
         function()
-          vim.cmd"TSBufEnable highlight"
+          -- vim.cmd"TSBufEnable highlight"
           require("flash").treesitter_search()
-          vim.cmd"TSBufDisable highlight"
+          -- vim.cmd"TSBufDisable highlight"
         end,
         desc = "Treesitter Search",
       },
@@ -600,6 +751,24 @@ return {
       formatters_by_ft = {
         ruby = { "rubocop" },
       },
+      format_on_save = function(bufnr)
+        -- Disable autoformat on certain filetypes
+        local ignore_filetypes = { "ruby" }
+        if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then
+          return
+        end
+        -- Disable with a global or buffer-local variable
+        if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+          return
+        end
+        -- Disable autoformat for files in a certain path
+        -- local bufname = vim.api.nvim_buf_get_name(bufnr)
+        -- if bufname:match("/node_modules/") then
+        --   return
+        -- end
+        -- ...additional logic...
+        return { timeout_ms = 500, lsp_format = "fallback" }
+      end,
     },
     keys = {
       {
@@ -654,7 +823,7 @@ return {
       -- scope = { enabled = true },
       -- scroll = { enabled = true },
       -- statuscolumn = { enabled = true },
-      words = { enabled = true },
+      -- words = { enabled = true },
       scratch = { enabled = true },
     },
     keys = {
@@ -662,8 +831,6 @@ return {
       { "<LocalLeader>S",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
     },
   },
-
-  -- { "github/copilot.vim" },
 
   { dir="~/.my_vim" },
 
@@ -733,4 +900,14 @@ return {
   { 'echasnovski/mini.ai', version = '*', opts = {} },
 
   { 'numToStr/Comment.nvim', opts = {}, event = "BufReadPre" },
+
+  -- { "github/copilot.vim" },
+  {
+    "zbirenbaum/copilot.lua",
+    -- dependencies = { "copilotlsp-nvim/copilot-lsp" },
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    event = "InsertEnter",
+    opts = { panel = { enabled = false }, },
+  },
 };
