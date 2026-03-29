@@ -81,7 +81,6 @@ return {
   --   --     -- this is equivalent to setup({}) function
   -- },
 
-  'matze/vim-move',
   'tpope/vim-abolish',
   'tpope/vim-repeat',
   'tpope/vim-surround',
@@ -101,12 +100,13 @@ return {
     end,
   },
   {
-    'jlanzarotta/bufexplorer',
+    'scrooloose/nerdtree',
     keys = {
-      { "<Leader>be" },
+      { '<F2>', '<cmd>NERDTreeToggle<CR>', { silent = true } },
+      { '<M-F1>', '<cmd>NERDTreeFind<CR>', { silent = true } },
+      { '<leader>tf', '<cmd>NERDTreeFind<CR>', { silent = true } },
     }
   },
-  'scrooloose/nerdtree',
   'tpope/vim-projectionist',
   "wsdjeg/vim-fetch", -- Open a file in a given line.
 
@@ -127,7 +127,7 @@ return {
 
   {
     'skywind3000/asyncrun.vim',
-    cmd = "AsyncRun",
+    cmd = { "AsyncRun", "AsyncStop" },
     keys = {
       {
         "<LocalLeader>c",
