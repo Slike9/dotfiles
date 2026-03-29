@@ -2,5 +2,8 @@
 
 Для плагинов используется lazy.nvim.
 
-NeoVim в основном используется для разработки на Ruby и Ruby on Rails.
+NeoVim в основном используется для разработки на:
+* Ruby и Ruby on Rails;
+* Go.
+
 Часто используется в tmux и с Docker.
