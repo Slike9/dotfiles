@@ -571,7 +571,7 @@ return {
           require("flash").jump({
             search = { mode = "search", max_length = 0, forward = true, wrap = false },
             label = { after = { 0, 0 } },
-            pattern = "^"
+            pattern = "\\(^\\s*\\)\\@<=\\(\\S\\|$\\)" -- the first non-space character of a line
           })
         end,
         desc = "Jump to a line forward",
@@ -582,7 +582,7 @@ return {
           require("flash").jump({
             search = { mode = "search", max_length = 0, forward = false, wrap = false },
             label = { after = { 0, 0 } },
-            pattern = "^"
+            pattern = "\\(^\\s*\\)\\@<=\\(\\S\\|$\\)" -- the first non-space character of a line
           })
         end,
         desc = "Jump to a line backward",
