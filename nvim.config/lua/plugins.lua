@@ -71,15 +71,28 @@ return {
 
   "nvim-lua/plenary.nvim",
 
-  'jiangmiao/auto-pairs',
-  -- This is a newer alternative, but it does work properly.
-  -- {
-  --   'windwp/nvim-autopairs',
-  --   event = "InsertEnter",
-  --   config = true,
-  --   -- use opts = {} for passing setup options
-  --   --     -- this is equivalent to setup({}) function
-  -- },
+  -- 'jiangmiao/auto-pairs',
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    opts = {},
+    config = function()
+      require('nvim-autopairs').setup({})
+
+      local npairs = require('nvim-autopairs')
+      local Rule = require('nvim-autopairs.rule')
+      local cond = require('nvim-autopairs.conds')
+      npairs.add_rules({
+        Rule(' ', ' '):with_pair(
+          function(opts)
+            local pair = opts.line:sub(opts.col - 1, opts.col)
+            return pair == '()' or pair == '{}' or pair == '[]'
+          end
+        ),
+        Rule("|", "|", "ruby"):with_move()
+      })
+    end,
+  },
 
   'tpope/vim-abolish',
   'tpope/vim-repeat',
@@ -645,9 +658,9 @@ return {
         ruby = { "rubocop" },
       },
       format_on_save = function(bufnr)
-        -- Disable autoformat on certain filetypes
-        local ignore_filetypes = { "ruby" }
-        if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then
+        -- Enable autoformat on certain filetypes
+        local filetypes = { "go" }
+        if not vim.tbl_contains(filetypes, vim.bo[bufnr].filetype) then
           return
         end
         -- Disable with a global or buffer-local variable

@@ -95,10 +95,10 @@ nnoremap <silent> <leader>fw :grep -w <C-R><C-W><CR>:cw<CR>
 vnoremap <silent> <leader>fw y:grep "<C-R>""<CR>:cw<CR>
 
 " auto-pairs
-augroup custom_auto_pairs
-  autocmd!
-  autocmd FileType ruby let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '|':'|'}
-augroup END
+" augroup custom_auto_pairs
+"   autocmd!
+"   autocmd FileType ruby let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '|':'|'}
+" augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Spell checking
