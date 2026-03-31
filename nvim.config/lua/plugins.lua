@@ -36,6 +36,7 @@ return {
         "vimdoc",
       },
       -- highlight = { enable = true, },
+      indent = { enable = true },
     },
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
@@ -125,14 +126,14 @@ return {
       vim.g.splitjoin_ruby_options_as_arguments = 1
     end,
   },
-  {
-    'scrooloose/nerdtree',
-    keys = {
-      { '<F2>', '<cmd>NERDTreeToggle<CR>', { silent = true } },
-      { '<M-F1>', '<cmd>NERDTreeFind<CR>', { silent = true } },
-      { '<leader>tf', '<cmd>NERDTreeFind<CR>', { silent = true } },
-    }
-  },
+  -- {
+  --   'scrooloose/nerdtree',
+  --   keys = {
+  --     { '<F2>', '<cmd>NERDTreeToggle<CR>', { silent = true } },
+  --     { '<M-F1>', '<cmd>NERDTreeFind<CR>', { silent = true } },
+  --     { '<leader>tf', '<cmd>NERDTreeFind<CR>', { silent = true } },
+  --   }
+  -- },
   'tpope/vim-projectionist',
   "wsdjeg/vim-fetch", -- Open a file in a given line.
 
@@ -304,6 +305,7 @@ return {
     build = "make install_jsregexp",
     config = function()
       local luasnip = require("luasnip")
+      local cmp = require('blink.cmp')
 
       luasnip.config.set_config({
         history = true,
@@ -314,8 +316,12 @@ return {
       require("luasnip.loaders.from_vscode").lazy_load()
 
       vim.keymap.set({ "i", "s" }, "<Tab>", function()
-        if luasnip.expand_or_jumpable() then
-          luasnip.expand_or_jump()
+        if luasnip.expandable() then
+          luasnip.expand()
+        elseif cmp.accept() then
+          return
+        elseif luasnip.jumpable(1) then
+          luasnip.jump(1)
         else
           vim.api.nvim_feedkeys(vim.keycode("<Tab>"), "n", true)
         end
@@ -366,6 +372,8 @@ return {
 
         ['<C-k>'] = { 'select_prev', 'fallback_to_mappings' },
         ['<C-j>'] = { 'select_next', 'fallback_to_mappings' },
+        ['<Tab>'] = false,
+        ['<S-Tab>'] = false,
       },
 
       appearance = {
@@ -391,6 +399,10 @@ return {
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer' },
+        providers = {
+          -- defaults to `{ 'buffer' }`
+          lsp = { fallbacks = {} }
+        },
       },
 
       -- signature = {
@@ -733,7 +745,7 @@ return {
       -- refer to the configuration section below
       bigfile = { enabled = true },
       dashboard = { enabled = true },
-      -- explorer = { enabled = true },
+      explorer = { enabled = true },
       -- indent = { enabled = true },
       input = { enabled = true },
       -- picker = { enabled = true },
@@ -742,12 +754,13 @@ return {
       -- scope = { enabled = true },
       -- scroll = { enabled = true },
       -- statuscolumn = { enabled = true },
-      -- words = { enabled = true },
+      words = { enabled = true },
       scratch = { enabled = true },
     },
     keys = {
       { "<LocalLeader>s",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
       { "<LocalLeader>S",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
+      { "<Leader>fe",  function() Snacks.picker.explorer() end, desc = "File explorer" },
     },
   },
 

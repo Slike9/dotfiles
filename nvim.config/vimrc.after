@@ -53,10 +53,10 @@ set hidden
 
 " Some helpers to edit mode
 " http://vimcasts.org/e/14
-nmap <leader>ew :e <C-R>=expand('%:h').'/'<cr>
-nmap <leader>es :sp <C-R>=expand('%:h').'/'<cr>
-nmap <leader>ev :vsp <C-R>=expand('%:h').'/'<cr>
-nmap <leader>et :tabe <C-R>=expand('%:h').'/'<cr>
+" nmap <leader>ew :e <C-R>=expand('%:h').'/'<cr>
+" nmap <leader>es :sp <C-R>=expand('%:h').'/'<cr>
+" nmap <leader>ev :vsp <C-R>=expand('%:h').'/'<cr>
+" nmap <leader>et :tabe <C-R>=expand('%:h').'/'<cr>
 
 " Linux browser
 nnoremap <leader>ow :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs sensible-browser<CR><CR>
