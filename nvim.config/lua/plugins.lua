@@ -34,14 +34,45 @@ return {
         "ruby",
         "vim",
         "vimdoc",
+        "bash",
+        "javascript",
+        "typescript",
+        "sql",
       },
-      -- highlight = { enable = true, },
-      indent = { enable = true },
     },
     config = function(_, opts)
-      require("nvim-treesitter.configs").setup(opts)
+      local parsers = opts.ensure_installed
+      require('nvim-treesitter').install(parsers)
+
+      local function parsers_to_filetypes(ps)
+        local patterns = {}
+        for _, parser in ipairs(ps) do
+          local parser_patterns = vim.treesitter.language.get_filetypes(parser)
+          for _, pp in pairs(parser_patterns) do
+            table.insert(patterns, pp)
+          end
+        end
+        return patterns
+      end
+
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = parsers_to_filetypes(parsers),
+        callback = function()
+          -- syntax highlighting, provided by Neovim
+          vim.treesitter.start()
+
+          -- folds, provided by Neovim
+          vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+          vim.wo[0][0].foldmethod = 'expr'
+
+          -- indentation, provided by nvim-treesitter
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+      })
     end,
   },
+
+  { "RRethy/nvim-treesitter-endwise", lazy = false },
 
   {
     'nvim-lualine/lualine.nvim',
@@ -72,7 +103,6 @@ return {
 
   "nvim-lua/plenary.nvim",
 
-  -- 'jiangmiao/auto-pairs',
   {
     'windwp/nvim-autopairs',
     event = "InsertEnter",
@@ -82,7 +112,6 @@ return {
 
       local npairs = require('nvim-autopairs')
       local Rule = require('nvim-autopairs.rule')
-      local cond = require('nvim-autopairs.conds')
       npairs.add_rules({
         Rule(' ', ' '):with_pair(
           function(opts)
@@ -98,7 +127,6 @@ return {
   'tpope/vim-abolish',
   'tpope/vim-repeat',
 
-  -- 'tpope/vim-surround',
   {
     "kylechui/nvim-surround",
     -- version = "^4.0.0", -- Use for stability; omit to use `main` branch for the latest features
@@ -114,8 +142,6 @@ return {
   'tpope/vim-eunuch',
   'tpope/vim-unimpaired',
 
-  { "RRethy/nvim-treesitter-endwise", lazy = false },
-
   'mg979/vim-visual-multi',
 
   {
@@ -126,14 +152,6 @@ return {
       vim.g.splitjoin_ruby_options_as_arguments = 1
     end,
   },
-  -- {
-  --   'scrooloose/nerdtree',
-  --   keys = {
-  --     { '<F2>', '<cmd>NERDTreeToggle<CR>', { silent = true } },
-  --     { '<M-F1>', '<cmd>NERDTreeFind<CR>', { silent = true } },
-  --     { '<leader>tf', '<cmd>NERDTreeFind<CR>', { silent = true } },
-  --   }
-  -- },
   'tpope/vim-projectionist',
   "wsdjeg/vim-fetch", -- Open a file in a given line.
 
@@ -182,6 +200,7 @@ return {
       { "<C-p>", function() require("fzf-lua").files() end, mode = "n", desc = "Find files" },
       { "<Leader>ff", function() require("fzf-lua").files() end, mode = "n", desc = "Find files" },
       { "<Leader>fs", function() require("fzf-lua").lsp_document_symbols() end, mode = "n", desc = "FzfLua lsp_document_symbols" },
+      { "<Leader>fS", function() require("fzf-lua").lsp_live_workspace_symbols() end, mode = "n", desc = "FzfLua lsp_live_workspace_symbols" },
       { "<Leader>fc", function() require("fzf-lua").files{ cwd = vim.fn.stdpath("config") } end, mode = "n", desc = "Find config files" },
       { "<C-b>", function() require("fzf-lua").buffers{winopts = {preview = {hidden = true}}} end, mode = "n", desc = "Find buffers" },
       { "<Leader>fb", function() require("fzf-lua").buffers() end, mode = "n", desc = "Find buffers" },
@@ -283,16 +302,25 @@ return {
   },
 
   -- Linter
-  -- {
-  --   'mfussenegger/nvim-lint',
-  --   event = { "BufWritePost", "BufReadPost" },
-  --   config = function()
-  --     require('lint').linters_by_ft = { ruby = {'rubocop'} }
-  --     vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-  --       callback = function() require("lint").try_lint() end,
-  --     })
-  --   end,
-  -- },
+  {
+    'mfussenegger/nvim-lint',
+    event = { "BufWritePost", "BufReadPost" },
+    opts = {
+      linters_by_ft = {
+        -- ruby = {'rubocop'},
+      }
+    },
+    config = function(_, opts)
+      require('lint').linters_by_ft = opts.linters_by_ft
+      vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+        callback = function()
+          -- try_lint without arguments runs the linters defined in `linters_by_ft`
+          -- for the current filetype
+          require("lint").try_lint()
+        end,
+      })
+    end,
+  },
 
   {
     "L3MON4D3/LuaSnip",
@@ -449,7 +477,10 @@ return {
     "mason-org/mason-lspconfig.nvim",
     opts_extend = { "ensure_installed" },
     opts = {
-      ensure_installed = { "lua_ls", "copilot" },
+      ensure_installed = {
+        "lua_ls",
+        -- "copilot",
+      },
       automatic_enable = true,
     },
     dependencies = {
@@ -514,7 +545,17 @@ return {
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
-    opts = {},
+    opts = {
+      spec = {
+        {
+          mode = { "n", "x" },
+          { "<leader>x", group = "diagnostics/quickfix" },
+          { "[", group = "prev" },
+          { "]", group = "next" },
+          { "z", group = "fold" },
+        }
+      }
+    },
     keys = {
       {
         "<leader>?",
@@ -748,7 +789,21 @@ return {
       explorer = { enabled = true },
       -- indent = { enabled = true },
       input = { enabled = true },
-      -- picker = { enabled = true },
+      picker = {
+        enabled = true,
+        sources = {
+          explorer = {
+            win = {
+              list = {
+                keys = {
+                  ['o'] = 'confirm',
+                  ['O'] = 'explorer_open',
+                }
+              }
+            },
+          },
+        },
+      },
       notifier = { enabled = true },
       quickfile = { enabled = true },
       -- scope = { enabled = true },
@@ -809,11 +864,59 @@ return {
 
   { 'numToStr/Comment.nvim', opts = {}, event = "BufReadPre" },
 
+  -- {
+  --   "zbirenbaum/copilot.lua",
+  --   cmd = "Copilot",
+  --   build = ":Copilot auth",
+  --   event = "InsertEnter",
+  --   opts = { panel = { enabled = false }, },
+  -- },
+
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    build = ":Copilot auth",
-    event = "InsertEnter",
-    opts = { panel = { enabled = false }, },
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-neotest/nvim-nio",
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      {
+        "nvim-treesitter/nvim-treesitter", -- Optional, but recommended
+        branch = "main",  -- NOTE; not the master branch!
+        build = function()
+          vim.cmd(":TSUpdate go")
+        end,
+      },
+      {
+        "fredrikaverpil/neotest-golang",
+        version = "*", -- Optional, but recommended; track releases
+        build = function()
+          vim.system({"go", "install", "gotest.tools/gotestsum@latest"}):wait() -- Optional, but recommended
+        end,
+      },
+      -- "nvim-neotest/neotest-go",
+    },
+    config = function()
+      require("neotest").setup({
+        log_level = vim.log.levels.DEBUG,
+        adapters = {
+          require("neotest-golang")({
+            runneer = "gotestsum", -- Optional, but recommended
+          }),
+          -- require("neotest-go"),
+        },
+      })
+    end,
+    keys = {
+      {"<leader>t", "", desc = "+test"},
+      { "<leader>ta", function() require("neotest").run.attach() end, desc = "Attach to Test (Neotest)" },
+      { "<leader>tt", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Run File (Neotest)" },
+      { "<leader>tT", function() require("neotest").run.run(vim.uv.cwd()) end, desc = "Run All Test Files (Neotest)" },
+      { "<leader>tr", function() require("neotest").run.run() end, desc = "Run Nearest (Neotest)" },
+      { "<leader>tl", function() require("neotest").run.run_last() end, desc = "Run Last (Neotest)" },
+      { "<leader>ts", function() require("neotest").summary.toggle() end, desc = "Toggle Summary (Neotest)" },
+      { "<leader>to", function() require("neotest").output.open({ enter = true, auto_close = true }) end, desc = "Show Output (Neotest)" },
+      { "<leader>tO", function() require("neotest").output_panel.toggle() end, desc = "Toggle Output Panel (Neotest)" },
+      { "<leader>tS", function() require("neotest").run.stop() end, desc = "Stop (Neotest)" },
+      { "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end, desc = "Toggle Watch (Neotest)" },
+    },
   },
 };

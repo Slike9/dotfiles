@@ -68,8 +68,15 @@ return {
     "stevearc/conform.nvim",
     opts = {
       formatters_by_ft = {
-        go = { "goimports" },
+        go = { "goimports", "gofmt" },
       },
+    },
+  },
+
+  {
+    'mfussenegger/nvim-lint',
+    opts = {
+      linters_by_ft = { go = { 'golangcilint' } },
     },
   },
 }
