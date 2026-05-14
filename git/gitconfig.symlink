@@ -43,7 +43,7 @@
   ri = rebase -i --autosquash
   ra = rebase --abort
   rc = rebase --continue
-  rd = rebase -i --autosquash origin/develop
+  rd = rebase -i --autosquash origin/HEAD
   rs = rebase --skip
   rst = reset --hard @{upstream}
   st = status -sb

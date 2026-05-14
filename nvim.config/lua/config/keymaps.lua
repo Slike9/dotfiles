@@ -1,5 +1,15 @@
 vim.keymap.set("n", "<Leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 
+-- Go to next error
+vim.keymap.set('n', ']e', function()
+  vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }, { desc = "Jump to the next error in the current buffer" })
+end)
+
+-- Go to previous error
+vim.keymap.set('n', '[e', function()
+  vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }, { desc = "Jump to the previous error in the current buffer" })
+end)
+
 -- Git
 vim.keymap.set("n", "<leader>ghp", ":!gh pr view -w<CR><CR>", { desc = "Github PR" })
 

@@ -1,5 +1,4 @@
-source /usr/share/doc/fzf/examples/key-bindings.bash
-source /usr/share/bash-completion/completions/fzf
+eval "$(fzf --bash)"
 
 if command -v fdfind >/dev/null; then
   export FZF_DEFAULT_COMMAND='fdfind --type f'

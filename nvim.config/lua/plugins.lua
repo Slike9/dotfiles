@@ -1,6 +1,4 @@
 return {
-  -- Color schemes
-  "altercation/vim-colors-solarized",
   {
     'projekt0n/github-nvim-theme',
     name = 'github-theme',
@@ -152,7 +150,44 @@ return {
       vim.g.splitjoin_ruby_options_as_arguments = 1
     end,
   },
-  'tpope/vim-projectionist',
+
+  {
+    'tpope/vim-projectionist',
+    config = function()
+      vim.g.projectionist_heuristics = {
+        ["go.mod"] = {
+          ["*.go"] = {
+            alternate = "{}_test.go",
+          },
+          ["*_test.go"] = {
+            alternate = "{}.go",
+          },
+        },
+        ["Gemfile"] = {
+          ["app/*.rb"] = {
+            alternate = "spec/{}_spec.rb",
+          },
+          ["spec/*_spec.rb"] = {
+            alternate = "app/{}.rb",
+          },
+          ["lib/*.rb"] = {
+            alternate = "spec/lib/{}_spec.rb",
+          },
+          ["spec/lib/*_spec.rb"] = {
+            alternate = "lib/{}.rb",
+          },
+          -- workato adapters
+          ["adapters/adapters/*/adapter.rb"] = {
+            alternate = "spec/new_adapters/{}/main_spec.rb",
+          },
+          ["spec/new_adapters/*/main_spec.rb"] = {
+            alternate = "adapters/adapters/{}/adapter.rb",
+          },
+        }
+      }
+    end
+  },
+
   "wsdjeg/vim-fetch", -- Open a file in a given line.
 
   {
@@ -467,7 +502,7 @@ return {
   'tpope/vim-bundler',
   'tpope/vim-rails',
   'tpope/vim-rake',
-  'vim-ruby/vim-ruby',
+  -- 'vim-ruby/vim-ruby',
   "SmiteshP/nvim-navic",
 
   { "mason-org/mason.nvim", opts = {} },
@@ -510,6 +545,9 @@ return {
         -- rubocop = {},
         sorbet = {
           on_attach = false,
+          init_options = {
+            highlightUntyped = "everywhere-but-tests",
+          },
         },
         lua_ls = {
           settings = {
@@ -860,7 +898,99 @@ return {
     event = "BufReadPre",
   },
 
-  { 'echasnovski/mini.ai', version = '*', opts = {} },
+  {
+    'echasnovski/mini.ai',
+    version = '*',
+    dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
+    opts = function()
+      local ai = require('mini.ai')
+      return {
+        custom_textobjects = {
+          f = ai.gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }),
+          c = ai.gen_spec.treesitter({ a = '@class.outer',    i = '@class.inner' }),
+          o = ai.gen_spec.treesitter({
+            a = { '@conditional.outer', '@loop.outer' },
+            i = { '@conditional.inner', '@loop.inner' },
+          }),
+          a = ai.gen_spec.treesitter({ a = '@parameter.outer', i = '@parameter.inner' }),
+        },
+      }
+    end,
+  },
+
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    event = { 'BufReadPost', 'BufNewFile' },
+    branch = "main",
+    init = function()
+      -- Disable entire built-in ftplugin mappings to avoid conflicts.
+      -- See https://github.com/neovim/neovim/tree/master/runtime/ftplugin for built-in ftplugins.
+      -- vim.g.no_plugin_maps = true
+
+      -- Or, disable per filetype (add as you like)
+      -- vim.g.no_python_maps = true
+      vim.g.no_ruby_maps = true
+      -- vim.g.no_rust_maps = true
+      -- vim.g.no_go_maps = true
+    end,
+    config = function()
+      require('nvim-treesitter-textobjects').setup({
+        select = { lookahead = true },
+      })
+
+      local select = require('nvim-treesitter-textobjects.select').select_textobject
+      local selections = {
+        af = '@function.outer', ['if'] = '@function.inner',
+        ac = '@class.outer',    ic = '@class.inner',
+        -- ab = '@block.outer',    ib = '@block.inner',
+        a_ = '@assignment.lhs', i_ = '@assignment.rhs',
+      }
+      for key, query in pairs(selections) do
+        vim.keymap.set({ 'x', 'o' }, key, function()
+          select(query, 'textobjects')
+        end, { desc = 'Treesitter textobject ' .. query })
+      end
+
+      local move = require('nvim-treesitter-textobjects.move')
+      local motions = {
+        { ']m', 'goto_next_start',     '@function.outer' },
+        { '[m', 'goto_previous_start', '@function.outer' },
+        { ']M', 'goto_next_end',       '@function.outer' },
+        { '[M', 'goto_previous_end',   '@function.outer' },
+        { ']]', 'goto_next_start',     '@class.outer' },
+        { '][', 'goto_next_end',       '@class.outer' },
+        { '[[', 'goto_previous_start', '@class.outer' },
+        { '[]', 'goto_previous_end',   '@class.outer' },
+        { ']a', 'goto_next_start',     '@parameter.inner' },
+        { '[a', 'goto_previous_start', '@parameter.inner' },
+        { ']A', 'goto_next_end',       '@parameter.inner' },
+        { '[A', 'goto_previous_end',   '@parameter.inner' },
+      }
+      for _, m in ipairs(motions) do
+        local lhs, fn, query = m[1], m[2], m[3]
+        vim.keymap.set({ 'n', 'x', 'o' }, lhs, function()
+          move[fn](query, 'textobjects')
+        end, { desc = 'Treesitter ' .. fn .. ' ' .. query })
+      end
+
+      local swap = require('nvim-treesitter-textobjects.swap')
+      vim.keymap.set('n', '<leader>a', function() swap.swap_next('@parameter.inner') end, { desc = 'Swap parameter with next' })
+      vim.keymap.set('n', '<leader>A', function() swap.swap_previous('@parameter.inner') end, { desc = 'Swap parameter with previous' })
+    end,
+  },
+
+  {
+    'andymass/vim-matchup',
+    opts = {
+      treesitter = {
+        -- stopline = 500,
+      },
+      matchparen = {
+        offscreen = { method = 'popup' },
+      },
+    },
+  },
 
   { 'numToStr/Comment.nvim', opts = {}, event = "BufReadPre" },
 
@@ -918,5 +1048,19 @@ return {
       { "<leader>tS", function() require("neotest").run.stop() end, desc = "Stop (Neotest)" },
       { "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end, desc = "Toggle Watch (Neotest)" },
     },
+  },
+
+  {
+    'MagicDuck/grug-far.nvim',
+    -- Note (lazy loading): grug-far.lua defers all it's requires so it's lazy by default
+    -- additional lazy config to defer loading is not really needed...
+    config = function()
+      -- optional setup call to override plugin options
+      -- alternatively you can set options with vim.g.grug_far = { ... }
+      require('grug-far').setup({
+        -- options, see Configuration section below
+        -- there are no required options atm
+      });
+    end
   },
 };
