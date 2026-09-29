@@ -785,7 +785,7 @@ return {
         "<Leader>=",
         mode = "",
         function()
-          require("conform").format{ async = true, lsp_fallback = true }
+          require("conform").format{ async = true, lsp_format = "fallback" }
         end,
         desc = "Format"
       }
@@ -1019,7 +1019,7 @@ return {
         "fredrikaverpil/neotest-golang",
         version = "*", -- Optional, but recommended; track releases
         build = function()
-          vim.system({"go", "install", "gotest.tools/gotestsum@latest"}):wait() -- Optional, but recommended
+          vim.system({"go", "install", "gotest.tools/gotestsum@v1.13.0"}):wait()
         end,
       },
       -- "nvim-neotest/neotest-go",
@@ -1029,7 +1029,7 @@ return {
         log_level = vim.log.levels.DEBUG,
         adapters = {
           require("neotest-golang")({
-            runneer = "gotestsum", -- Optional, but recommended
+            runner = "gotestsum",
           }),
           -- require("neotest-go"),
         },

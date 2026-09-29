@@ -84,7 +84,6 @@ nnoremap <silent> <leader>yf :let @+=expand("%")<CR>
 " Tabs
 nnoremap <silent> <M-Left> :tabprevious<CR>
 nnoremap <silent> <M-Right> :tabnext<CR>
- map <Leader><Leader>e <Plug>(easymotion-bd-e)
 
 " Buffers
 vnoremap <C-c> "+ygv"*y
