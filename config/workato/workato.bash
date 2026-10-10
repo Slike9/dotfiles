@@ -1,1 +1,1 @@
-export PATH="$PATH:/home/sergey/projects/workato/workato_dev/bin"
+export PATH="$PATH:$HOME/projects/workato/workato_dev/bin"

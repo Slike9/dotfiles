@@ -1,6 +1,6 @@
 # dotfiles
 
-Personal Bash, Git, Neovim, tmux and Ruby settings for Debian/Ubuntu.
+Personal Bash, Git, Neovim, tmux and Ruby settings for Debian/Ubuntu and macOS (Apple Silicon and Intel).
 
 ## Setup
 
@@ -10,13 +10,28 @@ cd ~/.dotfiles
 ./scripts/setup
 ```
 
-Setup installs mise if needed, creates explicitly listed links, and uses mise
-to install system dependencies through apt and tools from the global config.
-It also installs Homebrew if `/home/linuxbrew/.linuxbrew/bin/brew` is absent.
-It requires mise with `bootstrap packages` support and sudo access for apt when
+Setup installs mise if needed, creates explicitly listed links, and installs
+system dependencies and tools. On Debian/Ubuntu it uses apt through mise and
+installs Homebrew if `/home/linuxbrew/.linuxbrew/bin/brew` is absent. Linux
+requires mise with `bootstrap packages` support and sudo access for apt when
 run as a regular user. Update older mise installations before running setup.
-If mise is not installed, curl and CA certificates must already be available
-to download it. Open a new Bash session after setup.
+If mise is not installed on Linux, curl and CA certificates must already be
+available to download it.
+
+On macOS, Homebrew must already be installed and configured on PATH. Setup
+uses `brew install` for mise (if missing), Bash, Bash completion, Git and
+Universal Ctags. It keeps the existing Homebrew configuration and uses
+`brew --prefix` to locate shell helpers on either Mac architecture.
+Tools from the global mise config are installed on both platforms.
+
+Open a new Bash session after setup. On macOS, start Homebrew Bash with:
+
+```sh
+"$(brew --prefix)/bin/bash" -l
+```
+
+The configs target Bash; setup does not change your default shell. If Terminal
+starts zsh, configure it to launch Homebrew Bash to use these shell settings.
 
 To apply only config links and the Bash extension, without installing mise,
 Homebrew, system packages or tools:
@@ -25,8 +40,9 @@ Homebrew, system packages or tools:
 ./scripts/setup --configs-only
 ```
 
-This mode requires neither apt nor mise. It still requires an existing `.bashrc`
-and follows the same rules for conflicting paths.
+This mode requires neither apt, Homebrew nor mise. On Linux it requires an
+existing `.bashrc`; on macOS it creates one if missing. It follows the same
+rules for conflicting paths.
 
 Correct links are kept, including relative links. Existing files, directories
 and conflicting links are skipped and listed at the end; nothing is overwritten.
@@ -45,7 +61,7 @@ Setup is in `scripts/`; executable helpers are in `bin/`.
 Ruby, Node, Go, tinygo, golangci-lint, direnv, kubectl and global mise settings. Most tools use
 `latest`; Ruby and Node keep explicit versions. Run `mise upgrade` to update tools.
 
-Git, curl, CA certificates, Universal Ctags, xsel, Bash completion and the
+On Debian/Ubuntu, Git, curl, CA certificates, Universal Ctags, xsel, Bash completion and the
 Homebrew prerequisites (build-essential, procps and file) are declared
 in `[bootstrap.packages]` in the same config. Setup runs
 `mise bootstrap packages apply --manager apt --yes` before `mise install`.
@@ -63,7 +79,11 @@ mise -C "$HOME" bootstrap packages apply --manager apt --dry-run
 
 Your existing `~/.bashrc` is preserved. Setup appends a guarded `source` for
 `config/bash/extension.bash` once. If `.bashrc` is missing, setup exits with an error
-before installing packages or creating links.
+before installing packages or creating links on Linux. On macOS, a missing
+`.bashrc` is created, and a guarded source for it is appended to the first existing
+Bash login file (`.bash_profile`, `.bash_login`, or `.profile`). If none exists,
+setup creates `.bash_profile`. Existing login files are preserved; symlinks and
+non-regular files are skipped.
 An existing `.bashrc` symlink is skipped; convert it to a regular file before setup.
 
 The extension configures the prompt, PATH, aliases and mise, and explicitly loads

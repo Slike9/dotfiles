@@ -7,6 +7,10 @@ esac
 if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
 fi
+dotfiles_brew_prefix=
+if command -v brew >/dev/null; then
+  dotfiles_brew_prefix=$(brew --prefix)
+fi
 
 if [[ -f "$HOME/.cargo/env" ]]; then
   # shellcheck disable=SC1091
@@ -25,8 +29,15 @@ export GIT_PS1_SHOWDIRTYSTATE=true
 export GIT_PS1_SHOWUNTRACKEDFILES=true
 debian_chroot=${debian_chroot:-}
 
-if ! declare -F __git_ps1 >/dev/null && [[ -f /usr/lib/git-core/git-sh-prompt ]]; then
-  source /usr/lib/git-core/git-sh-prompt
+if ! declare -F __git_ps1 >/dev/null; then
+  if [[ -n "$dotfiles_brew_prefix" && -f "$dotfiles_brew_prefix/etc/bash_completion.d/git-prompt.sh" ]]; then
+    # shellcheck disable=SC1091
+    source "$dotfiles_brew_prefix/etc/bash_completion.d/git-prompt.sh"
+  elif [[ -f /usr/lib/git-core/git-sh-prompt ]]; then
+    source /usr/lib/git-core/git-sh-prompt
+  else
+    __git_ps1() { :; }
+  fi
 fi
 
 if [[ -x /usr/bin/tput ]] && tput setaf 1 >/dev/null 2>&1; then

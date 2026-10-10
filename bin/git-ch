@@ -8,7 +8,9 @@ query=${1-}
 if [ "$query" = "-" ]; then
   git checkout -
 else
-  git branch --sort=committerdate |
+  git branch --sort=committerdate --format='%(refname:short)' |
     fzf --tac --no-sort --query="$query" --select-1 |
-    xargs --no-run-if-empty git checkout
+    while IFS= read -r branch; do
+      [[ -n "$branch" ]] && git checkout "$branch"
+    done
 fi

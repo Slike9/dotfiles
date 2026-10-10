@@ -17,7 +17,8 @@ if (( $# )); then
   exit 1
 fi
 
-if [[ ! -e "$HOME/.bashrc" && ! -L "$HOME/.bashrc" ]]; then
+platform=$(uname -s)
+if [[ "$platform" != Darwin && ! -e "$HOME/.bashrc" && ! -L "$HOME/.bashrc" ]]; then
   printf 'Missing required file: %s\n' "$HOME/.bashrc" >&2
   exit 1
 fi
@@ -37,24 +38,43 @@ link_file() {
 }
 
 if [[ "$configs_only" == false ]]; then
-  if ! command -v apt-get >/dev/null; then
-    printf 'This setup requires Debian/Ubuntu (apt-get).\n' >&2
-    exit 1
-  fi
+  case "$platform" in
+    Darwin)
+      if ! command -v brew >/dev/null; then
+        printf 'macOS setup requires Homebrew already installed and available on PATH.\n' >&2
+        exit 1
+      fi
+      ;;
+    Linux)
+      if ! command -v apt-get >/dev/null; then
+        printf 'Linux setup requires Debian/Ubuntu (apt-get).\n' >&2
+        exit 1
+      fi
+      ;;
+    *) printf 'Unsupported platform: %s\n' "$platform" >&2; exit 1 ;;
+  esac
 
   export PATH="$HOME/.local/bin:$PATH"
   if ! command -v mise >/dev/null; then
-    if ! command -v curl >/dev/null; then
-      printf 'Installing mise requires curl and CA certificates. Install them first.\n' >&2
-      exit 1
+    if [[ "$platform" == Darwin ]]; then
+      brew install mise
+    else
+      if ! command -v curl >/dev/null; then
+        printf 'Installing mise requires curl and CA certificates. Install them first.\n' >&2
+        exit 1
+      fi
+      curl -fsSL https://mise.run | sh
     fi
-    curl -fsSL https://mise.run | sh
   fi
 
-  if ! mise -C "$HOME" bootstrap packages apply --help >/dev/null 2>&1; then
+  if [[ "$platform" == Linux ]] && ! mise -C "$HOME" bootstrap packages apply --help >/dev/null 2>&1; then
     printf 'This setup requires mise with bootstrap packages support. Update mise and rerun setup.\n' >&2
     exit 1
   fi
+fi
+
+if [[ "$platform" == Darwin && ! -e "$HOME/.bashrc" && ! -L "$HOME/.bashrc" ]]; then
+  touch "$HOME/.bashrc"
 fi
 
 link_file git/gitconfig.symlink .gitconfig
@@ -83,13 +103,40 @@ EOF
   fi
 fi
 
+if [[ "$platform" == Darwin ]]; then
+  # Use the file Bash already reads; creating .bash_profile can hide .profile.
+  login_file="$HOME/.bash_profile"
+  for candidate in .bash_profile .bash_login .profile; do
+    if [[ -e "$HOME/$candidate" || -L "$HOME/$candidate" ]]; then
+      login_file="$HOME/$candidate"
+      break
+    fi
+  done
+  if [[ -L "$login_file" || ( -e "$login_file" && ! -f "$login_file" ) ]]; then
+    printf 'Skipped existing path: %s\n' "$login_file"
+    skipped+=("$login_file")
+  elif ! grep -Fqx '# dotfiles Bash login' "$login_file" 2>/dev/null; then
+    cat >> "$login_file" <<'EOF'
+
+# dotfiles Bash login
+if [ -n "${BASH_VERSION:-}" ] && [ -f "$HOME/.bashrc" ]; then
+  source "$HOME/.bashrc"
+fi
+EOF
+  fi
+fi
+
 if [[ "$configs_only" == true ]]; then
   printf 'Skipped package and tool installation: configs-only mode.\n'
 elif [[ "$dotfiles_root/config/mise/config.toml" -ef "$HOME/.config/mise/config.toml" ]]; then
-  mise -C "$HOME" bootstrap packages apply --manager apt --yes
-  if [[ ! -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
-    installer=$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
-    /bin/bash -c "$installer"
+  if [[ "$platform" == Darwin ]]; then
+    brew install bash bash-completion@2 git universal-ctags
+  else
+    mise -C "$HOME" bootstrap packages apply --manager apt --yes
+    if [[ ! -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+      installer=$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
+      /bin/bash -c "$installer"
+    fi
   fi
   mise -C "$HOME" install
 else

@@ -6,4 +6,7 @@ IFS=$'\n\t'
 echo "Fetching remote branches..."
 git fetch --prune
 
-git branch -v --list | grep -F ' [gone] ' | awk '{ print $1 }' | xargs -r git branch -D
+git branch -v --list | awk '/ \[gone\] / { print $1 }' |
+  while IFS= read -r branch; do
+    git branch -D "$branch"
+  done
