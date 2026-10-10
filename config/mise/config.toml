@@ -1,0 +1,22 @@
+[settings]
+idiomatic_version_file_enable_tools = ["ruby", "node"]
+
+[settings.ruby]
+compile = false
+
+[tools]
+"aqua:sharkdp/bat" = "latest"
+"aqua:sharkdp/fd" = "latest"
+"aqua:junegunn/fzf" = "latest"
+"aqua:neovim/neovim" = "latest"
+"aqua:koalaman/shellcheck" = "latest"
+"aqua:BurntSushi/ripgrep" = "latest"
+"aqua:jesseduffield/lazygit" = "latest"
+"aqua:tmux/tmux-builds" = "latest"
+"aqua:tinygo-org/tinygo" = "latest"
+"gem:tmuxinator" = "latest"
+go = "latest"
+golangci-lint = "latest"
+node = "24"
+ruby = "3.4.5"
+rust = "latest"

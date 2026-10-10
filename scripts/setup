@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+dotfiles_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+skipped=()
+
+if [[ ! -e "$HOME/.bashrc" && ! -L "$HOME/.bashrc" ]]; then
+  printf 'Missing required file: %s\n' "$HOME/.bashrc" >&2
+  exit 1
+fi
+
+link_file() {
+  local source="$dotfiles_root/config/$1" destination="$HOME/$2"
+  if [[ "$source" -ef "$destination" ]]; then
+    printf 'Already linked: %s\n' "$destination"
+  elif [[ -e "$destination" || -L "$destination" ]]; then
+    printf 'Skipped existing path: %s\n' "$destination"
+    skipped+=("$destination")
+  else
+    mkdir -p -- "$(dirname -- "$destination")"
+    ln -s -- "$source" "$destination"
+    printf 'Linked: %s\n' "$destination"
+  fi
+}
+
+if ! command -v apt-get >/dev/null; then
+  printf 'This setup requires Debian/Ubuntu (apt-get).\n' >&2
+  exit 1
+fi
+
+apt_command=(apt-get)
+if (( EUID != 0 )); then
+  apt_command=(sudo apt-get)
+fi
+"${apt_command[@]}" update
+"${apt_command[@]}" install -y git curl ca-certificates universal-ctags xsel bash-completion
+
+export PATH="$HOME/.local/bin:$PATH"
+if ! command -v mise >/dev/null; then
+  curl -fsSL https://mise.run | sh
+fi
+
+link_file git/gitconfig.symlink .gitconfig
+link_file git/gitignore.symlink .gitignore
+link_file git/gitattributes.symlink .gitattributes
+link_file tmux/tmux.conf.symlink .tmux.conf
+link_file ruby/irbrc.symlink .irbrc
+link_file vim/my_vim.symlink .my_vim
+link_file nvim .config/nvim
+link_file mise/config.toml .config/mise/config.toml
+
+if [[ -L "$HOME/.bashrc" || ( -e "$HOME/.bashrc" && ! -f "$HOME/.bashrc" ) ]]; then
+  printf 'Skipped existing path: %s\n' "$HOME/.bashrc"
+  skipped+=("$HOME/.bashrc")
+else
+  # shellcheck disable=SC2016
+  if ! grep -Fqx '  source "$HOME/.dotfiles/config/bash/extension.bash"' "$HOME/.bashrc"; then
+    cat >> "$HOME/.bashrc" <<'EOF'
+
+# dotfiles extension
+if [ -f "$HOME/.dotfiles/config/bash/extension.bash" ]; then
+  source "$HOME/.dotfiles/config/bash/extension.bash"
+fi
+EOF
+  fi
+fi
+
+if [[ "$dotfiles_root/config/mise/config.toml" -ef "$HOME/.config/mise/config.toml" ]]; then
+  mise -C "$HOME" install
+else
+  printf 'Skipped mise install: global config was not linked.\n'
+fi
+
+if (( ${#skipped[@]} )); then
+  printf '\nSetup finished with skipped paths:\n'
+  printf '  %s\n' "${skipped[@]}"
+else
+  printf '\nSetup complete. Open a new Bash session.\n'
+fi

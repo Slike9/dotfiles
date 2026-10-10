@@ -1,9 +1,9 @@
 eval "$(fzf --bash)"
 
-if command -v fdfind >/dev/null; then
-  export FZF_DEFAULT_COMMAND='fdfind --type f'
-  export FZF_ALT_C_COMMAND='fdfind --type d'
-  export FZF_CTRL_T_COMMAND='fdfind'
+if command -v fd >/dev/null; then
+  export FZF_DEFAULT_COMMAND='fd --type f'
+  export FZF_ALT_C_COMMAND='fd --type d'
+  export FZF_CTRL_T_COMMAND='fd'
 fi
 
 # From https://stackoverflow.com/questions/36513310/how-to-get-a-gits-branch-with-fuzzy-finder.
