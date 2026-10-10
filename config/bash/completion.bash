@@ -16,6 +16,12 @@ if command -v kubectl >/dev/null; then
   complete -o default -F __start_kubectl k
 fi
 
+if command -v docker >/dev/null; then
+  # shellcheck disable=SC1090
+  source <(docker completion bash)
+  complete -o default -F __start_docker d
+fi
+
 if [[ -n "${dotfiles_brew_prefix:-}" && -f "$dotfiles_brew_prefix/etc/bash_completion.d/git-completion.bash" ]]; then
   # shellcheck disable=SC1091
   source "$dotfiles_brew_prefix/etc/bash_completion.d/git-completion.bash"
