@@ -12,6 +12,7 @@ compile = false
 "aqua:koalaman/shellcheck" = "latest"
 "aqua:BurntSushi/ripgrep" = "latest"
 "aqua:jesseduffield/lazygit" = "latest"
+"aqua:cli/cli" = "latest"
 "aqua:tmux/tmux-builds" = "latest"
 "aqua:tinygo-org/tinygo" = "latest"
 "aqua:direnv/direnv" = "latest"
