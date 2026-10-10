@@ -87,6 +87,10 @@ if [[ "$configs_only" == true ]]; then
   printf 'Skipped package and tool installation: configs-only mode.\n'
 elif [[ "$dotfiles_root/config/mise/config.toml" -ef "$HOME/.config/mise/config.toml" ]]; then
   mise -C "$HOME" bootstrap packages apply --manager apt --yes
+  if [[ ! -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+    installer=$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
+    /bin/bash -c "$installer"
+  fi
   mise -C "$HOME" install
 else
   printf 'Skipped package and tool installation: global mise config was not linked.\n'

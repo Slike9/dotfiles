@@ -12,13 +12,14 @@ cd ~/.dotfiles
 
 Setup installs mise if needed, creates explicitly listed links, and uses mise
 to install system dependencies through apt and tools from the global config.
+It also installs Homebrew if `/home/linuxbrew/.linuxbrew/bin/brew` is absent.
 It requires mise with `bootstrap packages` support and sudo access for apt when
 run as a regular user. Update older mise installations before running setup.
 If mise is not installed, curl and CA certificates must already be available
 to download it. Open a new Bash session after setup.
 
 To apply only config links and the Bash extension, without installing mise,
-system packages or tools:
+Homebrew, system packages or tools:
 
 ```sh
 ./scripts/setup --configs-only
@@ -44,11 +45,15 @@ Setup is in `scripts/`; executable helpers are in `bin/`.
 Ruby, Node, Go, tinygo, golangci-lint, direnv, kubectl and global mise settings. Most tools use
 `latest`; Ruby and Node keep explicit versions. Run `mise upgrade` to update tools.
 
-Git, curl, CA certificates, Universal Ctags, xsel and Bash completion are declared
+Git, curl, CA certificates, Universal Ctags, xsel, Bash completion and the
+Homebrew prerequisites (build-essential, procps and file) are declared
 in `[bootstrap.packages]` in the same config. Setup runs
 `mise bootstrap packages apply --manager apt --yes` before `mise install`.
 The bootstrap step installs missing system packages; `mise install` installs
-the versioned tools. To preview system package changes, run:
+the versioned tools. After apt bootstrap, setup runs the official Homebrew
+installer if needed. The installer may ask for confirmation and sudo access;
+existing Homebrew installations at the default Linux prefix are kept.
+To preview system package changes, run:
 
 ```sh
 mise -C "$HOME" bootstrap packages apply --manager apt --dry-run
