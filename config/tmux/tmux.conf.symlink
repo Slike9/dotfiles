@@ -1,3 +1,7 @@
+# set -g default-terminal "screen-256color"
+set -g default-terminal "tmux-256color"
+
+# set -as terminal-overrides ',xterm-256color:sitm=\E[3m'
 set-option -ga terminal-overrides ",xterm-256color:Tc"
 
 unbind h
@@ -17,14 +21,15 @@ set-option -g prefix C-f
 unbind-key C-b
 bind-key C-f send-prefix
 
-set -g default-terminal "screen-256color"
-
 # Vi mode in tmux.
 # See `list-keys -t vi-copy` for commands.
 set-window-option -g mode-keys vi
 
 set -sg escape-time 0                      # Faster key escapes
 set -g focus-events on                     # Let focus events through
+
+# set -g history-limit 100000
+set -g mouse on
 
 # List of plugins
 # Supports `github_username/repo` or full git repo URLs

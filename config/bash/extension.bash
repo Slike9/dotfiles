@@ -45,6 +45,9 @@ fi
 # shellcheck source=config/bash/bash_aliases.symlink
 source "$dotfiles_root/config/bash/bash_aliases.symlink"
 
+# shellcheck source=config/workato/workato.bash
+source "$dotfiles_root/config/workato/workato.bash"
+
 if [[ -f "$dotfiles_root/local/local.bash" ]]; then
   # shellcheck disable=SC1091
   source "$dotfiles_root/local/local.bash"
@@ -53,6 +56,9 @@ fi
 if command -v direnv >/dev/null; then
   eval "$(direnv hook bash)"
 fi
+
+# shellcheck source=config/bash/completion.bash
+source "$dotfiles_root/config/bash/completion.bash"
 
 if command -v fzf >/dev/null; then
   # shellcheck source=config/fzf/completion.bash

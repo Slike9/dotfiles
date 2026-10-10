@@ -1,6 +1,6 @@
 [user]
   name = Sergey Semyonov
-  email = slike9@rambler.ru
+  email = sergey.semenov@workato.com
 [push]
   default = current
 [pull]
@@ -61,3 +61,5 @@
   attributesfile = /home/sergey/.gitattributes
 [credential]
   helper = cache
+[url "git@github.com:workato/"]
+	insteadOf = https://github.com/workato/

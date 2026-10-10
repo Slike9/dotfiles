@@ -1,0 +1,11 @@
+.git/
+app/assets/dist
+bower_components/
+log
+node_modules/
+sorbet/rbi/gems/
+tags
+tape_library
+tmp
+vendor
+*.svg

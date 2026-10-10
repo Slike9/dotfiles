@@ -378,6 +378,17 @@ return {
 
       require("luasnip.loaders.from_vscode").lazy_load()
 
+      -- 2. Explicitly load your personal override/addition directory
+      -- require("luasnip.loaders.from_vscode").lazy_load({
+      --   paths = { "/home/sergey/.dotfiles/config/vim/my_vim.symlink/snippets" }
+      -- })
+      -- require("luasnip.loaders.from_vscode").lazy_load({
+      --   paths = { vim.fn.stdpath("config") .. "/snippets" }
+      -- })
+      require("luasnip.loaders.from_lua").lazy_load({
+        paths = { vim.fn.stdpath("config") .. "/lua-snippets" }
+      })
+
       vim.keymap.set({ "i", "s" }, "<Tab>", function()
         if luasnip.expandable() then
           luasnip.expand()
@@ -544,6 +555,7 @@ return {
         },
         -- rubocop = {},
         sorbet = {
+          -- cmd = { 'srb', 'tc', '--lsp', '--enable-all-beta-lsp-features', '--enable-all-experimental-lsp-features' },
           on_attach = false,
           init_options = {
             highlightUntyped = "everywhere-but-tests",
@@ -757,6 +769,7 @@ return {
 
   {
     "stevearc/conform.nvim",
+    event = { "BufWritePre" },
     opts = {
       formatters_by_ft = {
         ruby = { "rubocop" },

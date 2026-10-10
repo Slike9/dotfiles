@@ -43,6 +43,7 @@ fi
 link_file git/gitconfig.symlink .gitconfig
 link_file git/gitignore.symlink .gitignore
 link_file git/gitattributes.symlink .gitattributes
+link_file ignore.symlink .ignore
 link_file tmux/tmux.conf.symlink .tmux.conf
 link_file ruby/irbrc.symlink .irbrc
 link_file vim/my_vim.symlink .my_vim

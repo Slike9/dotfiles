@@ -1,0 +1,13 @@
+{
+  "Bash Boilerplate": {
+    "prefix": "sb",
+    "body": [
+      "#!/usr/bin/env bash",
+      "set -euo pipefail",
+      "IFS=$'\\n\\t'",
+      "",
+      "$0"
+    ],
+    "description": "Safe Bash Boilerplate Header"
+  }
+}
