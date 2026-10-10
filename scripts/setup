@@ -3,6 +3,19 @@ set -euo pipefail
 
 dotfiles_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 skipped=()
+configs_only=false
+case "${1:-}" in
+  --configs-only) configs_only=true; shift ;;
+  -h|--help)
+    printf 'Usage: %s [--configs-only]\n' "$0"
+    printf '  --configs-only  Apply config links and Bash extension without installing packages.\n'
+    exit 0
+    ;;
+esac
+if (( $# )); then
+  printf 'Unknown argument: %s\nUsage: %s [--configs-only]\n' "$1" "$0" >&2
+  exit 1
+fi
 
 if [[ ! -e "$HOME/.bashrc" && ! -L "$HOME/.bashrc" ]]; then
   printf 'Missing required file: %s\n' "$HOME/.bashrc" >&2
@@ -23,21 +36,25 @@ link_file() {
   fi
 }
 
-if ! command -v apt-get >/dev/null; then
-  printf 'This setup requires Debian/Ubuntu (apt-get).\n' >&2
-  exit 1
-fi
+if [[ "$configs_only" == false ]]; then
+  if ! command -v apt-get >/dev/null; then
+    printf 'This setup requires Debian/Ubuntu (apt-get).\n' >&2
+    exit 1
+  fi
 
-apt_command=(apt-get)
-if (( EUID != 0 )); then
-  apt_command=(sudo apt-get)
-fi
-"${apt_command[@]}" update
-"${apt_command[@]}" install -y git curl ca-certificates universal-ctags xsel bash-completion
+  export PATH="$HOME/.local/bin:$PATH"
+  if ! command -v mise >/dev/null; then
+    if ! command -v curl >/dev/null; then
+      printf 'Installing mise requires curl and CA certificates. Install them first.\n' >&2
+      exit 1
+    fi
+    curl -fsSL https://mise.run | sh
+  fi
 
-export PATH="$HOME/.local/bin:$PATH"
-if ! command -v mise >/dev/null; then
-  curl -fsSL https://mise.run | sh
+  if ! mise -C "$HOME" bootstrap packages apply --help >/dev/null 2>&1; then
+    printf 'This setup requires mise with bootstrap packages support. Update mise and rerun setup.\n' >&2
+    exit 1
+  fi
 fi
 
 link_file git/gitconfig.symlink .gitconfig
@@ -66,10 +83,13 @@ EOF
   fi
 fi
 
-if [[ "$dotfiles_root/config/mise/config.toml" -ef "$HOME/.config/mise/config.toml" ]]; then
+if [[ "$configs_only" == true ]]; then
+  printf 'Skipped package and tool installation: configs-only mode.\n'
+elif [[ "$dotfiles_root/config/mise/config.toml" -ef "$HOME/.config/mise/config.toml" ]]; then
+  mise -C "$HOME" bootstrap packages apply --manager apt --yes
   mise -C "$HOME" install
 else
-  printf 'Skipped mise install: global config was not linked.\n'
+  printf 'Skipped package and tool installation: global mise config was not linked.\n'
 fi
 
 if (( ${#skipped[@]} )); then

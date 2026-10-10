@@ -1,3 +1,8 @@
+if command -v mise >/dev/null; then
+  # shellcheck disable=SC1090
+  source <(mise completion bash)
+fi
+
 if command -v kubectl >/dev/null; then
   # shellcheck disable=SC1090
   source <(kubectl completion bash)
