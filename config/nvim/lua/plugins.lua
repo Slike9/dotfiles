@@ -1005,7 +1005,7 @@ return {
     },
   },
 
-  { 'numToStr/Comment.nvim', opts = {}, event = "BufReadPre" },
+  -- { 'numToStr/Comment.nvim', opts = {}, event = "BufReadPre" },
 
   -- {
   --   "zbirenbaum/copilot.lua",
