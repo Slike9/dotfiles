@@ -55,6 +55,10 @@ until that link is in place.
 Versioned configs and shell extensions live in `config/`, grouped by tool.
 Setup is in `scripts/`; executable helpers are in `bin/`.
 
+`config/codex/AGENTS.md` is linked to `~/.codex/AGENTS.md` for shared Codex
+instructions. An existing file is preserved; move it to a backup before setup
+to enable the versioned copy.
+
 ## Packages
 
 `config/mise/config.toml` is linked to `~/.config/mise/config.toml`. It contains CLI tools,

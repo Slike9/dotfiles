@@ -86,6 +86,7 @@ link_file ruby/irbrc.symlink .irbrc
 link_file vim/my_vim.symlink .my_vim
 link_file nvim .config/nvim
 link_file mise/config.toml .config/mise/config.toml
+link_file codex/AGENTS.md .codex/AGENTS.md
 
 if [[ -L "$HOME/.bashrc" || ( -e "$HOME/.bashrc" && ! -f "$HOME/.bashrc" ) ]]; then
   printf 'Skipped existing path: %s\n' "$HOME/.bashrc"
